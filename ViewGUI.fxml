@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="100.0">
+         <children>
+            <Pane prefHeight="562.0" prefWidth="100.0">
+               <children>
+                  <RadioButton contentDisplay="CENTER" layoutX="16.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="L-System" textAlignment="CENTER">
+                     <opaqueInsets>
+                        <Insets bottom="55.0" />
+                     </opaqueInsets></RadioButton>
+                  <RadioButton contentDisplay="CENTER" layoutX="19.0" layoutY="104.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="79.0" text="CA" textAlignment="CENTER" />
+                  <RadioButton contentDisplay="CENTER" layoutX="11.0" layoutY="170.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="95.0" text="CGP" textAlignment="CENTER" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <HBox layoutX="100.0" layoutY="460.0" prefHeight="82.0" prefWidth="619.0">
+         <children>
+            <Pane prefHeight="82.0" prefWidth="634.0">
+               <children>
+                  <Button layoutX="533.0" layoutY="28.0" mnemonicParsing="false" text="Start" />
+                  <TextField layoutX="421.0" layoutY="28.0" prefHeight="27.0" prefWidth="65.0" promptText="123" />
+                  <TextField layoutX="14.0" layoutY="28.0" promptText="#000000" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Background Color" />
+                  <TextField layoutX="226.0" layoutY="28.0" promptText="#000000" />
+                  <Label layoutX="226.0" layoutY="14.0" text="Pen Color" />
+                  <Label layoutX="421.0" layoutY="14.0" text="Iterations" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Separator layoutX="103.0" orientation="VERTICAL" prefHeight="460.0" prefWidth="6.0" />
+      <Separator layoutX="103.0" layoutY="459.0" prefHeight="0.0" prefWidth="613.0" />
+      <Canvas height="460.0" layoutX="106.0" width="613.0" />
+   </children>
+</Pane>
