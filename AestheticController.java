@@ -6,4 +6,7 @@ public class AestheticController {
 	@FXML
 	private Pane pane;
 	
+	@FXML
+	public void initialize() {}
+	
 }
