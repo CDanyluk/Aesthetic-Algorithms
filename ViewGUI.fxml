@@ -11,18 +11,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AestheticController">
    <children>
       <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="100.0">
          <children>
-            <Pane prefHeight="562.0" prefWidth="100.0">
+            <Pane prefHeight="562.0" prefWidth="118.0">
                <children>
-                  <RadioButton contentDisplay="CENTER" layoutX="16.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="L-System" textAlignment="CENTER">
+                  <RadioButton contentDisplay="CENTER" layoutX="4.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="L-System" textAlignment="CENTER">
                      <opaqueInsets>
-                        <Insets bottom="55.0" />
+                        <Insets bottom="55.0" left="55.0" />
                      </opaqueInsets></RadioButton>
-                  <RadioButton contentDisplay="CENTER" layoutX="19.0" layoutY="104.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="79.0" text="CA" textAlignment="CENTER" />
-                  <RadioButton contentDisplay="CENTER" layoutX="11.0" layoutY="170.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="95.0" text="CGP" textAlignment="CENTER" />
+                  <RadioButton contentDisplay="CENTER" layoutX="3.0" layoutY="104.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="95.0" text="C. Automata" textAlignment="CENTER" />
+                  <RadioButton contentDisplay="CENTER" layoutX="6.0" layoutY="170.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" text="CGP" textAlignment="CENTER" />
                </children>
             </Pane>
          </children>
