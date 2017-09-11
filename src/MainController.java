@@ -4,7 +4,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -12,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
 
 public class MainController {
 	
@@ -42,11 +46,11 @@ public class MainController {
 	Canvas picture;
 	
 	
-	
 	@FXML 
 	public void initialize() {
 		setButtonGroup();
 		startHandler();
+		
 		
 		
 	}
@@ -55,7 +59,7 @@ public class MainController {
 		start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	checkColor();
+            	//checkColor();
             	draw();
             	
             }
@@ -70,7 +74,9 @@ public class MainController {
 		lSystem.setSelected(true);
 	}
 	
-	public void checkColor(){
+	
+	//This won't work, hex colors are not exclusively ints, unfortunate because this was going to make our lives easier
+	/*public void checkColor(){
 		if(backgroundColor.getText().length() != 7 || !backgroundColor.getText().substring(0).equals("#")){
 			try{
 				Integer.parseInt(backgroundColor.getText().substring(1));
@@ -87,7 +93,7 @@ public class MainController {
 			}	
 		}
 			
-	}
+	}*/
 	
 	private void throwErrorAlert(String msg){
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
@@ -97,6 +103,11 @@ public class MainController {
 	// TODO: Write this method! 
 	// Will draw on the canvas
 	public void draw(){
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		// fuuuuuuuuuuck
+		gc.setFill(Color.rgb(red, green, blue, .99));
+		
+		
 		
 	}
 	
