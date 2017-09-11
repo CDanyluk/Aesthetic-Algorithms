@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
@@ -50,13 +51,13 @@ public class MainController {
 	@FXML
 	Canvas picture;
 	
-	
 	@FXML 
 	public void initialize() {
 		setButtonGroup();
 		startHandler();
-		
-		
+		picture.setOnMouseClicked(event -> draw(event));
+		//For drawing funsies
+		//picture.setOnMouseClicked(event -> draw(event));
 		
 	}
 	
@@ -65,7 +66,7 @@ public class MainController {
             @Override
             public void handle(ActionEvent event) {
             	//checkColor();
-            	draw();
+            	setColor();
             	
             }
         });
@@ -101,6 +102,11 @@ public class MainController {
 			
 	}*/
 	
+	public void setColor(){
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setFill(backcolor.getValue());
+		gc.fillRect(0,0,613,460);
+	}
 	
 	private void throwErrorAlert(String msg){
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
@@ -109,13 +115,12 @@ public class MainController {
 	
 	
 	// Will draw on the canvas
-	public void draw(){
+	public void draw(MouseEvent event){
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(backcolor.getValue());
-		gc.fillRect(0,0,613,460);
-		
-		
-		
+		gc.setFill(drawcolor.getValue());
+		double x = event.getX();
+		double y = event.getY();
+		gc.fillRect(x,y,20,20);
 	}
 	
 	
