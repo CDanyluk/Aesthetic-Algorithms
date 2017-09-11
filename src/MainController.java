@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -32,9 +33,13 @@ public class MainController {
 	
 	@FXML
 	TextField backgroundColor;
+	@FXML
+	ColorPicker backcolor;
 	
 	@FXML
 	TextField penColor;
+	@FXML
+	ColorPicker drawcolor;
 	
 	@FXML
 	TextField iterations;
@@ -76,6 +81,7 @@ public class MainController {
 	
 	
 	//This won't work, hex colors are not exclusively ints, unfortunate because this was going to make our lives easier
+	//I am sorry
 	/*public void checkColor(){
 		if(backgroundColor.getText().length() != 7 || !backgroundColor.getText().substring(0).equals("#")){
 			try{
@@ -95,17 +101,18 @@ public class MainController {
 			
 	}*/
 	
+	
 	private void throwErrorAlert(String msg){
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
 		alert.showAndWait();
 	}
 	
-	// TODO: Write this method! 
+	
 	// Will draw on the canvas
 	public void draw(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		// fuuuuuuuuuuck
-		gc.setFill(Color.rgb(red, green, blue, .99));
+		gc.setFill(backcolor.getValue());
+		gc.fillRect(0,0,613,460);
 		
 		
 		

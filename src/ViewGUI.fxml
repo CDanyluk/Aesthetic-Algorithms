@@ -2,6 +2,7 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
@@ -34,6 +35,8 @@
                   <TextField fx:id="penColor" layoutX="226.0" layoutY="28.0" promptText="#000000" />
                   <Label layoutX="226.0" layoutY="14.0" text="Pen Color" />
                   <Label layoutX="421.0" layoutY="14.0" text="Iterations" />
+                  <ColorPicker fx:id="backcolor" layoutX="14.0" layoutY="56.0" />
+                  <ColorPicker fx:id="drawcolor" layoutX="226.0" layoutY="56.0" />
                </children>
             </Pane>
          </children>
