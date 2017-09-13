@@ -43,6 +43,6 @@
       </HBox>
       <Separator layoutX="103.0" orientation="VERTICAL" prefHeight="460.0" prefWidth="6.0" />
       <Separator layoutX="103.0" layoutY="459.0" prefHeight="0.0" prefWidth="613.0" />
-      <Canvas fx:id="picture" height="460.0" layoutX="106.0" width="613.0" />
+      <Canvas fx:id="picture" height="460.0" layoutX="106.0" width="614.0" />
    </children>
 </Pane>
