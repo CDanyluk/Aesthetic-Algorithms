@@ -120,7 +120,7 @@ public class MainController {
 		gc.setFill(drawcolor.getValue());
 		double x = event.getX();
 		double y = event.getY();
-		gc.fillRect(x,y,20,20);
+		gc.fillRect(x,y,10,10);
 	}
 	
 	

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
       <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="100.0">
          <children>
@@ -42,7 +42,7 @@
          </children>
       </HBox>
       <Separator layoutX="103.0" orientation="VERTICAL" prefHeight="460.0" prefWidth="6.0" />
-      <Separator layoutX="103.0" layoutY="459.0" prefHeight="0.0" prefWidth="613.0" />
-      <Canvas fx:id="picture" height="460.0" layoutX="106.0" width="614.0" />
+      <Separator layoutX="103.0" layoutY="459.0" prefHeight="3.0" prefWidth="632.0" />
+      <Canvas fx:id="picture" height="460.0" layoutX="123.0" width="610.0" />
    </children>
 </Pane>
