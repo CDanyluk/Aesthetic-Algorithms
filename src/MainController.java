@@ -33,12 +33,8 @@ public class MainController {
 	final ToggleGroup algorithm = new ToggleGroup();
 	
 	@FXML
-	TextField backgroundColor;
-	@FXML
 	ColorPicker backcolor;
 	
-	@FXML
-	TextField penColor;
 	@FXML
 	ColorPicker drawcolor;
 	
@@ -49,15 +45,23 @@ public class MainController {
 	Button start;
 	
 	@FXML
+	Button lsystemgo;
+	
+	@FXML
 	Canvas picture;
+	
+	private double[] seed;
+	private LSystem lway;
 	
 	@FXML 
 	public void initialize() {
+		seed = new double[2];
+		seed[0] = 305;
+		seed[1] = 230;
+		lway = new LSystem(seed);
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
-		//For drawing funsies
-		//picture.setOnMouseClicked(event -> draw(event));
 		
 	}
 	
@@ -80,32 +84,22 @@ public class MainController {
 		lSystem.setSelected(true);
 	}
 	
-	
-	//This won't work, hex colors are not exclusively ints, unfortunate because this was going to make our lives easier
-	//I am sorry
-	/*public void checkColor(){
-		if(backgroundColor.getText().length() != 7 || !backgroundColor.getText().substring(0).equals("#")){
-			try{
-				Integer.parseInt(backgroundColor.getText().substring(1));
-			} catch(NumberFormatException nfe){
-				throwErrorAlert("Please enter a valid background color.");
-			}	
-		}
-		
-		if(penColor.getText().length() != 7 || !penColor.getText().substring(0).equals("#")){
-			try{
-				Integer.parseInt(penColor.getText().substring(1));
-			} catch(NumberFormatException nfe){
-				throwErrorAlert("Please enter a valid pen color.");
-			}	
-		}
-			
-	}*/
-	
 	public void setColor(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
 		gc.fillRect(0,0,613,460);
+	}
+	
+	public void drawTree(double[] start, double[] end) {
+		if ((Math.sqrt( Math.pow((start[0] - end[0]), 2) + Math.pow((start[1] - end[1]),2)  )) > 5 ) {
+			GraphicsContext gc = picture.getGraphicsContext2D();
+			gc.setStroke(drawcolor.getValue());
+			gc.strokeLine(start[0],  start[1], end[0], end[1]);
+			drawTree(end, lway.calculateLeft(start));
+			drawTree(end, lway.calculateRight(start));
+		}
+		
+		
 	}
 	
 	private void throwErrorAlert(String msg){
@@ -117,10 +111,42 @@ public class MainController {
 	// Will draw on the canvas
 	public void draw(MouseEvent event){
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(drawcolor.getValue());
 		double x = event.getX();
 		double y = event.getY();
+		if (cellularAutomata.isSelected()) {
+			if (x < 5) {
+				x = (x - (x%10));
+			}else if (x > 5) {
+				x = (x + (10 - (x%10)));
+			}
+			if (y < 5) {
+				y = (y - (y%10));
+			}else if (y > 5) {
+				y = (y + (10 - (y%10)));
+			}
+		}else if (lSystem.isSelected()) {
+			gc.setFill(backcolor.getValue());
+			gc.fillRect(0,0,613,460);
+			seed[0] = x;
+			seed[1] = y;
+			lway.reset(seed);
+		}
+		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
+	}
+	
+	public void drawLine(int x, int y, int x2, int y2) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setStroke(drawcolor.getValue());
+		gc.strokeLine(x,  y, x2, y2);
+		
+	}
+	
+	public void drawLine(double[] start, double[] end) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setStroke(drawcolor.getValue());
+		gc.strokeLine(start[0],  start[1], end[0], end[1]);
+		
 	}
 	
 	
