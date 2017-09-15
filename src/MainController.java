@@ -44,21 +44,21 @@ public class MainController {
 	@FXML
 	Button start;
 	
-	@FXML
-	Button lsystemgo;
+	//@FXML
+	//Button lsystemgo;
 	
 	@FXML
 	Canvas picture;
 	
-	private double[] seed;
-	private LSystem lway;
+	//private double[] seed;
+	//private LSystem lway;
 	
 	@FXML 
 	public void initialize() {
-		seed = new double[2];
-		seed[0] = 305;
-		seed[1] = 230;
-		lway = new LSystem(seed);
+	//	seed = new double[2];
+	//	seed[0] = 305;
+	//	seed[1] = 230;
+	//	lway = new LSystem(seed);
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
@@ -90,7 +90,7 @@ public class MainController {
 		gc.fillRect(0,0,613,460);
 	}
 	
-	public void drawTree(double[] start, double[] end) {
+	/*public void drawTree(double[] start, double[] end) {
 		if ((Math.sqrt( Math.pow((start[0] - end[0]), 2) + Math.pow((start[1] - end[1]),2)  )) > 5 ) {
 			GraphicsContext gc = picture.getGraphicsContext2D();
 			gc.setStroke(drawcolor.getValue());
@@ -98,9 +98,8 @@ public class MainController {
 			drawTree(end, lway.calculateLeft(start));
 			drawTree(end, lway.calculateRight(start));
 		}
+		}*/
 		
-		
-	}
 	
 	private void throwErrorAlert(String msg){
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
@@ -127,9 +126,9 @@ public class MainController {
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,613,460);
-			seed[0] = x;
-			seed[1] = y;
-			lway.reset(seed);
+			//seed[0] = x;
+			//seed[1] = y;
+			//lway.reset(seed);
 		}
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);

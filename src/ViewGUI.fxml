@@ -20,7 +20,7 @@
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
                   <RadioButton fx:id="cellularAutomata" layoutX="5.0" layoutY="84.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
                   <RadioButton fx:id="cartesianGenetic" layoutX="8.0" layoutY="149.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Cartesian Genetic" wrapText="true" />
-                  <Button fx:id="lsystemgo" layoutX="34.0" layoutY="40.0" mnemonicParsing="false" onAction="#drawTree" text="Go" />
+                  <Button layoutX="34.0" layoutY="40.0" mnemonicParsing="false" text="Go" />
                </children>
             </Pane>
          </children>
