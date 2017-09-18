@@ -50,15 +50,15 @@ public class MainController {
 	@FXML
 	Canvas picture;
 	
-	//private double[] seed;
-	//private LSystem lway;
+	private double[] seed;
+	private LSystem lway;
 	
 	@FXML 
 	public void initialize() {
-	//	seed = new double[2];
-	//	seed[0] = 305;
-	//	seed[1] = 230;
-	//	lway = new LSystem(seed);
+		seed = new double[2];
+		seed[0] = 305;
+		seed[1] = 230;
+		lway = new LSystem(seed);
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
@@ -90,15 +90,20 @@ public class MainController {
 		gc.fillRect(0,0,613,460);
 	}
 	
-	/*public void drawTree(double[] start, double[] end) {
-		if ((Math.sqrt( Math.pow((start[0] - end[0]), 2) + Math.pow((start[1] - end[1]),2)  )) > 5 ) {
-			GraphicsContext gc = picture.getGraphicsContext2D();
-			gc.setStroke(drawcolor.getValue());
-			gc.strokeLine(start[0],  start[1], end[0], end[1]);
+	public void drawTree(double[] start) {
+		double[] end = new double[2];
+		System.out.println("seed: " + seed[0] + "," + seed[1]);
+		drawLine(start, lway.calculateLeft(start));
+		System.out.println("calculateLeft: " + lway.calculateLeft(start)[0] + " , " + lway.calculateLeft(start)[1]);
+		drawLine(start, lway.calculateRight(start));
+		
+		/*
+		for (int i = 0; i < 10; i ++ ) {
 			drawTree(end, lway.calculateLeft(start));
 			drawTree(end, lway.calculateRight(start));
-		}
 		}*/
+		
+		}
 		
 	
 	private void throwErrorAlert(String msg){
@@ -126,9 +131,11 @@ public class MainController {
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,613,460);
-			//seed[0] = x;
-			//seed[1] = y;
-			//lway.reset(seed);
+			seed[0] = x;
+			seed[1] = y;
+			lway.reset(seed);
+			//wut
+			drawTree(seed);
 		}
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
@@ -137,6 +144,7 @@ public class MainController {
 	public void drawLine(int x, int y, int x2, int y2) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
+		gc.setLineWidth(10);
 		gc.strokeLine(x,  y, x2, y2);
 		
 	}
@@ -144,6 +152,14 @@ public class MainController {
 	public void drawLine(double[] start, double[] end) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
+		gc.setLineWidth(10);
+		//nothing
+		gc.beginPath();
+		gc.moveTo(start[0], start[1]);
+		gc.lineTo(end[0], end[1]);
+		gc.stroke();
+		gc.closePath();
+		//end nothing
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
 		
 	}
