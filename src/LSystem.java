@@ -23,15 +23,19 @@ public class LSystem {
 	}
 	
 	public double[] calculateRight(double[] start) {
-		start[0] = x + x/2;
-		start[1] = y + y/2;
-		return start;
+		double[] coordinates = new double[2];
+		//new array here and then return new one
+		coordinates[0] = start[0] + start[0]/2;
+		coordinates[1] = start[1] - start[1]/2;
+		return coordinates;
 	}
 	
 	public double[] calculateLeft(double[] start) {
-		start[0] = x - x/2;
-		start[1] = y - y/2;
-		return start;
+		double[] coordinates = new double[2];
+		//new array here and then return new one
+		coordinates[0] = start[0] - start[0]/2;
+		coordinates[1] = start[1] - start[1]/2;
+		return coordinates;
 	}
 	
 

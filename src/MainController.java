@@ -93,9 +93,9 @@ public class MainController {
 	public void drawTree(double[] start) {
 		double[] end = new double[2];
 		System.out.println("seed: " + seed[0] + "," + seed[1]);
-		drawLine(start, lway.calculateLeft(start));
+		drawLine(seed, lway.calculateLeft(start));
 		System.out.println("calculateLeft: " + lway.calculateLeft(start)[0] + " , " + lway.calculateLeft(start)[1]);
-		drawLine(start, lway.calculateRight(start));
+		drawLine(seed, lway.calculateRight(start));
 		
 		/*
 		for (int i = 0; i < 10; i ++ ) {
@@ -160,6 +160,8 @@ public class MainController {
 		gc.stroke();
 		gc.closePath();
 		//end nothing
+		System.out.println("Start: " + start[0] + " , " + start[1]);
+		System.out.println("End: " + end[0] + " , " + end[1]);
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
 		
 	}
