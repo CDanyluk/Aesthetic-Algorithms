@@ -88,6 +88,7 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
 		gc.fillRect(0,0,613,460);
+		//wutwut
 	}
 	
 	public void drawTree(double[] start) {
