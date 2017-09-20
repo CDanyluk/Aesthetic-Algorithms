@@ -58,7 +58,7 @@ public class MainController {
 		seed = new double[2];
 		seed[0] = 305;
 		seed[1] = 230;
-		lway = new LSystem(seed);
+		lway = new LSystem(300);
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
@@ -88,23 +88,26 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
 		gc.fillRect(0,0,613,460);
-		//wutwut
+		
 	}
 	
+
 	public void drawTree(double[] start) {
-		double[] end = new double[2];
-		System.out.println("seed: " + seed[0] + "," + seed[1]);
-		drawLine(seed, lway.calculateLeft(start));
-		System.out.println("calculateLeft: " + lway.calculateLeft(start)[0] + " , " + lway.calculateLeft(start)[1]);
-		drawLine(seed, lway.calculateRight(start));
 		
-		/*
-		for (int i = 0; i < 10; i ++ ) {
-			drawTree(end, lway.calculateLeft(start));
-			drawTree(end, lway.calculateRight(start));
-		}*/
+		// 20 < start[0] && start[0] < 590 && 20 < start[1] && start[1] < 440
+		double[] left = lway.calculateLeft(start);
+		double[] right = lway.calculateRight(start);
 		
+		if (lway.getlength() > 10) {
+			drawLine(start, left);
+			drawLine(start, right);
+			drawTree(left);
+			drawTree(right);
+		}else {
+			return;
 		}
+		
+	}
 		
 	
 	private void throwErrorAlert(String msg){
@@ -134,7 +137,6 @@ public class MainController {
 			gc.fillRect(0,0,613,460);
 			seed[0] = x;
 			seed[1] = y;
-			lway.reset(seed);
 			//wut
 			drawTree(seed);
 		}
@@ -153,7 +155,7 @@ public class MainController {
 	public void drawLine(double[] start, double[] end) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
-		gc.setLineWidth(10);
+		gc.setLineWidth(5);
 		//nothing
 		gc.beginPath();
 		gc.moveTo(start[0], start[1]);
