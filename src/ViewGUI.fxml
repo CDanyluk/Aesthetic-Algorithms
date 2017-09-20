@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
-      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="100.0">
+      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="122.0">
          <children>
-            <Pane prefHeight="562.0" prefWidth="100.0">
+            <Pane prefHeight="543.0" prefWidth="123.0">
                <children>
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
                   <RadioButton fx:id="cellularAutomata" layoutX="5.0" layoutY="84.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
@@ -38,8 +38,9 @@
             </Pane>
          </children>
       </HBox>
-      <Separator layoutX="103.0" orientation="VERTICAL" prefHeight="460.0" prefWidth="6.0" />
-      <Separator layoutX="103.0" layoutY="459.0" prefHeight="3.0" prefWidth="632.0" />
+      <Separator layoutX="120.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
+      <Separator layoutX="122.0" layoutY="461.0" prefHeight="3.0" prefWidth="616.0" />
       <Canvas fx:id="picture" height="460.0" layoutX="123.0" width="610.0" />
+      <Separator layoutX="732.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
    </children>
 </Pane>
