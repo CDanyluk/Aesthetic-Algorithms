@@ -1,4 +1,4 @@
-// This class will take a "Cells" object
+// This class will take a "Cells" object - which contains a HashMap of the elements in the image
 
 public class AestheticAnalysis {
 
