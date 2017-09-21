@@ -91,6 +91,11 @@ public class MainController {
 		
 	}
 	
+	public double distance(double[] first, double[] second) {
+		double dist = Math.sqrt(Math.pow((first[0] - second[0]), 2) + Math.pow((first[1]) - second[1], 2) );
+		return dist;
+	}
+	
 
 	public void drawTree(double[] start) {
 		
@@ -98,7 +103,7 @@ public class MainController {
 		double[] left = lway.calculateLeft(start);
 		double[] right = lway.calculateRight(start);
 		
-		if (lway.getlength() > 10) {
+		if (distance(start, left) > 10 && distance(start, right) > 10) {
 			drawLine(start, left);
 			drawLine(start, right);
 			drawTree(left);

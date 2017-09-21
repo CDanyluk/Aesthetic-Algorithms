@@ -23,7 +23,7 @@ public class LSystem {
 		//new array here and then return new one
 		coordinates[0] = start[0] + 0.5*length;
 		coordinates[1] = start[1] - 0.5*length;
-		this.length = 0.6*length;
+		length = 0.6*length;
 		return coordinates;
 	}
 	
@@ -36,7 +36,7 @@ public class LSystem {
 		//new array here and then return new one
 		coordinates[0] = start[0] - 0.5*length;
 		coordinates[1] = start[1] - 0.5*length;
-		this.length = 0.6*length;
+		length = 0.6*length;
 		return coordinates;
 	}
 	
