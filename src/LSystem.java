@@ -5,11 +5,13 @@ public class LSystem {
 	
 	private double length;
 	private Set<Line> tree;
+	private double trimmer;
 	
 	public LSystem(double startLength, double[] startPoint) {
-		//initialize length and tree
+		//initialize length and tree, plus trimmer to be how much to cut a branch by each time
 		this.length = startLength;
 		this.tree = new HashSet<Line>();
+		this.trimmer = 0.5;
 		//Create first line or stem, which is just startPoint[y] - length
 		double[] endStem = new double[2];
 		endStem[0] = startPoint[0];
@@ -17,8 +19,9 @@ public class LSystem {
 		Line stem = new Line(startPoint, endStem);
 		//Add this line to the tree
 		tree.add(stem);
-		//Call make tree to begin recursive process
-		maketree(endStem);
+		//Trim length and call make tree to begin recursive process
+		length = length*trimmer;
+		maketree(endStem, length);
 	}
 	
 	public void reset(double seed) {
@@ -33,40 +36,46 @@ public class LSystem {
 		return tree;
 	}
 	
-	public void maketree(double[] newSprout) {
+	public void maketree(double[] newSprout, double branchLength) {
 		//first set length to be 1/2
-		length = 0.5*length;
 		//Now calculate the two branches to be added to the tree
-		Line rightBranch = calculateRight(newSprout);
-		Line leftBranch = calculateLeft(newSprout);
+		Line rightBranch = calculateRight(newSprout, branchLength);
+		Line leftBranch = calculateLeft(newSprout, branchLength);
+		//Now add them to the goddamn tree how did you miss this part
+		tree.add(rightBranch);
+		tree.add(leftBranch);
 		//base case for recursive argument
 		if (rightBranch.getLength() > 5 ) {
-			maketree(rightBranch.getLast());
+			//trim the branch
+			double newBranch = branchLength*trimmer;
+			maketree(rightBranch.getLast(), newBranch);
 		}
 		if (leftBranch.getLength() > 5) {
-			maketree(leftBranch.getLast());
+			//trim the branch
+			double newBranch = branchLength*trimmer;
+			maketree(leftBranch.getLast(), newBranch);
 		}
 		//Too short then return
 		return;
 		
 	}
 	
-	public Line calculateRight(double[] start) {
+	public Line calculateRight(double[] start, double branchLength) {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//Here be the math Taylor is working on
-		coordinates[0] = start[0] + length;
-		coordinates[1] = start[1] - length;
+		coordinates[0] = start[0] + branchLength;
+		coordinates[1] = start[1] - branchLength;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}
 	
-	public Line calculateLeft(double[] start) {
+	public Line calculateLeft(double[] start, double branchLength) {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//here be the math Taylor is working on
-		coordinates[0] = start[0] - length;
-		coordinates[1] = start[1] - length;
+		coordinates[0] = start[0] - branchLength;
+		coordinates[1] = start[1] - branchLength;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}

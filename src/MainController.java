@@ -96,7 +96,7 @@ public class MainController {
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		//length temporarily a "magic number" for testing
-		double length = 300;
+		double length = 160;
 		lway = new LSystem(length, start);
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
