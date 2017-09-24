@@ -11,7 +11,9 @@ public class LSystem {
 		//initialize length and tree, plus trimmer to be how much to cut a branch by each time
 		this.length = startLength;
 		this.tree = new HashSet<Line>();
+		//Here is where all the magic numbers will go that will eventually be under user control
 		this.trimmer = 0.5;
+		
 		//Create first line or stem, which is just startPoint[y] - length
 		double[] endStem = new double[2];
 		endStem[0] = startPoint[0];
