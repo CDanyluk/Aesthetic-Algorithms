@@ -1,5 +1,7 @@
 
 
+import java.util.Set;
+
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -58,7 +60,6 @@ public class MainController {
 		seed = new double[2];
 		seed[0] = 305;
 		seed[1] = 230;
-		lway = new LSystem(300);
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
@@ -93,21 +94,17 @@ public class MainController {
 	
 
 	public void drawTree(double[] start) {
-		
-		// 20 < start[0] && start[0] < 590 && 20 < start[1] && start[1] < 440
-		double[] left = lway.calculateLeft(start);
-		double[] right = lway.calculateRight(start);
-		
-		if (distance(start, left) > 10 ) {
-			drawLine(start, left);
-			drawTree(left);
-		}else if (distance(start, right) > 10) {
-			drawLine(start, right);
-			drawTree(right);
+		//Creates a new LSystem
+		//length temporarily a "magic number" for testing
+		double length = 300;
+		lway = new LSystem(length, start);
+		//get the tree out of lway, since it auto-makes it
+		Set<Line> tree = lway.getTree();
+		//for every line in that tree, draw it
+		for (Line currentBranch: tree) {
+			drawLine(currentBranch);
 		}
-		else {
-			return;
-		}
+		
 		
 	}
 		
@@ -134,26 +131,32 @@ public class MainController {
 			}else if (y > 5) {
 				y = (y + (10 - (y%10)));
 			}
+			
+		//When L-System is selected
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,613,460);
+			//Wherever is clicked will become the new seed
 			seed[0] = x;
 			seed[1] = y;
-			//wut
+			//A tree will be drawn from that seed
 			drawTree(seed);
 		}
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
 	}
 	
+	//THE THREE WAYS TO DRAW A LINE ----------------------------
+	
+	//By individual points
 	public void drawLine(int x, int y, int x2, int y2) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
 		gc.setLineWidth(10);
 		gc.strokeLine(x,  y, x2, y2);
-		
 	}
 	
+	//By two double[] arrays
 	public void drawLine(double[] start, double[] end) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
@@ -169,6 +172,13 @@ public class MainController {
 		System.out.println("End: " + end[0] + " , " + end[1]);
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
 		
+	}
+	
+	//By giving it a line, which consists of two double arrays
+	public void drawLine(Line line) {
+		double[] start = line.getFirst();
+		double[] end = line.getLast();
+		drawLine(start, end);
 	}
 	
 	

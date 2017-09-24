@@ -4,67 +4,71 @@ import java.util.Set;
 public class LSystem {
 	
 	private double length;
-	private Set<double[]> tree;
+	private Set<Line> tree;
 	
-	public LSystem(double seed, double[] start) {
-		this.length = seed;
-		this.tree = new HashSet<double[]>();
-		tree.add(e)
-		double[] left = calculateLeft(start);
-		double[] right = calculateRight(start);
-		
-		
+	public LSystem(double startLength, double[] startPoint) {
+		//initialize length and tree
+		this.length = startLength;
+		this.tree = new HashSet<Line>();
+		//Create first line or stem, which is just startPoint[y] - length
+		double[] endStem = new double[2];
+		endStem[0] = startPoint[0];
+		endStem[1] = startPoint[1] - length;
+		Line stem = new Line(startPoint, endStem);
+		//Add this line to the tree
+		tree.add(stem);
+		//Call make tree to begin recursive process
+		maketree(endStem);
 	}
 	
 	public void reset(double seed) {
 		this.length = seed;
 	}
 	
-	public void maketree() {
-		if (distance(start, left) > 10 ) {
-			drawLine(start, left);
-			drawTree(left);
-		}else if (distance(start, right) > 10) {
-			drawLine(start, right);
-			drawTree(right);
-		}
-		else {
-			return;
-		}
-	}
-	
-	public double distance(double[] first, double[] second) {
-		double dist = Math.sqrt(Math.pow((first[0] - second[0]), 2) + Math.pow((first[1]) - second[1], 2) );
-		return dist;
-	}
-	
-	public double[] root(double[] start) {
-		double[] stem = new double[2];
-		stem[0] = start[0];
-		stem[1] = start[1] + length;
-		return stem;
-	}
-	
-	public double[] calculateRight(double[] start) {
-		double[] coordinates = new double[2];
-		//new array here and then return new one
-		coordinates[0] = start[0] + 0.5*length;
-		coordinates[1] = start[1] - 0.5*length;
-		length = 0.6*length;
-		return coordinates;
-	}
-	
 	public double getlength() {
 		return length;
 	}
 	
-	public double[] calculateLeft(double[] start) {
+	public Set<Line> getTree() {
+		return tree;
+	}
+	
+	public void maketree(double[] newSprout) {
+		//first set length to be 1/2
+		length = 0.5*length;
+		//Now calculate the two branches to be added to the tree
+		Line rightBranch = calculateRight(newSprout);
+		Line leftBranch = calculateLeft(newSprout);
+		//base case for recursive argument
+		if (rightBranch.getLength() > 5 ) {
+			maketree(rightBranch.getLast());
+		}
+		if (leftBranch.getLength() > 5) {
+			maketree(leftBranch.getLast());
+		}
+		//Too short then return
+		return;
+		
+	}
+	
+	public Line calculateRight(double[] start) {
 		double[] coordinates = new double[2];
-		//new array here and then return new one
-		coordinates[0] = start[0] - 0.5*length;
-		coordinates[1] = start[1] - 0.5*length;
-		length = 0.6*length;
-		return coordinates;
+		//Make a new point that is different than the old point
+		//Here be the math Taylor is working on
+		coordinates[0] = start[0] + length;
+		coordinates[1] = start[1] - length;
+		Line branch = new Line(start, coordinates);
+		return branch;
+	}
+	
+	public Line calculateLeft(double[] start) {
+		double[] coordinates = new double[2];
+		//Make a new point that is different than the old point
+		//here be the math Taylor is working on
+		coordinates[0] = start[0] - length;
+		coordinates[1] = start[1] - length;
+		Line branch = new Line(start, coordinates);
+		return branch;
 	}
 	
 
