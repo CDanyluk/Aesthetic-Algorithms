@@ -1,5 +1,6 @@
 
 
+import java.util.Arrays;
 import java.util.Set;
 
 import javafx.beans.value.ChangeListener;
@@ -46,20 +47,29 @@ public class MainController {
 	@FXML
 	Button start;
 	
-	//@FXML
-	//Button lsystemgo;
+	@FXML
+	Button lsystemgo;
+	
+	@FXML
+	Button iterateL;
+	
+	//Lol sorry, 3 options = 3 buttons
+	@FXML
+	Button judgeus;
 	
 	@FXML
 	Canvas picture;
 	
 	private double[] seed;
 	private LSystem lway;
+	private Cells cells;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
 		seed[0] = 305;
 		seed[1] = 230;
+		cells = new Cells();
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
@@ -76,7 +86,6 @@ public class MainController {
             }
         });
 	}	
-
 	
 	public void setButtonGroup(){
 		lSystem.setToggleGroup(algorithm);
@@ -89,14 +98,28 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
 		gc.fillRect(0,0,613,460);
-		
+	}
+	
+	@FXML
+	public void goButton() {
+		//A tree will be drawn from that seed
+		drawTree(seed);
+	}
+	
+	@FXML
+	public void iterateLButton() {
+		//This needs to fetch the x y values from cells
+		//and put them on the screen
+		//You should probably make a better draw for this
+		//Or  draw point bleeeh
+		//and a better button name wtf
 	}
 	
 
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		//length temporarily a "magic number" for testing
-		double length = 160;
+		double length = 150;
 		lway = new LSystem(length, start);
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
@@ -121,16 +144,28 @@ public class MainController {
 		double x = event.getX();
 		double y = event.getY();
 		if (cellularAutomata.isSelected()) {
+			//So if any x or y value is less than 5
+			//We round it down so it is an even 10*n
 			if (x < 5) {
 				x = (x - (x%10));
+			//for greater than 5 we round up
 			}else if (x > 5) {
 				x = (x + (10 - (x%10)));
 			}
+			//round down
 			if (y < 5) {
 				y = (y - (y%10));
+			//round up
 			}else if (y > 5) {
 				y = (y + (10 - (y%10)));
 			}
+			//Now we want to store these values in cells
+			//But we can't just plop them in since cells is actually 61x46
+			//No, first we divide by 10 ;)
+			double cellx = x/10;
+			double celly = y/10;
+			//Now we plop them in, or they come "alive"
+			cells.live(cellx, celly);
 			
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
@@ -139,8 +174,6 @@ public class MainController {
 			//Wherever is clicked will become the new seed
 			seed[0] = x;
 			seed[1] = y;
-			//A tree will be drawn from that seed
-			drawTree(seed);
 		}
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
@@ -161,15 +194,6 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
 		gc.setLineWidth(5);
-		//nothing
-		gc.beginPath();
-		gc.moveTo(start[0], start[1]);
-		gc.lineTo(end[0], end[1]);
-		gc.stroke();
-		gc.closePath();
-		//end nothing
-		System.out.println("Start: " + start[0] + " , " + start[1]);
-		System.out.println("End: " + end[0] + " , " + end[1]);
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
 		
 	}
