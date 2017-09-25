@@ -57,9 +57,8 @@ public class MainController {
 	Button lsystemgo;
 	
 	@FXML
-	Button iterateL;
+	Button fetch;
 	
-	//Lol sorry, 3 options = 3 buttons
 	@FXML
 	Button judgeus;
 	
@@ -113,12 +112,20 @@ public class MainController {
 	}
 	
 	@FXML
-	public void iterateLButton() {
-		//This needs to fetch the x y values from cells
-		//and put them on the screen
-		//You should probably make a better draw for this
-		//Or  draw point bleeeh
-		//and a better button name wtf
+	public void fetchButton() {
+		//Gets the graph stored in cells
+		double[][] graph = cells.get();
+		//Goes through for loop and fetches the values from cells
+		for (int x = 0; x < 61; x++) {
+			for (int y = 0; y < 46; y ++) {
+				//if the point is "alive" or 1
+				if (graph[x][y] == 1) {
+					//Then draw it on the canvas
+					//At ten times the original value of course ;)
+					drawPoint(x*10,y*10);
+				}
+			}
+		}
 	}
 	
 
@@ -188,6 +195,14 @@ public class MainController {
 		}
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
+	}
+	
+	//Draws a single point
+	public void drawPoint(int x, int y) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setFill(drawcolor.getValue());
+		gc.fillRect(x,y,10,10);
+		
 	}
 	
 	//THE THREE WAYS TO DRAW A LINE ----------------------------
