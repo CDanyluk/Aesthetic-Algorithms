@@ -28,6 +28,12 @@ public class MainController {
 	RadioButton lSystem;
 	
 	@FXML
+	TextField angle;
+	
+	@FXML
+	TextField length;
+	
+	@FXML
 	RadioButton cellularAutomata;
 	
 	@FXML
@@ -119,8 +125,12 @@ public class MainController {
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		//length temporarily a "magic number" for testing
+<<<<<<< HEAD
 		double length = 150;
 		lway = new LSystem(length, start);
+=======
+		lway = new LSystem(Double.parseDouble(length.getText()), start);
+>>>>>>> 2958748c867a2faa2b072a05a567e575559af5a4
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
