@@ -113,6 +113,10 @@ public class MainController {
 	
 	@FXML
 	public void fetchButton() {
+		
+		//Testing: changing values in cells whenever "fetch" is called
+		cells.conway();
+		
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
 		//Goes through for loop and fetches the values from cells

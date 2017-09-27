@@ -40,33 +40,54 @@ public class Cells {
 			for (int y = 0; y < 46; y ++) {
 				//Create int neighbors to keep track of x, y's neighbors
 				int neighbors = 0;
-				//Go through all 8 potential neighbors
-				if (graph[x-1][y-1] == 1) {
-					neighbors++;
-				}else if (graph[x][y-1] == 1) {
-					neighbors++;
-				}else if (graph[x+1][y-1] == 1) {
-					neighbors++;
-				}else if (graph[x-1][y] == 1) {
-					neighbors++;
-				}else if (graph[x+1][y] == 1) {
-					neighbors++;
-				}else if (graph[x-1][y+1] == 1) {
-					neighbors++;
-				}else if (graph[x][y+1] == 1) {
-					neighbors++;
-				}else if (graph[x+1][y+1] == 1) {
-					neighbors++;
+				//edge case check
+				if (x > 0 && y > 0 && x < 45 && y < 45) {
+					neighbors = centerPoint(x, y, neighbors);
+					System.out.println(neighbors);
 				}
+				/*else {
+					//now you actually need to check the goddamn edges
+				}*/
 				//if x,y is black and neighbors > 3 turn white
 				if (graph[x][y] == 1 && neighbors > 3) {
-					graph[x][y] = 0;
+					dead(x,y);
 				//if x,y is white and neighbors are 4 or 5
 				}else if ((graph[x][y] == 0 && neighbors == 4) || (graph[x][y] == 0 && neighbors == 5)) {
-					graph[x][y] = 1;
+					live(x,y);
+				}else {
+					dead(x,y);
 				}
 			}
 		}
+	}
+	
+	public void change() {
+		for (int x = 0; x < 61; x++) {
+			live(x, 36);
+		}
+	}
+	
+	public int centerPoint(int x, int y, int neighbors) {
+		if (graph[x-1][y-1] == 1) {
+			neighbors++;
+		}else if (graph[x][y-1] == 1) {
+			neighbors++;
+		}else if (graph[x+1][y-1] == 1) {
+			neighbors++;
+		}else if (graph[x-1][y] == 1) {
+			neighbors++;
+		}else if (graph[x+1][y] == 1) {
+			neighbors++;
+		}else if (graph[x-1][y+1] == 1) {
+			neighbors++;
+		}else if(graph[x-1][y+1] == 1) {
+			neighbors++;
+		}else if(graph[x-1][y+1] == 1 ) {
+			neighbors++;
+		}else if(graph[x+1][y+1] == 1) {
+			neighbors++;
+		}
+			return neighbors;
 	}
 	
 	public void live(int x, int y) {
