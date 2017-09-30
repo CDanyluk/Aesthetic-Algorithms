@@ -103,6 +103,7 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
 		gc.fillRect(0,0,613,460);
+		cells.clear();
 	}
 	
 	@FXML
@@ -115,9 +116,7 @@ public class MainController {
 	public void fetchButton() {
 		
 		//Testing: changing values in cells whenever "fetch" is called
-		System.out.println(Arrays.deepToString(cells.get()));
 		cells.conway();
-		System.out.println(Arrays.deepToString(cells.get()));
 		
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
