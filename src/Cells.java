@@ -49,13 +49,21 @@ public class Cells {
 					//now you actually need to check the goddamn edges
 				}*/
 				//if x,y is black and neighbors > 3 turn white
-				if (graph[x][y] == 1 && neighbors > 3) {
-					dead(x,y);
+				if (graph[x][y] == 1) {
+					if (neighbors > 3) {
+						dead(x,y);
+					}else {
+						live(x,y);
+					}
 				//if x,y is white and neighbors are 4 or 5
-				}else if ((graph[x][y] == 0 && neighbors == 4) || (graph[x][y] == 0 && neighbors == 5)) {
-					live(x,y);
+				}else if (graph[x][y] == 0) {
+					if (neighbors > 4) {
+						live(x,y);
+					}else {
+						dead(x,y);
+					}
 				}else {
-					dead(x,y);
+					graph[x][y] = 2;
 				}
 			}
 		}
@@ -70,21 +78,21 @@ public class Cells {
 	public int centerPoint(int x, int y, int neighbors) {
 		if (graph[x-1][y-1] == 1) {
 			neighbors++;
-		}else if (graph[x][y-1] == 1) {
+		}if (graph[x][y-1] == 1) {
 			neighbors++;
-		}else if (graph[x+1][y-1] == 1) {
+		}if (graph[x+1][y-1] == 1) {
 			neighbors++;
-		}else if (graph[x-1][y] == 1) {
+		}if (graph[x-1][y] == 1) {
 			neighbors++;
-		}else if (graph[x+1][y] == 1) {
+		}if (graph[x+1][y] == 1) {
 			neighbors++;
-		}else if (graph[x-1][y+1] == 1) {
+		}if (graph[x-1][y+1] == 1) {
 			neighbors++;
-		}else if(graph[x-1][y+1] == 1) {
+		}if(graph[x-1][y+1] == 1) {
 			neighbors++;
-		}else if(graph[x-1][y+1] == 1 ) {
+		}if(graph[x-1][y+1] == 1 ) {
 			neighbors++;
-		}else if(graph[x+1][y+1] == 1) {
+		}if(graph[x+1][y+1] == 1) {
 			neighbors++;
 		}
 			return neighbors;

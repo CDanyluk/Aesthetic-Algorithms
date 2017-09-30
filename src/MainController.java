@@ -115,7 +115,9 @@ public class MainController {
 	public void fetchButton() {
 		
 		//Testing: changing values in cells whenever "fetch" is called
+		System.out.println(Arrays.deepToString(cells.get()));
 		cells.conway();
+		System.out.println(Arrays.deepToString(cells.get()));
 		
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
@@ -127,6 +129,10 @@ public class MainController {
 					//Then draw it on the canvas
 					//At ten times the original value of course ;)
 					drawPoint(x*10,y*10);
+				}if (graph[x][y] == 0) {
+					erasePoint(x*10,y*10);
+				}if (graph[x][y] == 2) {
+					errorPoint(x*10,y*10);
 				}
 			}
 		}
@@ -206,7 +212,20 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
-		
+	}
+	
+	//Erases single point
+	public void erasePoint(int x, int y) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setFill(backcolor.getValue());
+		gc.fillRect(x,y,10,10);
+	}
+	
+	//Error point, red shows bad
+	public void errorPoint(int x, int y) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setFill(Color.RED);
+		gc.fillRect(x,y,10,10);
 	}
 	
 	//THE THREE WAYS TO DRAW A LINE ----------------------------
