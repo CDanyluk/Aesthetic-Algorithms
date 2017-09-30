@@ -41,7 +41,7 @@ public class Cells {
 				//Create int neighbors to keep track of x, y's neighbors
 				int neighbors = 0;
 				//edge case check
-				if (x > 0 && y > 0 && x < 45 && y < 45) {
+				if (x > 0 && y > 0 && x < 60 && y < 45) {
 					neighbors = centerPoint(x, y, neighbors);
 					System.out.println(neighbors);
 				}
@@ -50,14 +50,16 @@ public class Cells {
 				}*/
 				//if x,y is black and neighbors > 3 turn white
 				if (graph[x][y] == 1) {
-					if (neighbors > 3) {
-						dead(x,y);
-					}else {
+					if (neighbors <= 3) {
 						live(x,y);
+					}else {
+						dead(x,y);
 					}
 				//if x,y is white and neighbors are 4 or 5
 				}else if (graph[x][y] == 0) {
-					if (neighbors > 4) {
+					if (neighbors == 4) {
+						live(x,y);
+					}else if (neighbors == 5) {
 						live(x,y);
 					}else {
 						dead(x,y);
