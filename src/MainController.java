@@ -154,12 +154,30 @@ public class MainController {
 			alive.put(i, false);
 			dead.put(i, false);
 		}
+		//This is a chunk checking alive's buttons toggle and putting them in the hashmap
 		if (alive1.isSelected()) { alive.put(1, true);}
-		System.out.println(alive);
+		if (alive2.isSelected()) { alive.put(2, true);}
+		if (alive3.isSelected()) { alive.put(3, true);}
+		if (alive4.isSelected()) { alive.put(4, true);}
+		if (alive5.isSelected()) { alive.put(5, true);}
+		if (alive6.isSelected()) { alive.put(6, true);}
+		if (alive7.isSelected()) { alive.put(7, true);}
+		if (alive8.isSelected()) { alive.put(8, true);}
+		//This is a chunk checking deads button toggles
+		if (dead1.isSelected()) { dead.put(1, true);}
+		if (dead2.isSelected()) { dead.put(2, true);}
+		if (dead3.isSelected()) { dead.put(3, true);}
+		if (dead4.isSelected()) { dead.put(4, true);}
+		if (dead5.isSelected()) { dead.put(5, true);}
+		if (dead6.isSelected()) { dead.put(6, true);}
+		if (dead7.isSelected()) { dead.put(7, true);}
+		if (dead8.isSelected()) { dead.put(8, true);}
+		System.out.println(dead);
 		
 		
 		//Calls conway on the iteration number
-		cells.iterate(iterateNum);
+		//cells.iterate(iterateNum);
+		cells.generalLifeandDeath(alive, dead);
 		
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();

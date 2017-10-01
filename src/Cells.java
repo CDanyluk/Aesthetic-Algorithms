@@ -33,10 +33,74 @@ public class Cells {
 		}
 	}
 	
-	public void generalLifeandDeath() {
-		
+	public void generalLifeandDeath(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
+		//New graph for next iteration
+				double[][] population = new double[62][47];
+				//initialize it to empty
+				for (int x = 0; x < 61; x++) {
+					for (int y = 0; y < 46; y ++) {
+						population[x][y] = 0;
+					}
+				}
+				//Iterate through all x,y on map
+				for (int x = 0; x < 61; x++) {
+					for (int y = 0; y < 46; y ++) {
+						//Create int neighbors to keep track of x, y's neighbors
+						int neighbors = 0;
+						//IF NOT ON AN EDGE
+						if (x > 0 && y > 0 && x < 61 && y < 46) { neighbors = centerPoint(x, y, neighbors); }
+						//IF ON TOP EDGE
+						else if (x > 0 && y == 0) {	neighbors = topPoint(x, y, neighbors);
+						//IF ON LEFT SIDE
+						}else if (y > 0 && x == 0) { neighbors = leftPoint(x, y, neighbors);
+						//IF FIRST CORNER
+						}else if(y == 0 && x == 0) { neighbors = cornerPoint(x, y, neighbors); }
+						
+						//IF x,y is BLACK
+						if (graph[x][y] == 1) {
+							//Go through the alive list
+							for (int isAlive = 1; isAlive < 9; isAlive++) {
+								//If the map says true for that value
+								//and the value of neighbors is that value
+								if (alive.get(isAlive) == true) {
+									if (neighbors == isAlive) {
+										//Set the cell to black
+										population[x][y] = 1;
+									}
+								//else set it to be white
+								}else {
+									population[x][y] = 0;
+								}
+							}
+							
+						//IF x,y is WHITE
+						}else if (graph[x][y] == 0) {
+							//Go through the dead list
+							for (int comeAlive = 1; comeAlive < 9; comeAlive++) {
+								//if the map says true for that value
+								//and the value of neighbors is that value
+								if (dead.get(comeAlive) == true) {
+									if (neighbors == comeAlive) {
+										//Set the cell to black
+										population[x][y] = 1;
+									}
+								//else set it to be white
+								}else {
+									population[x][y] = 0;
+								}
+							}
+						//ELSE error
+						}else {
+							graph[x][y] = 2;
+						}
+					}
+				}
+			graph = population;
 	}
 	
+	
+	
+	//Conways static game of life, this is generalized above ------------------------------------
 	public void conway() {
 		//New graph for next iteration
 		double[][] population = new double[62][47];
@@ -86,8 +150,6 @@ public class Cells {
 						//dead(x,y);
 						population[x][y] = 0;
 					}
-				}else {
-					graph[x][y] = 2;
 				}
 			}
 		}
