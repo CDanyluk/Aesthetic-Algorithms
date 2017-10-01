@@ -34,23 +34,25 @@
                   <Label layoutX="8.0" layoutY="280.0" text="Iterations:" />
                   <TextField fx:id="iterations" layoutX="69.0" layoutY="275.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
                   <Label layoutX="10.0" layoutY="302.0" text="Alive:" />
-                  <Label layoutX="13.0" layoutY="377.0" text="Dead:" />
-                  <ToggleButton fx:id="alive1" layoutX="5.0" layoutY="319.0" mnemonicParsing="false" text="1" />
-                  <ToggleButton fx:id="alive2" layoutX="31.0" layoutY="319.0" mnemonicParsing="false" text="2" />
-                  <ToggleButton fx:id="alive3" layoutX="58.0" layoutY="319.0" mnemonicParsing="false" text="3" />
-                  <ToggleButton fx:id="alive4" layoutX="84.0" layoutY="319.0" mnemonicParsing="false" text="4" />
-                  <ToggleButton fx:id="alive5" layoutX="5.0" layoutY="344.0" mnemonicParsing="false" text="5" />
-                  <ToggleButton fx:id="alive6" layoutX="32.0" layoutY="344.0" mnemonicParsing="false" text="6" />
-                  <ToggleButton fx:id="alive7" layoutX="57.0" layoutY="344.0" mnemonicParsing="false" text="7" />
-                  <ToggleButton fx:id="alive8" layoutX="84.0" layoutY="344.0" mnemonicParsing="false" text="8" />
-                  <ToggleButton fx:id="dead1" layoutX="5.0" layoutY="394.0" mnemonicParsing="false" text="1" />
-                  <ToggleButton fx:id="dead2" layoutX="31.0" layoutY="394.0" mnemonicParsing="false" text="2" />
-                  <ToggleButton fx:id="dead3" layoutX="57.0" layoutY="394.0" mnemonicParsing="false" text="3" />
-                  <ToggleButton fx:id="dead4" layoutX="84.0" layoutY="394.0" mnemonicParsing="false" text="4" />
-                  <ToggleButton fx:id="dead5" layoutX="5.0" layoutY="419.0" mnemonicParsing="false" text="5" />
-                  <ToggleButton fx:id="dead6" layoutX="32.0" layoutY="419.0" mnemonicParsing="false" text="6" />
-                  <ToggleButton fx:id="dead7" layoutX="57.0" layoutY="419.0" mnemonicParsing="false" text="7" />
-                  <ToggleButton fx:id="dead8" layoutX="84.0" layoutY="419.0" mnemonicParsing="false" text="8" />
+                  <Label layoutX="8.0" layoutY="390.0" text="Dead:" />
+                  <ToggleButton fx:id="alive1" layoutX="5.0" layoutY="332.0" mnemonicParsing="false" text="1" />
+                  <ToggleButton fx:id="alive2" layoutX="34.0" layoutY="332.0" mnemonicParsing="false" text="2" />
+                  <ToggleButton fx:id="alive3" layoutX="58.0" layoutY="332.0" mnemonicParsing="false" text="3" />
+                  <ToggleButton fx:id="alive4" layoutX="84.0" layoutY="332.0" mnemonicParsing="false" text="4" />
+                  <ToggleButton fx:id="alive5" layoutX="5.0" layoutY="357.0" mnemonicParsing="false" text="5" />
+                  <ToggleButton fx:id="alive6" layoutX="32.0" layoutY="357.0" mnemonicParsing="false" text="6" />
+                  <ToggleButton fx:id="alive7" layoutX="57.0" layoutY="357.0" mnemonicParsing="false" text="7" />
+                  <ToggleButton fx:id="alive8" layoutX="84.0" layoutY="357.0" mnemonicParsing="false" text="8" />
+                  <ToggleButton fx:id="dead1" layoutX="5.0" layoutY="419.0" mnemonicParsing="false" text="1" />
+                  <ToggleButton fx:id="dead2" layoutX="32.0" layoutY="419.0" mnemonicParsing="false" text="2" />
+                  <ToggleButton fx:id="dead3" layoutX="58.0" layoutY="419.0" mnemonicParsing="false" text="3" />
+                  <ToggleButton fx:id="dead4" layoutX="84.0" layoutY="419.0" mnemonicParsing="false" text="4" />
+                  <ToggleButton fx:id="dead5" layoutX="5.0" layoutY="444.0" mnemonicParsing="false" text="5" />
+                  <ToggleButton fx:id="dead6" layoutX="32.0" layoutY="444.0" mnemonicParsing="false" text="6" />
+                  <ToggleButton fx:id="dead7" layoutX="57.0" layoutY="444.0" mnemonicParsing="false" text="7" />
+                  <ToggleButton fx:id="dead8" layoutX="84.0" layoutY="444.0" mnemonicParsing="false" text="8" />
+                  <ToggleButton fx:id="alive0" layoutX="84.0" layoutY="307.0" mnemonicParsing="false" text="0" />
+                  <ToggleButton fx:id="dead0" layoutX="84.0" layoutY="395.0" mnemonicParsing="false" text="0" />
                </children>
             </Pane>
          </children>

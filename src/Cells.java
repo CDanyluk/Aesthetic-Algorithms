@@ -59,7 +59,7 @@ public class Cells {
 						//IF x,y is BLACK
 						if (graph[x][y] == 1) {
 							//Go through the alive list
-							for (int isAlive = 1; isAlive < 9; isAlive++) {
+							for (int isAlive = 0; isAlive < 9; isAlive++) {
 								//If the map says true for that value
 								//and the value of neighbors is that value
 								if (alive.get(isAlive) == true) {
@@ -76,7 +76,7 @@ public class Cells {
 						//IF x,y is WHITE
 						}else if (graph[x][y] == 0) {
 							//Go through the dead list
-							for (int comeAlive = 1; comeAlive < 9; comeAlive++) {
+							for (int comeAlive = 0; comeAlive < 9; comeAlive++) {
 								//if the map says true for that value
 								//and the value of neighbors is that value
 								if (dead.get(comeAlive) == true) {

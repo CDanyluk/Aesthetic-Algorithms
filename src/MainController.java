@@ -38,6 +38,7 @@ public class MainController {
 	
 	@FXML
 	RadioButton cellularAutomata;
+	@FXML ToggleButton alive0;
 	@FXML ToggleButton alive1;
 	@FXML ToggleButton alive2;
 	@FXML ToggleButton alive3;
@@ -47,6 +48,7 @@ public class MainController {
 	@FXML ToggleButton alive7;
 	@FXML ToggleButton alive8;
 	
+	@FXML ToggleButton dead0;
 	@FXML ToggleButton dead1;
 	@FXML ToggleButton dead2;
 	@FXML ToggleButton dead3;
@@ -150,11 +152,12 @@ public class MainController {
 		//For dead: white cells will live where true; die otherwise
 		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
 		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
-		for (int i = 1; i < 9; i++) {
+		for (int i = 0; i < 9; i++) {
 			alive.put(i, false);
 			dead.put(i, false);
 		}
 		//This is a chunk checking alive's buttons toggle and putting them in the hashmap
+		if (alive0.isSelected()) { alive.put(0, true);}
 		if (alive1.isSelected()) { alive.put(1, true);}
 		if (alive2.isSelected()) { alive.put(2, true);}
 		if (alive3.isSelected()) { alive.put(3, true);}
@@ -164,6 +167,7 @@ public class MainController {
 		if (alive7.isSelected()) { alive.put(7, true);}
 		if (alive8.isSelected()) { alive.put(8, true);}
 		//This is a chunk checking deads button toggles
+		if (dead0.isSelected()) { dead.put(0, true);}
 		if (dead1.isSelected()) { dead.put(1, true);}
 		if (dead2.isSelected()) { dead.put(2, true);}
 		if (dead3.isSelected()) { dead.put(3, true);}
