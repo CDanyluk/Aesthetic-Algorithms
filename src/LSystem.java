@@ -6,13 +6,14 @@ public class LSystem {
 	private double length;
 	private Set<Line> tree;
 	private double trimmer;
+	private double angle;
 	
-	public LSystem(double startLength, double[] startPoint) {
+	public LSystem(double[] startPoint, double startLength, double trimmer, double angle) {
 		//initialize length and tree, plus trimmer to be how much to cut a branch by each time
 		this.length = startLength;
 		this.tree = new HashSet<Line>();
-		//Here is where all the magic numbers will go that will eventually be under user control
-		this.trimmer = 0.5;
+		this.trimmer = trimmer;
+		this.angle = angle;
 		
 		//Create first line or stem, which is just startPoint[y] - length
 		double[] endStem = new double[2];
@@ -66,8 +67,12 @@ public class LSystem {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//Here be the math Taylor is working on
-		coordinates[0] = start[0] + branchLength;
-		coordinates[1] = start[1] - branchLength;
+		double over = (branchLength * Math.cos((180 - (2 * angle))/ 2)) /2;
+		double up = (branchLength/2) + over;
+		
+		
+		coordinates[0] = start[0] + up;
+		coordinates[1] = start[1] - over;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}
@@ -76,8 +81,11 @@ public class LSystem {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//here be the math Taylor is working on
-		coordinates[0] = start[0] - branchLength;
-		coordinates[1] = start[1] - branchLength;
+		double over = (branchLength * Math.cos((180 - (2 * angle))/ 2)) /2;
+		double up = (branchLength/2) - over;
+		
+		coordinates[0] = start[0] - up;
+		coordinates[1] = start[1] - over;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}

@@ -34,6 +34,9 @@ public class MainController {
 	TextField length;
 	
 	@FXML
+	TextField trimmer;
+	
+	@FXML
 	RadioButton cellularAutomata;
 	
 	@FXML
@@ -132,21 +135,16 @@ public class MainController {
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		//length temporarily a "magic number" for testing
-		double length = 150;
-		lway = new LSystem(length, start);
-		
-		//Shit, was this working before?   <--------------------------------------------
-		
-		
-		//lway = new LSystem(Double.parseDouble(length.getText()), start);
+		double lenVal = Double.parseDouble(length.getText());
+		double trimVal = Double.parseDouble(trimmer.getText());
+		double angleVal = Double.parseDouble(angle.getText());
+		lway = new LSystem(start, lenVal, trimVal, angleVal );
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			drawLine(currentBranch);
 		}
-		
-		
 	}
 		
 	
