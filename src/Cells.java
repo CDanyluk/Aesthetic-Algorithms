@@ -131,7 +131,7 @@ public class Cells {
 				}
 				//if x,y is black and neighbors > 3 turn white
 				if (graph[x][y] == 1) {
-					if (neighbors <= 3) {
+					if (neighbors <= 3 && neighbors > 0) {
 						//live(x,y);
 						population[x][y] = 1;
 					}else {
