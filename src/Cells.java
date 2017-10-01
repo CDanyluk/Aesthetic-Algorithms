@@ -28,8 +28,9 @@ public class Cells {
 	}
 	
 	public void iterate(int num) {
-		//This will call a function that has rules num times
-		//make num iterations and num different ones
+		for (int i = 0; i < num; i++) {
+			conway();
+		}
 	}
 	
 	public void conway() {

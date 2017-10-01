@@ -78,6 +78,7 @@ public class MainController {
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
+		picture.setOnMouseDragged(event -> draw(event));
 		
 	}
 	
@@ -115,8 +116,16 @@ public class MainController {
 	@FXML
 	public void fetchButton() {
 		
+		//checks if iterations is valid and gets the number
+		int iterateNum = 0;
+		try {
+			iterateNum = Integer.parseInt(iterations.getText());
+		}catch (Exception e) {
+			iterateNum = 1;
+		}
+		
 		//Testing: changing values in cells whenever "fetch" is called
-		cells.conway();
+		cells.iterate(iterateNum);
 		
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
