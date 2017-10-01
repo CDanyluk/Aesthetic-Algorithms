@@ -33,6 +33,10 @@ public class Cells {
 		}
 	}
 	
+	public void generalLifeandDeath() {
+		
+	}
+	
 	public void conway() {
 		//New graph for next iteration
 		double[][] population = new double[62][47];

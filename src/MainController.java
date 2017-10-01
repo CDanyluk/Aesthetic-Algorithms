@@ -1,6 +1,8 @@
 
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javafx.beans.value.ChangeListener;
@@ -19,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 
@@ -35,6 +38,23 @@ public class MainController {
 	
 	@FXML
 	RadioButton cellularAutomata;
+	@FXML ToggleButton alive1;
+	@FXML ToggleButton alive2;
+	@FXML ToggleButton alive3;
+	@FXML ToggleButton alive4;
+	@FXML ToggleButton alive5;
+	@FXML ToggleButton alive6;
+	@FXML ToggleButton alive7;
+	@FXML ToggleButton alive8;
+	
+	@FXML ToggleButton dead1;
+	@FXML ToggleButton dead2;
+	@FXML ToggleButton dead3;
+	@FXML ToggleButton dead4;
+	@FXML ToggleButton dead5;
+	@FXML ToggleButton dead6;
+	@FXML ToggleButton dead7;
+	@FXML ToggleButton dead8;
 	
 	@FXML
 	RadioButton cartesianGenetic;
@@ -124,7 +144,21 @@ public class MainController {
 			iterateNum = 1;
 		}
 		
-		//Testing: changing values in cells whenever "fetch" is called
+		//Create two hashmap of alive and dead buttons pressed
+		//These hashmaps represent the rules where the cells come alive and die
+		//For alive: black cells will live where true; die otherwise
+		//For dead: white cells will live where true; die otherwise
+		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
+		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
+		for (int i = 1; i < 9; i++) {
+			alive.put(i, false);
+			dead.put(i, false);
+		}
+		if (alive1.isSelected()) { alive.put(1, true);}
+		System.out.println(alive);
+		
+		
+		//Calls conway on the iteration number
 		cells.iterate(iterateNum);
 		
 		//Gets the graph stored in cells
