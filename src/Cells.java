@@ -55,7 +55,7 @@ public class Cells {
 					neighbors = topPoint(x, y, neighbors);
 				//IF ON LEFT SIDE
 				}else if (y > 0 && x == 0) {
-					
+					neighbors = leftPoint(x, y, neighbors);
 				//IF FIRST CORNER
 				}else if(y == 0 && x == 0) {
 					neighbors = cornerPoint(x, y, neighbors);
