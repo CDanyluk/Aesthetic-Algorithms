@@ -44,7 +44,6 @@ public class LSystem {
 		//Now calculate the two branches to be added to the tree
 		Line rightBranch = calculateRight(newSprout, branchLength);
 		Line leftBranch = calculateLeft(newSprout, branchLength);
-		//Now add them to the goddamn tree how did you miss this part
 		tree.add(rightBranch);
 		tree.add(leftBranch);
 		//base case for recursive argument
@@ -67,12 +66,14 @@ public class LSystem {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//Here be the math Taylor is working on
-		double over = (branchLength * Math.cos((180 - (2 * angle))/ 2)) /2;
+		double over = (branchLength * Math.cos((180 - angle))) /2;
+		System.out.println("Right: " + over);
 		double up = (branchLength/2) + over;
+		System.out.println("Right: " + up);
 		
-		
-		coordinates[0] = start[0] + up;
-		coordinates[1] = start[1] - over;
+		// Don't mess with plus and minus! They are actually correct! :-)
+		coordinates[0] = start[0] + over;
+		coordinates[1] = start[1] - up;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}
@@ -81,11 +82,13 @@ public class LSystem {
 		double[] coordinates = new double[2];
 		//Make a new point that is different than the old point
 		//here be the math Taylor is working on
-		double over = (branchLength * Math.cos((180 - (2 * angle))/ 2)) /2;
+		double over = (branchLength * Math.cos((180 - (2 * (180 - angle)))/ 2)) /2;
+		System.out.println("Left: " + over);
 		double up = (branchLength/2) - over;
-		
-		coordinates[0] = start[0] - up;
-		coordinates[1] = start[1] - over;
+		System.out.println("Left: " + up);
+		// Don't mess with plus and minus! They are actually correct! :-)
+		coordinates[0] = start[0] - over;
+		coordinates[1] = start[1] - up;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}

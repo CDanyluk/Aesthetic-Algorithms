@@ -81,7 +81,7 @@ public class MainController {
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
-		
+		setColor();
 	}
 	
 	private void startHandler(){
