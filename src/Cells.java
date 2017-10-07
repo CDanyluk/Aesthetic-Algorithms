@@ -5,11 +5,11 @@ import java.util.Set;
 public class Cells {
 	
 	//Since our grid is 610x460 and we have a pixels of 10x10
-	double[][] graph = new double[63][48];
+	double[][] graph = new double[64][49];
 	
 	public Cells() {
-		for (int x = 0; x < 61; x++) {
-			for (int y = 0; y < 46; y ++) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
 				graph[x][y] = 0;
 			}
 		}
@@ -20,8 +20,8 @@ public class Cells {
 	}
 	
 	public void clear() {
-		for (int x = 0; x < 61; x++) {
-			for (int y = 0; y < 46; y ++) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
 				graph[x][y] = 0;
 			}
 		}
@@ -35,16 +35,16 @@ public class Cells {
 	
 	public void generalLifeandDeath(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
 		//New graph for next iteration
-				double[][] population = new double[63][48];
+				double[][] population = new double[64][49];
 				//initialize it to empty
-				for (int x = 0; x < 61; x++) {
-					for (int y = 0; y < 46; y ++) {
+				for (int x = 0; x < 63; x++) {
+					for (int y = 0; y < 48; y ++) {
 						population[x][y] = 0;
 					}
 				}
 				//Iterate through all x,y on map
-				for (int x = 1; x < 61; x++) {
-					for (int y = 1; y < 46; y ++) {
+				for (int x = 1; x < 63; x++) {
+					for (int y = 1; y < 48; y ++) {
 						//Create int neighbors to keep track of x, y's neighbors
 						int neighbors = 0;
 						neighbors = centerPoint(x, y, neighbors);
@@ -99,7 +99,7 @@ public class Cells {
 	//Conways static game of life, this is generalized above ------------------------------------
 	public void conway() {
 		//New graph for next iteration
-		double[][] population = new double[62][47];
+		double[][] population = new double[64][49];
 		//initialize it to empty
 		for (int x = 0; x < 61; x++) {
 			for (int y = 0; y < 46; y ++) {
@@ -107,12 +107,12 @@ public class Cells {
 			}
 		}
 		//Iterate through all x,y on map
-		for (int x = 0; x < 61; x++) {
-			for (int y = 0; y < 46; y ++) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
 				//Create int neighbors to keep track of x, y's neighbors
 				int neighbors = 0;
 				//IF NOT ON AN EDGE
-				if (x > 0 && y > 0 && x < 61 && y < 46) {
+				if (x > 0 && y > 0 && x < 63 && y < 48) {
 					neighbors = centerPoint(x, y, neighbors);
 				}
 				//IF ON TOP EDGE

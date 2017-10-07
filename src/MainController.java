@@ -191,8 +191,8 @@ public class MainController {
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
 		//Goes through for loop and fetches the values from cells
-		for (int x = 1; x < 62; x++) {
-			for (int y = 1; y < 47; y ++) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
 				//if the point is "alive" or 1
 				if (graph[x][y] == 1) {
 					//Then draw it on the canvas
@@ -259,8 +259,8 @@ public class MainController {
 			//Now we want to store these values in cells
 			//But we can't just plop them in since cells is actually 61x46
 			//No, first we divide by 10 ;)
-			double cellx = x/10;
-			double celly = y/10;
+			double cellx = (x+1)/10;
+			double celly = (y+1)/10;
 			//Now we plop them in, or they come "alive"
 			cells.live(cellx, celly);
 			
