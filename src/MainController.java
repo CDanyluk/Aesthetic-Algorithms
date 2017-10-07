@@ -176,27 +176,32 @@ public class MainController {
 		if (dead6.isSelected()) { dead.put(6, true);}
 		if (dead7.isSelected()) { dead.put(7, true);}
 		if (dead8.isSelected()) { dead.put(8, true);}
-		System.out.println(dead);
+		System.out.println("alive: " + alive);
+		System.out.println("dead: " + dead);
 		
 		
 		//Calls conway on the iteration number
 		//cells.iterate(iterateNum);
 		cells.generalLifeandDeath(alive, dead);
-		
+		//draw it on canvas
+		drawAutomata();
+	}
+	
+	public void drawAutomata() {
 		//Gets the graph stored in cells
 		double[][] graph = cells.get();
 		//Goes through for loop and fetches the values from cells
-		for (int x = 0; x < 61; x++) {
-			for (int y = 0; y < 46; y ++) {
+		for (int x = 1; x < 62; x++) {
+			for (int y = 1; y < 47; y ++) {
 				//if the point is "alive" or 1
 				if (graph[x][y] == 1) {
 					//Then draw it on the canvas
 					//At ten times the original value of course ;)
-					drawPoint(x*10,y*10);
+					drawPoint((x-1)*10,(y-1)*10);
 				}if (graph[x][y] == 0) {
-					erasePoint(x*10,y*10);
+					erasePoint((x-1)*10,(y-1)*10);
 				}if (graph[x][y] == 2) {
-					errorPoint(x*10,y*10);
+					errorPoint((x-1)*10,(y-1)*10);
 				}
 			}
 		}

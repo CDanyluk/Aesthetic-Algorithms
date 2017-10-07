@@ -5,7 +5,7 @@ import java.util.Set;
 public class Cells {
 	
 	//Since our grid is 610x460 and we have a pixels of 10x10
-	double[][] graph = new double[62][47];
+	double[][] graph = new double[63][48];
 	
 	public Cells() {
 		for (int x = 0; x < 61; x++) {
@@ -35,7 +35,7 @@ public class Cells {
 	
 	public void generalLifeandDeath(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
 		//New graph for next iteration
-				double[][] population = new double[62][47];
+				double[][] population = new double[63][48];
 				//initialize it to empty
 				for (int x = 0; x < 61; x++) {
 					for (int y = 0; y < 46; y ++) {
@@ -43,50 +43,46 @@ public class Cells {
 					}
 				}
 				//Iterate through all x,y on map
-				for (int x = 0; x < 61; x++) {
-					for (int y = 0; y < 46; y ++) {
+				for (int x = 1; x < 61; x++) {
+					for (int y = 1; y < 46; y ++) {
 						//Create int neighbors to keep track of x, y's neighbors
 						int neighbors = 0;
-						//IF NOT ON AN EDGE
-						if (x > 0 && y > 0 && x < 61 && y < 46) { neighbors = centerPoint(x, y, neighbors); }
-						//IF ON TOP EDGE
-						else if (x > 0 && y == 0) {	neighbors = topPoint(x, y, neighbors);
-						//IF ON LEFT SIDE
-						}else if (y > 0 && x == 0) { neighbors = leftPoint(x, y, neighbors);
-						//IF FIRST CORNER
-						}else if(y == 0 && x == 0) { neighbors = cornerPoint(x, y, neighbors); }
-						
+						neighbors = centerPoint(x, y, neighbors);
 						//IF x,y is BLACK
 						if (graph[x][y] == 1) {
 							//Go through the alive list
-							for (int isAlive = 0; isAlive < 9; isAlive++) {
-								//If the map says true for that value
-								//and the value of neighbors is that value
-								if (alive.get(isAlive) == true) {
-									if (neighbors == isAlive) {
+							for (int a = 0; a < 9; a++) {
+								//If the key says true, and neighbors == key, then set the cell to black
+								if (alive.get(a) == true) {
+									if (neighbors == a) {
 										//Set the cell to black
 										population[x][y] = 1;
+										break;
 									}
-								//else set it to be white
-								}else {
-									population[x][y] = 0;
+								}else if (alive.get(a) == false) {
+									if (neighbors == a) {
+										population[x][y] = 0;
+										break;
+									}
 								}
 							}
-							
 						//IF x,y is WHITE
 						}else if (graph[x][y] == 0) {
 							//Go through the dead list
-							for (int comeAlive = 0; comeAlive < 9; comeAlive++) {
+							for (int d = 0; d < 9; d++) {
 								//if the map says true for that value
 								//and the value of neighbors is that value
-								if (dead.get(comeAlive) == true) {
-									if (neighbors == comeAlive) {
+								if (dead.get(d) == true) {
+									if (neighbors == d) {
 										//Set the cell to black
 										population[x][y] = 1;
+										break;
 									}
-								//else set it to be white
-								}else {
-									population[x][y] = 0;
+								}else if (dead.get(d) == false) {
+									if (neighbors == d) {
+										population[x][y] = 0;
+										break;
+									}
 								}
 							}
 						//ELSE error
