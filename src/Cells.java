@@ -15,7 +15,7 @@ public class Cells {
 		}
 	}
 	
-	public double[][] get() {
+	public double[][] getGraph() {
 		return graph;
 	}
 	
@@ -27,21 +27,17 @@ public class Cells {
 		}
 	}
 	
-	public void iterate(int num) {
+	public void iterate(int num, Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
 		for (int i = 0; i < num; i++) {
-			conway();
+			generalLifeandDeath(alive, dead);
 		}
 	}
 	
 	public void generalLifeandDeath(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		//New graph for next iteration
-				double[][] population = new double[64][49];
-				//initialize it to empty
-				for (int x = 0; x < 63; x++) {
-					for (int y = 0; y < 48; y ++) {
-						population[x][y] = 0;
-					}
-				}
+		
+			//New graph for next iteration
+			double[][] population = makeNewPop();
+			
 				//Iterate through all x,y on map
 				for (int x = 1; x < 63; x++) {
 					for (int y = 1; y < 48; y ++) {
@@ -50,41 +46,10 @@ public class Cells {
 						neighbors = centerPoint(x, y, neighbors);
 						//IF x,y is BLACK
 						if (graph[x][y] == 1) {
-							//Go through the alive list
-							for (int a = 0; a < 9; a++) {
-								//If the key says true, and neighbors == key, then set the cell to black
-								if (alive.get(a) == true) {
-									if (neighbors == a) {
-										//Set the cell to black
-										population[x][y] = 1;
-										break;
-									}
-								}else if (alive.get(a) == false) {
-									if (neighbors == a) {
-										population[x][y] = 0;
-										break;
-									}
-								}
-							}
+							population = checkAliveCells(neighbors, x, y, population, alive);
 						//IF x,y is WHITE
 						}else if (graph[x][y] == 0) {
-							//Go through the dead list
-							for (int d = 0; d < 9; d++) {
-								//if the map says true for that value
-								//and the value of neighbors is that value
-								if (dead.get(d) == true) {
-									if (neighbors == d) {
-										//Set the cell to black
-										population[x][y] = 1;
-										break;
-									}
-								}else if (dead.get(d) == false) {
-									if (neighbors == d) {
-										population[x][y] = 0;
-										break;
-									}
-								}
-							}
+							population = checkDeadCells(neighbors, x, y, population, dead);
 						//ELSE error
 						}else {
 							graph[x][y] = 2;
@@ -95,61 +60,132 @@ public class Cells {
 	}
 	
 	
-	
-	//Conways static game of life, this is generalized above ------------------------------------
-	public void conway() {
+	//Does not adjust values, values always 0??
+	public void colorAutomata(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead, int max) {
 		//New graph for next iteration
+		double[][] population = makeNewPop();
+		
+			//Iterate through all x,y on map
+			for (int x = 1; x < 63; x++) {
+				for (int y = 1; y < 48; y ++) {
+					//Create int neighbors to keep track of x, y's neighbors
+					int neighbors = 0;
+					neighbors = centerPoint(x, y, neighbors);
+					//IF HIGHEST COLOR	
+					if (graph[x][y] == max) {
+						for (int a = 0; a < alive.size(); a++) {
+							//If the key says true, and neighbors == key, then set the cell to max
+							if (alive.get(a) == true) {
+								if (neighbors == a) {
+									population[x][y] = max;
+									break;
+								}
+							}else if (alive.get(a) == false) {
+								if (neighbors == a) {
+									population[x][y] = graph[x][y] - 1;
+									break;
+								}
+							}
+						}
+					}else if (graph[x][y] < max && graph[x][y] != 0) {
+						for (int d = 0; d < dead.size(); d++) {
+							if (dead.get(d) == true) {
+								if (neighbors == d) {
+									population[x][y] = max;
+									break;
+								}
+							}else if (dead.get(d) == false) {
+								if (neighbors == d) {
+								population[x][y] = graph[x][y] - 1;
+								break;
+								}
+							}
+						}
+					}else if (graph[x][y] == 0){
+						for (int d = 0; d < dead.size(); d++) {
+							if (dead.get(d) == true) {
+								if (neighbors == d) {
+									population[x][y] = max;
+									break;
+								}
+							}else if (dead.get(d) == false) {
+								if (neighbors == d) {
+								population[x][y] = 0;
+								break;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+		graph = population;
+		/*System.out.println("graph in cells colorAutomata: -----------------------------");
+		printGraph(graph);
+		System.out.println("popuation printed in cells colorAutomata: -------------------------");
+		printGraph(population);*/
+	}
+	
+	public void printGraph(double[][] graph) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
+			
+				System.out.print(graph[x][y]+ " ");
+			}
+			System.out.print("\n");
+		}
+	}
+	
+	public double[][] makeNewPop() {
 		double[][] population = new double[64][49];
 		//initialize it to empty
-		for (int x = 0; x < 61; x++) {
-			for (int y = 0; y < 46; y ++) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
 				population[x][y] = 0;
 			}
 		}
-		//Iterate through all x,y on map
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
-				//Create int neighbors to keep track of x, y's neighbors
-				int neighbors = 0;
-				//IF NOT ON AN EDGE
-				if (x > 0 && y > 0 && x < 63 && y < 48) {
-					neighbors = centerPoint(x, y, neighbors);
+		return population;
+	}
+	
+	public double[][] checkAliveCells(int neighbors, int x, int y, double[][] population, Map<Integer, Boolean> alive) {
+		//Go through the alive list
+		for (int a = 0; a < 9; a++) {
+			//If the key says true, and neighbors == key, then set the cell to black
+			if (alive.get(a) == true) {
+				if (neighbors == a) {
+					//Set the cell to black
+					population[x][y] = 1;
+					break;
 				}
-				//IF ON TOP EDGE
-				else if (x > 0 && y == 0) {
-					neighbors = topPoint(x, y, neighbors);
-				//IF ON LEFT SIDE
-				}else if (y > 0 && x == 0) {
-					neighbors = leftPoint(x, y, neighbors);
-				//IF FIRST CORNER
-				}else if(y == 0 && x == 0) {
-					neighbors = cornerPoint(x, y, neighbors);
-				}
-				//if x,y is black and neighbors > 3 turn white
-				if (graph[x][y] == 1) {
-					if (neighbors <= 3 && neighbors > 0) {
-						//live(x,y);
-						population[x][y] = 1;
-					}else {
-						//dead(x,y);
-						population[x][y] = 0;
-					}
-				//if x,y is white and neighbors are 4 or 5
-				}else if (graph[x][y] == 0) {
-					if (neighbors == 4) {
-						//live(x,y);
-						population[x][y] = 1;
-					}else if (neighbors == 5) {
-						//live(x,y);
-						population[x][y] = 1;
-					}else {
-						//dead(x,y);
-						population[x][y] = 0;
-					}
+			}else if (alive.get(a) == false) {
+				if (neighbors == a) {
+					population[x][y] = 0;
+					break;
 				}
 			}
 		}
-		graph = population;
+		return population;
+	}
+	
+	public double[][] checkDeadCells(int neighbors, int x, int y, double[][] population, Map<Integer, Boolean> dead) {
+		//Go through the dead list
+		for (int d = 0; d < 9; d++) {
+			//if the map says true for that value
+			//and the value of neighbors is that value
+			if (dead.get(d) == true) {
+				if (neighbors == d) {
+					//Set the cell to black
+					population[x][y] = 1;
+					break;
+				}
+			}else if (dead.get(d) == false) {
+				if (neighbors == d) {
+					population[x][y] = 0;
+					break;
+				}
+			}
+		}
+		return population;
 	}
 	
 	public int centerPoint(int x, int y, int neighbors) {
@@ -173,49 +209,14 @@ public class Cells {
 			return neighbors;
 	}
 	
-	public int topPoint(int x, int y, int neighbors) {
-		if (graph[x-1][y] == 1) {
-			neighbors++;
-		}if (graph[x+1][y] == 1) {
-			neighbors++;
-		}if (graph[x-1][y+1] == 1) {
-			neighbors++;
-		}if(graph[x][y+1] == 1 ) {
-			neighbors++;
-		}if(graph[x+1][y+1] == 1) {
-			neighbors++;
-		}
-			return neighbors;
-	}
-	
-	public int leftPoint(int x, int y, int neighbors) {
-		if (graph[x][y-1] == 1) {
-			neighbors++;
-		}if (graph[x+1][y-1] == 1) {
-			neighbors++;
-		}if (graph[x+1][y] == 1) {
-			neighbors++;
-		}if(graph[x][y+1] == 1 ) {
-			neighbors++;
-		}if(graph[x+1][y+1] == 1) {
-			neighbors++;
-		}
-			return neighbors;
-	}
-	
-	public int cornerPoint(int x, int y, int neighbors) {
-		if (graph[x+1][y] == 1) {
-			neighbors++;
-		}if(graph[x][y+1] == 1 ) {
-			neighbors++;
-		}if(graph[x+1][y+1] == 1) {
-			neighbors++;
-		}
-			return neighbors;
-	}
-	
 	public void live(int x, int y) {
 		graph[x][y] = 1;
+	}
+	
+	public void liveColor(double x, double y, int max) {
+		int newx = (int) x;
+		int newy = (int) y;
+		graph[newx][newy] = max;
 	}
 	
 	public void live(double x, double y) {

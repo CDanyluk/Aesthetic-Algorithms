@@ -90,6 +90,8 @@ public class MainController {
 	private double[] seed;
 	private LSystem lway;
 	private Cells cells;
+	private HashMap<Integer, Color> rainbow;
+	//Color c = Color.rgb(0,0,255);
 	
 	@FXML 
 	public void initialize() {
@@ -101,6 +103,17 @@ public class MainController {
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
+		//put colors in randobow for color automata
+		rainbow = new HashMap<Integer, Color>();
+		Color matRed = Color.rgb(216, 1, 1);
+		Color matYel = Color.rgb(254, 194, 59);
+		Color matGrn = Color.rgb(78, 160, 114);
+		Color matBlu = Color.rgb(68, 145, 203);
+		rainbow.put(4, matRed);
+		rainbow.put(3, matYel);
+		rainbow.put(2, matGrn);
+		rainbow.put(1, matBlu);
+		rainbow.put(-1, Color.MAGENTA);
 		
 	}
 	
@@ -125,6 +138,7 @@ public class MainController {
 	public void setColor(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
+		rainbow.put(0, backcolor.getValue());
 		gc.fillRect(0,0,613,460);
 		cells.clear();
 	}
@@ -180,16 +194,17 @@ public class MainController {
 		System.out.println("dead: " + dead);
 		
 		
-		//Calls conway on the iteration number
-		//cells.iterate(iterateNum);
-		cells.generalLifeandDeath(alive, dead);
-		//draw it on canvas
-		drawAutomata();
+		//FOR uncolored cellular automata
+		//cells.iterate(iterateNum, alive, dead);
+		//drawAutomata();
+		//FOR colored cellular automata
+		cells.colorAutomata(alive, dead, rainbow.size()-2);
+		drawColorAutomata();
 	}
 	
 	public void drawAutomata() {
 		//Gets the graph stored in cells
-		double[][] graph = cells.get();
+		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
 		for (int x = 0; x < 63; x++) {
 			for (int y = 0; y < 48; y ++) {
@@ -204,6 +219,32 @@ public class MainController {
 					errorPoint((x-1)*10,(y-1)*10);
 				}
 			}
+		}
+	}
+	
+	public void drawColorAutomata() {
+		//Gets the graph stored in cells
+		double[][] graph = cells.getGraph();
+		//Goes through for loop and fetches the values from cells
+		/*System.out.println("graph in color automata draw:    -----------------------------");
+		printGraph(graph);*/
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
+				int colorKey = (int)cells.graph[x][y];
+				/*System.out.println("colorkey" + colorKey);*/
+				drawColorPoint(((x-1)*10),((y-1)*10), colorKey);
+			}
+			/*System.out.print("\n");*/
+		}
+	}
+	
+	public void printGraph(double[][] graph) {
+		for (int x = 0; x < 63; x++) {
+			for (int y = 0; y < 48; y ++) {
+			
+				System.out.print(graph[x][y]+ " ");
+			}
+			System.out.print("\n");
 		}
 	}
 	
@@ -262,7 +303,8 @@ public class MainController {
 			double cellx = (x+1)/10;
 			double celly = (y+1)/10;
 			//Now we plop them in, or they come "alive"
-			cells.live(cellx, celly);
+			//Will be -1 without error number
+			cells.liveColor(cellx, celly, rainbow.size()-2);
 			
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
@@ -280,6 +322,12 @@ public class MainController {
 	public void drawPoint(int x, int y) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(drawcolor.getValue());
+		gc.fillRect(x,y,10,10);
+	}
+	
+	public void drawColorPoint(int x, int y, int color) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setFill(rainbow.get(color));
 		gc.fillRect(x,y,10,10);
 	}
 	
