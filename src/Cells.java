@@ -70,7 +70,7 @@ public class Cells {
 				for (int y = 1; y < 48; y ++) {
 					//Create int neighbors to keep track of x, y's neighbors
 					int neighbors = 0;
-					neighbors = centerPoint(x, y, neighbors);
+					neighbors = centerColorPoint(x, y, neighbors, max);
 					//IF HIGHEST COLOR	
 					if (graph[x][y] == max) {
 						for (int a = 0; a < alive.size(); a++) {
@@ -204,6 +204,27 @@ public class Cells {
 		}if(graph[x][y+1] == 1 ) {
 			neighbors++;
 		}if(graph[x+1][y+1] == 1) {
+			neighbors++;
+		}
+			return neighbors;
+	}
+	
+	public int centerColorPoint(int x, int y, int neighbors, int max) {
+		if (graph[x-1][y-1] == max) {
+			neighbors++;
+		}if (graph[x][y-1] == max) {
+			neighbors++;
+		}if (graph[x+1][y-1] == max) {
+			neighbors++;
+		}if (graph[x-1][y] == max) {
+			neighbors++;
+		}if (graph[x+1][y] == max) {
+			neighbors++;
+		}if (graph[x-1][y+1] == max) {
+			neighbors++;
+		}if(graph[x][y+1] == max ) {
+			neighbors++;
+		}if(graph[x+1][y+1] == max) {
 			neighbors++;
 		}
 			return neighbors;

@@ -113,7 +113,6 @@ public class MainController {
 		rainbow.put(3, matYel);
 		rainbow.put(2, matGrn);
 		rainbow.put(1, matBlu);
-		rainbow.put(-1, Color.MAGENTA);
 		
 	}
 	
@@ -198,7 +197,7 @@ public class MainController {
 		//cells.iterate(iterateNum, alive, dead);
 		//drawAutomata();
 		//FOR colored cellular automata
-		cells.colorAutomata(alive, dead, rainbow.size()-2);
+		cells.colorAutomata(alive, dead, rainbow.size()-1);
 		drawColorAutomata();
 	}
 	
@@ -304,7 +303,7 @@ public class MainController {
 			double celly = (y+1)/10;
 			//Now we plop them in, or they come "alive"
 			//Will be -1 without error number
-			cells.liveColor(cellx, celly, rainbow.size()-2);
+			cells.liveColor(cellx, celly, rainbow.size()-1);
 			
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
