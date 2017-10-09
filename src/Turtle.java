@@ -8,14 +8,14 @@ public class Turtle {
     public Turtle(double x, double y, double angle) {
     	this.x = x;
     	this.y = y;
-    	this.angle = angle;
+    	this.angle = 270;
     }
     
     // http://introcs.cs.princeton.edu/java/32class/Turtle.java.html -- source 
     // This is where I think maybe things are getting a little off??
     public void goForward(double distance) {
         x = x + (distance * Math.cos(Math.toRadians(angle)));
-        y = x + (distance * Math.sin(Math.toRadians(angle)));
+        y = y + (distance * Math.sin(Math.toRadians(angle)));
     }
 
     // turns go counterclockwise
