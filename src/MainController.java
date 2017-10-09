@@ -69,14 +69,12 @@ public class MainController {
 	Canvas picture;
 	
 	private double[] seed;
-	private LSystem lway;
+	private LSystemsRedo lway;
 	private Cells cells;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
-		seed[0] = 305;
-		seed[1] = 230;
 		cells = new Cells();
 		setButtonGroup();
 		startHandler();
@@ -138,7 +136,7 @@ public class MainController {
 		double lenVal = Double.parseDouble(length.getText());
 		double trimVal = Double.parseDouble(trimmer.getText());
 		double angleVal = Double.parseDouble(angle.getText());
-		lway = new LSystem(start, lenVal, trimVal, angleVal );
+		lway = new LSystemsRedo(start, lenVal, trimVal, angleVal );
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
@@ -187,7 +185,6 @@ public class MainController {
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,613,460);
-			//Wherever is clicked will become the new seed
 			seed[0] = x;
 			seed[1] = y;
 		}
