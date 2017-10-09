@@ -1,11 +1,18 @@
 
 
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import javafx.beans.value.ChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +30,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 public class MainController {
 	
@@ -85,6 +95,9 @@ public class MainController {
 	Button judgeus;
 	
 	@FXML
+	Button export;
+	
+	@FXML
 	Canvas picture;
 	
 	private double[] seed;
@@ -105,14 +118,14 @@ public class MainController {
 		picture.setOnMouseDragged(event -> draw(event));
 		//put colors in randobow for color automata
 		rainbow = new HashMap<Integer, Color>();
-		Color matRed = Color.rgb(216, 1, 1);
-		Color matYel = Color.rgb(254, 194, 59);
-		Color matGrn = Color.rgb(78, 160, 114);
-		Color matBlu = Color.rgb(68, 145, 203);
-		rainbow.put(4, matRed);
-		rainbow.put(3, matYel);
-		rainbow.put(2, matGrn);
-		rainbow.put(1, matBlu);
+		Color four = Color.rgb(91, 55, 88);
+		Color three = Color.rgb(249, 129, 151);
+		Color two = Color.rgb(252, 247, 242);
+		Color one = Color.rgb(181, 130, 130);
+		rainbow.put(4, four);
+		rainbow.put(3, three);
+		rainbow.put(2, two);
+		rainbow.put(1, one);
 		
 	}
 	
@@ -146,6 +159,31 @@ public class MainController {
 	public void goButton() {
 		//A tree will be drawn from that seed
 		drawTree(seed);
+	}
+	
+	@FXML
+	public void exportAs() {
+		FileChooser fileChooser = new FileChooser();
+        
+        //Set extension filter
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+       
+		//Show save file dialog
+        File file = fileChooser.showSaveDialog(null);
+        
+         
+        if(file != null){
+            try {
+                WritableImage writableImage = new WritableImage(610, 460);
+                picture.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+                //Write the snapshot to the chosen file
+                ImageIO.write(renderedImage, "png", file);
+            } catch (IOException ex) {
+                //Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+            	System.out.println("error cannot save file you wrote this wrong");
+            }
+        }
 	}
 	
 	@FXML
@@ -189,8 +227,6 @@ public class MainController {
 		if (dead6.isSelected()) { dead.put(6, true);}
 		if (dead7.isSelected()) { dead.put(7, true);}
 		if (dead8.isSelected()) { dead.put(8, true);}
-		System.out.println("alive: " + alive);
-		System.out.println("dead: " + dead);
 		
 		
 		//FOR uncolored cellular automata
@@ -225,15 +261,12 @@ public class MainController {
 		//Gets the graph stored in cells
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
-		/*System.out.println("graph in color automata draw:    -----------------------------");
-		printGraph(graph);*/
+		
 		for (int x = 0; x < 63; x++) {
 			for (int y = 0; y < 48; y ++) {
 				int colorKey = (int)cells.graph[x][y];
-				/*System.out.println("colorkey" + colorKey);*/
 				drawColorPoint(((x-1)*10),((y-1)*10), colorKey);
 			}
-			/*System.out.print("\n");*/
 		}
 	}
 	

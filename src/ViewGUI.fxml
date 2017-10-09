@@ -61,11 +61,12 @@
          <children>
             <Pane prefHeight="82.0" prefWidth="634.0">
                <children>
-                  <Button fx:id="start" layoutX="533.0" layoutY="29.0" mnemonicParsing="false" onAction="#setColor" text="Initiate" />
+                  <Button fx:id="start" layoutX="512.0" layoutY="10.0" mnemonicParsing="false" onAction="#setColor" prefHeight="25.0" prefWidth="54.0" text="Initiate" />
                   <ColorPicker fx:id="backcolor" layoutX="76.0" layoutY="42.0" />
                   <ColorPicker fx:id="drawcolor" layoutX="310.0" layoutY="42.0" />
                   <Label layoutX="76.0" layoutY="14.0" text="Background Color:" />
                   <Label layoutX="310.0" layoutY="14.0" text="Pen Color:" />
+                  <Button fx:id="export" layoutX="513.0" layoutY="42.0" mnemonicParsing="false" onAction="#exportAs" text="Export" />
                </children>
             </Pane>
          </children>
