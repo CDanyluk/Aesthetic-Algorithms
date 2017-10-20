@@ -40,8 +40,7 @@ public class LSystemsRedo {
 	}
 	
 	public void maketree(double[] newSprout, double branchLength) {
-		Line rightBranch = calculateRight(newSprout, branchLength);
-		//Line leftBranch = calculateLeft(newSprout, branchLength);
+		Line rightBranch = calculateBranch(newSprout, branchLength);
 		tree.add(rightBranch);
 		if (rightBranch.getLength() > 5 ) {
 			double newBranch = branchLength*trimmer;
@@ -49,15 +48,10 @@ public class LSystemsRedo {
 		} else{
 			return;
 		}
-		/*if (leftBranch.getLength() > 5) {
-			//trim the branch
-			double newBranch = branchLength*trimmer;
-			maketree(leftBranch.getLast(), newBranch);
-		}*/
 		
 	}
 	
-	public Line calculateRight(double[] start, double branchLength) {
+	public Line calculateBranch(double[] start, double branchLength) {
 		turtle.turnLeft(-angle);
 		//System.out.println(turtle.angle);
 		//System.out.println(start[0] + "," + start[1]);
@@ -68,18 +62,6 @@ public class LSystemsRedo {
 		// Don't mess with plus and minus! They are actually correct! :-)
 		coordinates[0] = turtle.x;
 		coordinates[1] = turtle.y;
-		Line branch = new Line(start, coordinates);
-		return branch;
-	}
-	
-	public Line calculateLeft(double[] start, double branchLength) {
-		double[] coordinates = new double[2];
-		//Make a new point that is different than the old point
-		double over = (branchLength * Math.cos((180 - (2 * (180 - angle)))/ 2)) /2;
-		double up = (branchLength/2) - over;
-		// Don't mess with plus and minus! They are actually correct! :-)
-		coordinates[0] = start[0] - over;
-		coordinates[1] = start[1] - up;
 		Line branch = new Line(start, coordinates);
 		return branch;
 	}
