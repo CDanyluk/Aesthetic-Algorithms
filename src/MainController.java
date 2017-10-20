@@ -1,6 +1,7 @@
 
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Set;
 
 import javafx.beans.value.ChangeListener;
@@ -69,7 +70,7 @@ public class MainController {
 	Canvas picture;
 	
 	private double[] seed;
-	private LSystemsRedo lway;
+	private LSystems lway;
 	private Cells cells;
 	
 	@FXML 
@@ -133,16 +134,18 @@ public class MainController {
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		//length temporarily a "magic number" for testing
-		double lenVal = Double.parseDouble(length.getText());
-		double trimVal = Double.parseDouble(trimmer.getText());
-		double angleVal = Double.parseDouble(angle.getText());
-		lway = new LSystemsRedo(start, lenVal, trimVal, angleVal );
+		HashMap<String, String> rules = new HashMap<String, String>();
+		rules.put("0", "1[0]0");
+		rules.put("1", "11");
+				
+		
+		lway = new LSystems(start, "0", rules, 8);
 		//get the tree out of lway, since it auto-makes it
-		Set<Line> tree = lway.getTree();
+		//Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
-		for (Line currentBranch: tree) {
-			drawLine(currentBranch);
-		}
+//		for (Line currentBranch: tree) {
+//			drawLine(currentBranch);
+//		}
 	}
 		
 	

@@ -5,7 +5,7 @@ public class Turtle {
 
     // this is where the turtle will start. 
     // start at point x,y and facing at a degree of "angle" away from the x axis
-    public Turtle(double x, double y, double angle) {
+    public Turtle(double x, double y) {
     	this.x = x;
     	this.y = y;
     	this.angle = 270;
