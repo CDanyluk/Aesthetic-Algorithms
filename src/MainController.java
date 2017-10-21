@@ -118,10 +118,10 @@ public class MainController {
 		picture.setOnMouseDragged(event -> draw(event));
 		//put colors in randobow for color automata
 		rainbow = new HashMap<Integer, Color>();
-		Color four = Color.rgb(91, 55, 88);
-		Color three = Color.rgb(249, 129, 151);
-		Color two = Color.rgb(252, 247, 242);
-		Color one = Color.rgb(181, 130, 130);
+		Color four = Color.rgb(216, 4, 1);
+		Color three = Color.rgb(254, 194, 59);
+		Color two = Color.rgb(78, 160, 114);
+		Color one = Color.rgb(68, 145, 203);
 		rainbow.put(4, four);
 		rainbow.put(3, three);
 		rainbow.put(2, two);
