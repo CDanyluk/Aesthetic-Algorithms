@@ -7,7 +7,7 @@ public class CellPattern {
 	
 	private Map<Integer, Boolean> deadMap;
 	private Map<Integer, Boolean> aliveMap;
-	private HashMap<Integer, Color> colorMap;
+	private HashMap<Integer, Color> colorMap = new HashMap<Integer, Color>();
 	
 	//We initialize them to be empty, but can set them later on
 	public CellPattern() {
@@ -19,22 +19,32 @@ public class CellPattern {
 		}
 		this.aliveMap = alive;
 		this.deadMap = dead;
-		 HashMap<Integer, Color> rainbow = new HashMap<Integer, Color>();
-		rainbow.put(1, Color.BLACK);
-		rainbow.put(0, Color.WHITE);
-		this.colorMap = rainbow;
-		
-		/*rainbow = new HashMap<Integer, Color>();
-		Color four = Color.rgb(216, 4, 1);
-		Color three = Color.rgb(254, 194, 59);
-		Color two = Color.rgb(78, 160, 114);
-		Color one = Color.rgb(68, 145, 203);
-		rainbow.put(4, four);
-		rainbow.put(3, three);
-		rainbow.put(2, two);
-		rainbow.put(1, one);*/
+		randomizeColors();
 	}
 
+	public void randomizeColors() {
+		int max = 6;
+		int min = 2;
+		int rand = (int)Math.floor(Math.random()*(max-min+1)+min);
+		HashMap<Integer, Color> rainbow = new HashMap<Integer, Color>();
+		for (int i = 0; i < rand; i++) {
+			int red = (int)Math.floor( Math.random() * 255 );
+			int green = (int)Math.floor( Math.random() * 255 );
+			int blue = (int)Math.floor( Math.random() * 255 );
+			Color color = Color.rgb(red, green, blue);
+			rainbow.put(i, color);
+		}
+		this.colorMap = rainbow;
+		System.out.print("{");
+		for (int x = 0; x < colorMap.size(); x++) {
+			Color color = colorMap.get(x);
+			int r = (int)( color.getRed() * 255 );
+			int g = (int)( color.getGreen() * 255 );
+			int b = (int)( color.getBlue() * 255 );
+			System.out.print(x + "=("+ r + "," +g + "," + b + "), ");
+		}
+		System.out.print("}");
+	}
 	
 	public void setDead(Map<Integer, Boolean> dead) {
 		this.deadMap = dead;
