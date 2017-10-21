@@ -103,8 +103,6 @@ public class MainController {
 	private double[] seed;
 	private LSystem lway;
 	private Cells cells;
-	private HashMap<Integer, Color> rainbow;
-	//Color c = Color.rgb(0,0,255);
 	
 	@FXML 
 	public void initialize() {
@@ -116,16 +114,6 @@ public class MainController {
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
-		//put colors in randobow for color automata
-		rainbow = new HashMap<Integer, Color>();
-		Color four = Color.rgb(216, 4, 1);
-		Color three = Color.rgb(254, 194, 59);
-		Color two = Color.rgb(78, 160, 114);
-		Color one = Color.rgb(68, 145, 203);
-		rainbow.put(4, four);
-		rainbow.put(3, three);
-		rainbow.put(2, two);
-		rainbow.put(1, one);
 		
 	}
 	
@@ -150,7 +138,6 @@ public class MainController {
 	public void setColor(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
-		rainbow.put(0, backcolor.getValue());
 		gc.fillRect(0,0,613,460);
 		cells.clear();
 	}
@@ -233,7 +220,8 @@ public class MainController {
 		//cells.iterate(iterateNum, alive, dead);
 		//drawAutomata();
 		//FOR colored cellular automata
-		cells.colorAutomata(alive, dead, rainbow.size()-1);
+		//cells.colorAutomata(alive, dead, rainbow.size()-1);
+		cells.change(alive, dead);
 		drawColorAutomata();
 	}
 	
@@ -336,7 +324,7 @@ public class MainController {
 			double celly = (y+1)/10;
 			//Now we plop them in, or they come "alive"
 			//Will be -1 without error number
-			cells.liveColor(cellx, celly, rainbow.size()-1);
+			cells.liveColor(cellx, celly);
 			
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
@@ -359,7 +347,7 @@ public class MainController {
 	
 	public void drawColorPoint(int x, int y, int color) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(rainbow.get(color));
+		gc.setFill(cells.getColor(color));
 		gc.fillRect(x,y,10,10);
 	}
 	
