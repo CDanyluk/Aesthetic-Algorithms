@@ -23,27 +23,32 @@ public class CellPattern {
 	}
 
 	public void randomizeColors() {
-		int max = 6;
+		int max = 25;
 		int min = 2;
 		int rand = (int)Math.floor(Math.random()*(max-min+1)+min);
 		HashMap<Integer, Color> rainbow = new HashMap<Integer, Color>();
 		for (int i = 0; i < rand; i++) {
-			int red = (int)Math.floor( Math.random() * 255 );
-			int green = (int)Math.floor( Math.random() * 255 );
-			int blue = (int)Math.floor( Math.random() * 255 );
-			Color color = Color.rgb(red, green, blue);
+			Color color = randomColor();
 			rainbow.put(i, color);
 		}
 		this.colorMap = rainbow;
-		System.out.print("{");
-		for (int x = 0; x < colorMap.size(); x++) {
-			Color color = colorMap.get(x);
-			int r = (int)( color.getRed() * 255 );
-			int g = (int)( color.getGreen() * 255 );
-			int b = (int)( color.getBlue() * 255 );
-			System.out.print(x + "=("+ r + "," +g + "," + b + "), ");
-		}
-		System.out.print("}");
+	}
+	
+	public void randomAColor() {
+		int max = colorMap.size()-1;
+		int min = 0;
+		int randColorKey = (int)Math.floor(Math.random()*(max-min+1)+min);
+		Color color = randomColor();
+		this.colorMap.put(randColorKey, color);
+		
+	}
+	
+	public Color randomColor() {
+		int red = (int)Math.floor( Math.random() * 255 );
+		int green = (int)Math.floor( Math.random() * 255 );
+		int blue = (int)Math.floor( Math.random() * 255 );
+		Color color = Color.rgb(red, green, blue);
+		return color;
 	}
 	
 	public void setDead(Map<Integer, Boolean> dead) {

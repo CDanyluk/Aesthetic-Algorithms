@@ -42,6 +42,7 @@ public class Cells {
 		pattern.setAlive(alive);
 		pattern.setDead(dead);
 		graph = pattern.colorAutomata(graph);
+		pattern.randomAColor();
 	}
 	
 	public Color getColor(int i) {
