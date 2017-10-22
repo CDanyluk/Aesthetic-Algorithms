@@ -39,10 +39,14 @@ public class Cells {
 	}
 	
 	public void change(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		pattern.setAlive(alive);
-		pattern.setDead(dead);
+		//pattern.setAlive(alive);
+		//pattern.setDead(dead);
+		pattern.randomValDead(3);
+		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
-		pattern.randomAColor();
+		//pattern.randomAColor();
+		System.out.println("Dead : " + pattern.getDead());
+		System.out.println("Alive " + pattern.getAlive());
 	}
 	
 	public Color getColor(int i) {
