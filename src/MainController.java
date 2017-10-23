@@ -139,13 +139,13 @@ public class MainController {
 		rules.put("1", "11");
 				
 		
-		lway = new LSystems(start, "0", rules, 8);
+		lway = new LSystems(start, "0", rules, Integer.parseInt(trimmer.getText()), 10, Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
-		//Set<Line> tree = lway.getTree();
+		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
-//		for (Line currentBranch: tree) {
-//			drawLine(currentBranch);
-//		}
+		for (Line currentBranch: tree) {
+			drawLine(currentBranch);
+		}
 	}
 		
 	
