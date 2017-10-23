@@ -11,8 +11,8 @@ public class Cells {
 	private CellPattern pattern;
 	
 	public Cells() {
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < 64; x++) {
+			for (int y = 0; y < 49; y ++) {
 				graph[x][y] = 0;
 			}
 		}

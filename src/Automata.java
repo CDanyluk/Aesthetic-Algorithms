@@ -83,21 +83,38 @@ public class Automata {
 	}
 	
 	public int centerColorPoint(int x, int y, int neighbors, int max, double[][] graph) {
-		if (graph[x-1][y-1] == max) {
+		int up = y-1;
+		int down = y+1;
+		int left = x-1;
+		int right = x+1;
+		if (up < 0) {
+			up = 48;
+		}
+		if (down > 48) {
+			down = 0;
+		}
+		if (left < 0) {
+			left = 63;
+		}
+		if (right > 63) {
+			right = 0;
+		}
+		
+		if (graph[left][up] == max) {
 			neighbors++;
-		}if (graph[x][y-1] == max) {
+		}if (graph[x][up] == max) {
 			neighbors++;
-		}if (graph[x+1][y-1] == max) {
+		}if (graph[right][up] == max) {
 			neighbors++;
-		}if (graph[x-1][y] == max) {
+		}if (graph[left][y] == max) {
 			neighbors++;
-		}if (graph[x+1][y] == max) {
+		}if (graph[right][y] == max) {
 			neighbors++;
-		}if (graph[x-1][y+1] == max) {
+		}if (graph[left][down] == max) {
 			neighbors++;
-		}if(graph[x][y+1] == max ) {
+		}if(graph[x][down] == max ) {
 			neighbors++;
-		}if(graph[x+1][y+1] == max) {
+		}if(graph[right][down] == max) {
 			neighbors++;
 		}
 			return neighbors;
