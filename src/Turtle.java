@@ -5,10 +5,10 @@ public class Turtle {
 
     // this is where the turtle will start. 
     // start at point x,y and facing at a degree of "angle" away from the x axis
-    public Turtle(double x, double y) {
+    public Turtle(double x, double y, double angle) {
     	this.x = x;
     	this.y = y;
-    	this.angle = 270;
+    	this.angle = angle;
     }
     
     // http://introcs.cs.princeton.edu/java/32class/Turtle.java.html -- source 
