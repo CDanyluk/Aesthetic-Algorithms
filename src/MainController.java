@@ -1,5 +1,3 @@
-
-
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import javafx.beans.value.ChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -101,6 +98,9 @@ public class MainController {
 	Button export;
 	
 	@FXML
+	Button clear;
+	
+	@FXML
 	Canvas picture;
 	
 	private double[] seed;
@@ -113,11 +113,14 @@ public class MainController {
 		cells = new Cells();
 		setButtonGroup();
 		startHandler();
+		clearHandler();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
 		
 
 		setColor();
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.clearRect(0, 0, 610, 460);
 
 	}
 	
@@ -127,6 +130,18 @@ public class MainController {
             public void handle(ActionEvent event) {
             	//checkColor();
             	setColor();
+            	
+            }
+        });
+	}	
+	
+	private void clearHandler(){
+		clear.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	GraphicsContext gc = picture.getGraphicsContext2D();
+        		gc.clearRect(0, 0, 610, 460);
+            	initialize();
             	
             }
         });
@@ -290,12 +305,12 @@ public class MainController {
 		//rules.put("Y", "−FX−Y");
 		
 		//Koch Curve
-		//rules.put("F", "F+F−F−F+F");
+		rules.put("F", "F+F-F-F");
 		
 		//Koch Adaptation
-		rules.put("F", "F+F-F+F");
+		//rules.put("F", "F+F-F+F");
 		
-		lway = new LSystems(start, "F-F-F-F", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
+		lway = new LSystems(start, "F-F-F+F", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it

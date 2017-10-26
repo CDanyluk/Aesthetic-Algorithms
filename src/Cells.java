@@ -45,8 +45,8 @@ public class Cells {
 		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
 		//pattern.randomAColor();
-		System.out.println("Dead : " + pattern.getDead());
-		System.out.println("Alive " + pattern.getAlive());
+		//System.out.println("Dead : " + pattern.getDead());
+		//System.out.println("Alive " + pattern.getAlive());
 	}
 	
 	public Color getColor(int i) {

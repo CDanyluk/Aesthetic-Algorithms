@@ -41,7 +41,7 @@ public class LSystems {
 	
 	private String recurseTree(String tree, int recursions){
 		if(recursions == 0){
-			System.out.println("Final Tree: " + tree);
+			//System.out.println("Final Tree: " + tree);
 			return tree;
 		} else{
 			String treeNew = "";
@@ -111,7 +111,7 @@ public class LSystems {
 	
 	private String recurseTriangle(String triangle, int recursions) {
 		if(recursions == 0){
-			System.out.println("Final product: " + triangle);
+			//System.out.println("Final product: " + triangle);
 			return triangle;
 		} else{
 			String triangleNew = "";
@@ -156,7 +156,7 @@ public class LSystems {
 	
 	private String recurseDragon(String dragon, int recursions){
 		if(recursions == 0){
-			System.out.println("Final product: " + dragon);
+			//System.out.println("Final product: " + dragon);
 			return dragon;
 		} else{
 			String dragonNew = "";
@@ -200,7 +200,7 @@ public class LSystems {
 	
 	private String recurseKoch(String koch, int recursions){
 		if(recursions == 0){
-			System.out.println("Final product: " + koch);
+			//System.out.println("Final product: " + koch);
 			return koch;
 		} else{
 			String kochNew = "";
