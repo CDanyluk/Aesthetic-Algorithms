@@ -47,6 +47,9 @@ public class MainController {
 	TextField length;
 	
 	@FXML
+	TextField trimmer;
+	
+	@FXML
 	RadioButton cellularAutomata;
 	@FXML ToggleButton alive0;
 	@FXML ToggleButton alive1;
@@ -101,20 +104,21 @@ public class MainController {
 	Canvas picture;
 	
 	private double[] seed;
-	private LSystem lway;
+	private LSystems lway;
 	private Cells cells;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
-		seed[0] = 305;
-		seed[1] = 230;
 		cells = new Cells();
 		setButtonGroup();
 		startHandler();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
 		
+
+		setColor();
+
 	}
 	
 	private void startHandler(){
@@ -271,22 +275,33 @@ public class MainController {
 
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
-		//length temporarily a "magic number" for testing
-		double length = 150;
-		lway = new LSystem(length, start);
+		HashMap<String, String> rules = new HashMap<String, String>();
 		
-		//Shit, was this working before?   <--------------------------------------------
+		//Binary Tree
+		//rules.put("0", "1[0]0");
+		//rules.put("1", "11");
 		
+		//Sierpinski Triangle
+		//rules.put("A", "B-A-B");
+		//rules.put("B", "A+B+A");
 		
-		//lway = new LSystem(Double.parseDouble(length.getText()), start);
+		//Dragon Curve
+		//rules.put("X", "X+YF+");
+		//rules.put("Y", "−FX−Y");
+		
+		//Koch Curve
+		//rules.put("F", "F+F−F−F+F");
+		
+		//Koch Adaptation
+		rules.put("F", "F+F-F+F");
+		
+		lway = new LSystems(start, "F-F-F-F", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			drawLine(currentBranch);
 		}
-		
-		
 	}
 		
 	
@@ -330,7 +345,6 @@ public class MainController {
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,613,460);
-			//Wherever is clicked will become the new seed
 			seed[0] = x;
 			seed[1] = y;
 		}
