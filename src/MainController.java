@@ -1,5 +1,3 @@
-
-
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import javafx.beans.value.ChangeListener;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,6 +42,9 @@ public class MainController {
 	
 	@FXML
 	TextField length;
+	
+	@FXML
+	TextField trimmer;
 	
 	@FXML
 	RadioButton cellularAutomata;
@@ -98,10 +98,12 @@ public class MainController {
 	Button export;
 	
 	@FXML
+	Button clear;
+	
+	@FXML
 	Canvas picture;
 	
 	private double[] seed;
-	private LSystem lway;
 	private Cells cells;
 	private int width;
 	private int height;
@@ -116,9 +118,18 @@ public class MainController {
 		startHandler();
 		height = (int)picture.getHeight();
 		width = (int)picture.getWidth();
+		cells = new Cells(width, height);
+		setButtonGroup();
+		startHandler();
+		clearHandler();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
 		
+
+		setColor();
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.clearRect(0, 0, 610, 460);
+
 	}
 	
 	private void startHandler(){
@@ -127,6 +138,18 @@ public class MainController {
             public void handle(ActionEvent event) {
             	//checkColor();
             	setColor();
+            	
+            }
+        });
+	}	
+	
+	private void clearHandler(){
+		clear.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	GraphicsContext gc = picture.getGraphicsContext2D();
+        		gc.clearRect(0, 0, 610, 460);
+            	initialize();
             	
             }
         });
@@ -276,19 +299,33 @@ public class MainController {
 
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
-		//length temporarily a "magic number" for testing
-		double length = 150;
-		lway = new LSystem(length, start);
-		
+		HashMap<String, String> rules = new HashMap<String, String>();
 		//lway = new LSystem(Double.parseDouble(length.getText()), start);
+		//Binary Tree
+		//rules.put("0", "1[0]0");
+		//rules.put("1", "11");
+		
+		//Sierpinski Triangle
+		//rules.put("A", "B-A-B");
+		//rules.put("B", "A+B+A");
+		
+		//Dragon Curve
+		//rules.put("X", "X+YF+");
+		//rules.put("Y", "−FX−Y");
+		
+		//Koch Curve
+		rules.put("F", "F+F-F-F");
+		
+		//Koch Adaptation
+		//rules.put("F", "F+F-F+F");
+		
+		lway = new LSystems(start, "F-F-F+F", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			drawLine(currentBranch);
 		}
-		
-		
 	}
 		
 	
@@ -335,6 +372,7 @@ public class MainController {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,width,height);
 			//Wherever is clicked will become the new seed
+			gc.fillRect(0,0,613,460);
 			seed[0] = x;
 			seed[1] = y;
 		}

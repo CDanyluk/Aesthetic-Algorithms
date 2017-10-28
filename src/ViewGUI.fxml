@@ -12,27 +12,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
-      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="122.0">
+      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="152.0">
          <children>
-            <Pane prefHeight="543.0" prefWidth="123.0">
+            <Pane prefHeight="543.0" prefWidth="120.0">
                <children>
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
                   <RadioButton fx:id="cellularAutomata" layoutX="4.0" layoutY="238.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
                   <RadioButton fx:id="cartesianGenetic" layoutX="8.0" layoutY="470.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Cartesian Genetic" wrapText="true" />
-                  <Button fx:id="fetch" layoutX="76.0" layoutY="243.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
+                  <Button fx:id="fetch" layoutX="90.0" layoutY="243.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
                   <Button fx:id="judgeus" layoutX="28.0" layoutY="504.0" mnemonicParsing="false" text="Judge Us" />
-                  <Label layoutX="4.0" layoutY="45.0" text="Length:" />
-                  <Label layoutX="8.0" layoutY="85.0" text="Trim:" />
+                  <Label layoutX="8.0" layoutY="45.0" text="Length:" />
+                  <Label layoutX="8.0" layoutY="85.0" text="Recursions:" />
                   <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
-                  <TextField fx:id="length" layoutX="49.0" layoutY="41.0" prefHeight="25.0" prefWidth="64.0" promptText="150" />
-                  <TextField fx:id="angle" layoutX="49.0" layoutY="120.0" prefHeight="25.0" prefWidth="64.0" promptText="60" />
-                  <TextField layoutX="49.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="0.5" />
+                  <TextField fx:id="length" layoutX="84.0" layoutY="41.0" prefHeight="25.0" prefWidth="64.0" promptText="150" />
+                  <TextField fx:id="angle" layoutX="84.0" layoutY="120.0" prefHeight="25.0" prefWidth="64.0" promptText="60" />
+                  <TextField fx:id="trimmer" layoutX="84.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="2" />
                   <Button layoutX="23.0" layoutY="158.0" mnemonicParsing="false" text="Randomize" />
                   <Button fx:id="lsystemgo" layoutX="45.0" layoutY="199.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
                   <Label layoutX="8.0" layoutY="280.0" text="Iterations:" />
-                  <TextField fx:id="iterations" layoutX="69.0" layoutY="275.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <TextField fx:id="iterations" layoutX="90.0" layoutY="275.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
                   <Label layoutX="10.0" layoutY="302.0" text="Alive:" />
                   <Label layoutX="8.0" layoutY="390.0" text="Dead:" />
                   <ToggleButton fx:id="alive1" layoutX="5.0" layoutY="332.0" mnemonicParsing="false" text="1" />
@@ -57,23 +57,24 @@
             </Pane>
          </children>
       </VBox>
-      <HBox layoutX="100.0" layoutY="460.0" prefHeight="82.0" prefWidth="619.0">
+      <HBox layoutX="100.0" layoutY="460.0" prefHeight="82.0" prefWidth="721.0">
          <children>
-            <Pane prefHeight="82.0" prefWidth="634.0">
+            <Pane prefHeight="82.0" prefWidth="708.0">
                <children>
-                  <Button fx:id="start" layoutX="512.0" layoutY="10.0" mnemonicParsing="false" onAction="#setColor" prefHeight="25.0" prefWidth="54.0" text="Initiate" />
+                  <Button fx:id="start" layoutX="512.0" layoutY="10.0" mnemonicParsing="false" onAction="#setColor" prefHeight="27.0" prefWidth="62.0" text="Initiate" />
                   <ColorPicker fx:id="backcolor" layoutX="76.0" layoutY="42.0" />
                   <ColorPicker fx:id="drawcolor" layoutX="310.0" layoutY="42.0" />
                   <Label layoutX="76.0" layoutY="14.0" text="Background Color:" />
                   <Label layoutX="310.0" layoutY="14.0" text="Pen Color:" />
                   <Button fx:id="export" layoutX="513.0" layoutY="42.0" mnemonicParsing="false" onAction="#exportAs" text="Export" />
+                  <Button fx:id="clear" layoutX="633.0" layoutY="24.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
                </children>
             </Pane>
          </children>
       </HBox>
-      <Separator layoutX="120.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
-      <Separator layoutX="122.0" layoutY="461.0" prefHeight="3.0" prefWidth="616.0" />
-      <Canvas fx:id="picture" height="460.0" layoutX="123.0" width="610.0" />
-      <Separator layoutX="732.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
+      <Separator layoutX="171.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
+      <Separator layoutX="166.0" layoutY="461.0" prefHeight="3.0" prefWidth="616.0" />
+      <Canvas fx:id="picture" height="460.0" layoutX="173.0" width="610.0" />
+      <Separator layoutX="780.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
    </children>
 </Pane>
