@@ -103,15 +103,19 @@ public class MainController {
 	private double[] seed;
 	private LSystem lway;
 	private Cells cells;
+	private int width;
+	private int height;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
 		seed[0] = 305;
 		seed[1] = 230;
-		cells = new Cells();
+		cells = new Cells(width, height);
 		setButtonGroup();
 		startHandler();
+		height = (int)picture.getHeight();
+		width = (int)picture.getWidth();
 		picture.setOnMouseClicked(event -> draw(event));
 		picture.setOnMouseDragged(event -> draw(event));
 		
@@ -138,8 +142,8 @@ public class MainController {
 	public void setColor(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
-		gc.fillRect(0,0,613,460);
-		cells = new Cells();
+		gc.fillRect(0,0,width,height);
+		cells = new Cells(width, height);
 	}
 	
 	@FXML
@@ -161,7 +165,7 @@ public class MainController {
          
         if(file != null){
             try {
-                WritableImage writableImage = new WritableImage(610, 460);
+                WritableImage writableImage = new WritableImage(width, height);
                 picture.snapshot(null, writableImage);
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 //Write the snapshot to the chosen file
@@ -215,10 +219,6 @@ public class MainController {
 		if (dead7.isSelected()) { dead.put(7, true);}
 		if (dead8.isSelected()) { dead.put(8, true);}
 		
-		
-		//FOR uncolored cellular automata
-		//cells.iterate(iterateNum, alive, dead);
-		//drawAutomata();
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
 		cells.change(alive, dead);
@@ -229,8 +229,8 @@ public class MainController {
 		//Gets the graph stored in cells
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < 62; x++) {
+			for (int y = 0; y < 47; y ++) {
 				//if the point is "alive" or 1
 				if (graph[x][y] == 1) {
 					//Then draw it on the canvas
@@ -250,17 +250,22 @@ public class MainController {
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
 		
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < 62; x++) {
+			for (int y = 0; y < 47; y ++) {
 				int colorKey = (int)cells.graph[x][y];
-				drawColorPoint(((x-1)*10),((y-1)*10), colorKey);
+				int cellx = (x)*10;
+				int celly = (y)*10;
+				System.out.println(".");
+				System.out.println("Retrieved cells : " + x + " , " + y);
+				System.out.println("Drawn cells : " + cellx + " , " + celly);
+				drawColorPoint(cellx, celly, colorKey);
 			}
 		}
 	}
 	
 	public void printGraph(double[][] graph) {
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < 62; x++) {
+			for (int y = 0; y < 47; y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}
@@ -274,9 +279,6 @@ public class MainController {
 		//length temporarily a "magic number" for testing
 		double length = 150;
 		lway = new LSystem(length, start);
-		
-		//Shit, was this working before?   <--------------------------------------------
-		
 		
 		//lway = new LSystem(Double.parseDouble(length.getText()), start);
 		//get the tree out of lway, since it auto-makes it
@@ -320,8 +322,10 @@ public class MainController {
 			//Now we want to store these values in cells
 			//But we can't just plop them in since cells is actually 61x46
 			//No, first we divide by 10 ;)
-			double cellx = (x+1)/10;
-			double celly = (y+1)/10;
+			int cellx = (int)(x)/10;
+			int celly = (int)(y)/10;
+			//System.out.println("Original raw cell : " + x + " , " + y);
+			//System.out.println("Stored cell: " + cellx + " , " + celly);
 			//Now we plop them in, or they come "alive"
 			//Will be -1 without error number
 			cells.liveColor(cellx, celly);
@@ -329,7 +333,7 @@ public class MainController {
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
-			gc.fillRect(0,0,613,460);
+			gc.fillRect(0,0,width,height);
 			//Wherever is clicked will become the new seed
 			seed[0] = x;
 			seed[1] = y;

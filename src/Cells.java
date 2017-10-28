@@ -7,25 +7,38 @@ import javafx.scene.paint.Color;
 public class Cells {
 	
 	//Since our grid is 610x460 and we have a pixels of 10x10
-	double[][] graph = new double[64][49];
+	public double[][] graph;
+	private int w;
+	private int h;
 	private CellPattern pattern;
 	
-	public Cells() {
-		for (int x = 0; x < 64; x++) {
-			for (int y = 0; y < 49; y ++) {
+	public Cells(int width, int height) {
+		this.w = (width/10)+1;
+		this.h = (height/10)+1;
+		graph = new double[w][h];
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
 				graph[x][y] = 0;
 			}
 		}
-	pattern = new CellPattern();
+	pattern = new CellPattern(w,h);
 	}
 	
 	public double[][] getGraph() {
 		return graph;
 	}
 	
+	public int getWidth() {
+		return w;
+	}
+	
+	public int getHeight() {
+		return h;
+	}
+	
 	public void clear() {
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
 				graph[x][y] = 0;
 			}
 		}
@@ -45,8 +58,6 @@ public class Cells {
 		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
 		//pattern.randomAColor();
-		System.out.println("Dead : " + pattern.getDead());
-		System.out.println("Alive " + pattern.getAlive());
 	}
 	
 	public Color getColor(int i) {
@@ -54,8 +65,8 @@ public class Cells {
 	}
 	
 	public void printGraph(double[][] graph) {
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}

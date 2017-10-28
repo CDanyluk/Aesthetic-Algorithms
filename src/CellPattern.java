@@ -11,8 +11,8 @@ public class CellPattern {
 	private Automata automata;
 	
 	//We initialize them to be empty, but can set them later on
-	public CellPattern() {
-		automata = new Automata();
+	public CellPattern(int width, int height) {
+		automata = new Automata(width, height);
 		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
 		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
 		for (int i = 0; i < 9; i++) {

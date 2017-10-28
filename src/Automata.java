@@ -4,10 +4,14 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 
 public class Automata {
+	
+	private int w;
+	private int h;
 
 	//We initialize it to be nothing, nothing is needed
-	public Automata() {
-
+	public Automata(int width, int height) {
+		this.w = width;
+		this.h = height;
 	}
 	
 	public double[][] auto(double[][] graph, Map<Integer, Boolean> deadMap, Map<Integer, Boolean> aliveMap, int max) {
@@ -16,8 +20,8 @@ public class Automata {
 		
 			//Iterate through all x,y on map
 			//With a buffer of 1 so no edge cases
-			for (int x = 1; x < 63; x++) {
-				for (int y = 1; y < 48; y ++) {
+			for (int x = 0; x < w; x++) {
+				for (int y = 0; y < h; y ++) {
 					//Create int neighbors to keep track of x, y's neighbors
 					int neighbors = 0;
 					neighbors = centerColorPoint(x, y, neighbors, max, graph);
@@ -72,10 +76,10 @@ public class Automata {
 	}
 	
 	public double[][] makeNewPop() {
-		double[][] population = new double[64][49];
+		double[][] population = new double[w][h];
 		//initialize it to empty
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
 				population[x][y] = 0;
 			}
 		}
@@ -88,15 +92,15 @@ public class Automata {
 		int left = x-1;
 		int right = x+1;
 		if (up < 0) {
-			up = 48;
+			up = h-1;
 		}
-		if (down > 48) {
+		if (down > h-1) {
 			down = 0;
 		}
 		if (left < 0) {
-			left = 63;
+			left = w-1;
 		}
-		if (right > 63) {
+		if (right > w-1) {
 			right = 0;
 		}
 		
