@@ -127,7 +127,7 @@ public class MainController {
 
 		setColor();
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.clearRect(0, 0, 610, 460);
+		gc.clearRect(0, 0, width, height);
 
 	}
 	
@@ -147,7 +147,7 @@ public class MainController {
             @Override
             public void handle(ActionEvent event) {
             	GraphicsContext gc = picture.getGraphicsContext2D();
-        		gc.clearRect(0, 0, 610, 460);
+        		gc.clearRect(0, 0, width, height);
             	initialize();
             	
             }
@@ -251,8 +251,8 @@ public class MainController {
 		//Gets the graph stored in cells
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
-		for (int x = 0; x < 62; x++) {
-			for (int y = 0; y < 47; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 				//if the point is "alive" or 1
 				if (graph[x][y] == 1) {
 					//Then draw it on the canvas
@@ -272,8 +272,8 @@ public class MainController {
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
 		
-		for (int x = 0; x < 62; x++) {
-			for (int y = 0; y < 47; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 				int colorKey = (int)cells.graph[x][y];
 				int cellx = (x)*10;
 				int celly = (y)*10;
@@ -286,8 +286,8 @@ public class MainController {
 	}
 	
 	public void printGraph(double[][] graph) {
-		for (int x = 0; x < 62; x++) {
-			for (int y = 0; y < 47; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}
@@ -371,7 +371,7 @@ public class MainController {
 			gc.setFill(backcolor.getValue());
 			gc.fillRect(0,0,width,height);
 			//Wherever is clicked will become the new seed
-			gc.fillRect(0,0,613,460);
+			gc.fillRect(0,0,width,height);
 			seed[0] = x;
 			seed[1] = y;
 		}

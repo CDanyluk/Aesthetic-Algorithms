@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
       <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="152.0">
          <children>
@@ -57,9 +57,9 @@
             </Pane>
          </children>
       </VBox>
-      <HBox layoutX="100.0" layoutY="460.0" prefHeight="82.0" prefWidth="721.0">
+      <HBox layoutX="164.0" layoutY="698.0" prefHeight="94.0" prefWidth="709.0">
          <children>
-            <Pane prefHeight="82.0" prefWidth="708.0">
+            <Pane prefHeight="94.0" prefWidth="774.0">
                <children>
                   <Button fx:id="start" layoutX="512.0" layoutY="10.0" mnemonicParsing="false" onAction="#setColor" prefHeight="27.0" prefWidth="62.0" text="Initiate" />
                   <ColorPicker fx:id="backcolor" layoutX="76.0" layoutY="42.0" />
@@ -72,9 +72,9 @@
             </Pane>
          </children>
       </HBox>
-      <Separator layoutX="171.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
-      <Separator layoutX="166.0" layoutY="461.0" prefHeight="3.0" prefWidth="616.0" />
-      <Canvas fx:id="picture" height="460.0" layoutX="173.0" width="610.0" />
-      <Separator layoutX="780.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="462.0" prefWidth="6.0" />
+      <Separator layoutX="177.0" orientation="VERTICAL" prefHeight="692.0" prefWidth="6.0" />
+      <Separator layoutX="181.0" layoutY="685.0" prefHeight="17.0" prefWidth="694.0" />
+      <Canvas fx:id="picture" height="700.0" layoutX="177.0" layoutY="-8.0" width="700.0" />
+      <Separator layoutX="872.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="692.0" prefWidth="6.0" />
    </children>
 </Pane>
