@@ -107,12 +107,11 @@ public class MainController {
 	private Cells cells;
 	private int width;
 	private int height;
+	private LSystems lway;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
-		seed[0] = 305;
-		seed[1] = 230;
 		cells = new Cells(width, height);
 		setButtonGroup();
 		startHandler();
