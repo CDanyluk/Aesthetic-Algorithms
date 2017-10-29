@@ -8,51 +8,88 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
-      <VBox layoutY="-1.0" prefHeight="543.0" prefWidth="152.0">
+      <VBox layoutY="-1.0" prefHeight="800.0" prefWidth="180.0">
          <children>
-            <Pane prefHeight="543.0" prefWidth="120.0">
+            <Pane prefHeight="799.0" prefWidth="180.0">
                <children>
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
-                  <RadioButton fx:id="cellularAutomata" layoutX="4.0" layoutY="238.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
-                  <RadioButton fx:id="cartesianGenetic" layoutX="8.0" layoutY="470.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Cartesian Genetic" wrapText="true" />
-                  <Button fx:id="fetch" layoutX="90.0" layoutY="243.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
-                  <Button fx:id="judgeus" layoutX="28.0" layoutY="504.0" mnemonicParsing="false" text="Judge Us" />
+                  <RadioButton fx:id="cellularAutomata" layoutX="4.0" layoutY="280.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
+                  <RadioButton fx:id="cartesianGenetic" layoutX="11.0" layoutY="707.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Cartesian Genetic" wrapText="true" />
+                  <Button fx:id="fetch" layoutX="111.0" layoutY="285.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
+                  <Button fx:id="judgeus" layoutX="52.0" layoutY="760.0" mnemonicParsing="false" text="Judge Us" />
                   <Label layoutX="8.0" layoutY="45.0" text="Length:" />
                   <Label layoutX="8.0" layoutY="85.0" text="Recursions:" />
                   <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
                   <TextField fx:id="length" layoutX="84.0" layoutY="41.0" prefHeight="25.0" prefWidth="64.0" promptText="150" />
                   <TextField fx:id="angle" layoutX="84.0" layoutY="120.0" prefHeight="25.0" prefWidth="64.0" promptText="60" />
                   <TextField fx:id="trimmer" layoutX="84.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="2" />
-                  <Button layoutX="23.0" layoutY="158.0" mnemonicParsing="false" text="Randomize" />
-                  <Button fx:id="lsystemgo" layoutX="45.0" layoutY="199.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
-                  <Label layoutX="8.0" layoutY="280.0" text="Iterations:" />
-                  <TextField fx:id="iterations" layoutX="90.0" layoutY="275.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
-                  <Label layoutX="10.0" layoutY="302.0" text="Alive:" />
-                  <Label layoutX="8.0" layoutY="390.0" text="Dead:" />
-                  <ToggleButton fx:id="alive1" layoutX="5.0" layoutY="332.0" mnemonicParsing="false" text="1" />
-                  <ToggleButton fx:id="alive2" layoutX="34.0" layoutY="332.0" mnemonicParsing="false" text="2" />
-                  <ToggleButton fx:id="alive3" layoutX="58.0" layoutY="332.0" mnemonicParsing="false" text="3" />
-                  <ToggleButton fx:id="alive4" layoutX="84.0" layoutY="332.0" mnemonicParsing="false" text="4" />
-                  <ToggleButton fx:id="alive5" layoutX="5.0" layoutY="357.0" mnemonicParsing="false" text="5" />
-                  <ToggleButton fx:id="alive6" layoutX="32.0" layoutY="357.0" mnemonicParsing="false" text="6" />
-                  <ToggleButton fx:id="alive7" layoutX="57.0" layoutY="357.0" mnemonicParsing="false" text="7" />
-                  <ToggleButton fx:id="alive8" layoutX="84.0" layoutY="357.0" mnemonicParsing="false" text="8" />
-                  <ToggleButton fx:id="dead1" layoutX="5.0" layoutY="419.0" mnemonicParsing="false" text="1" />
-                  <ToggleButton fx:id="dead2" layoutX="32.0" layoutY="419.0" mnemonicParsing="false" text="2" />
-                  <ToggleButton fx:id="dead3" layoutX="58.0" layoutY="419.0" mnemonicParsing="false" text="3" />
-                  <ToggleButton fx:id="dead4" layoutX="84.0" layoutY="419.0" mnemonicParsing="false" text="4" />
-                  <ToggleButton fx:id="dead5" layoutX="5.0" layoutY="444.0" mnemonicParsing="false" text="5" />
-                  <ToggleButton fx:id="dead6" layoutX="32.0" layoutY="444.0" mnemonicParsing="false" text="6" />
-                  <ToggleButton fx:id="dead7" layoutX="57.0" layoutY="444.0" mnemonicParsing="false" text="7" />
-                  <ToggleButton fx:id="dead8" layoutX="84.0" layoutY="444.0" mnemonicParsing="false" text="8" />
-                  <ToggleButton fx:id="alive0" layoutX="84.0" layoutY="307.0" mnemonicParsing="false" text="0" />
-                  <ToggleButton fx:id="dead0" layoutX="84.0" layoutY="395.0" mnemonicParsing="false" text="0" />
+                  <Button layoutX="15.0" layoutY="183.0" mnemonicParsing="false" text="Randomize" />
+                  <Button fx:id="lsystemgo" layoutX="117.0" layoutY="183.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
+                  <Label layoutX="11.0" layoutY="370.0" text="Iterations:" />
+                  <TextField fx:id="iterations" layoutX="106.0" layoutY="365.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <Label layoutX="13.0" layoutY="427.0" text="Alive:" />
+                  <Label layoutX="12.0" layoutY="543.0" text="Dead:" />
+                  <GridPane layoutX="26.0" layoutY="560.0" prefHeight="90.0" prefWidth="116.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="dead0" mnemonicParsing="false" text="0" GridPane.columnIndex="3" />
+                        <ToggleButton fx:id="dead1" mnemonicParsing="false" text="1" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="dead2" mnemonicParsing="false" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="dead3" mnemonicParsing="false" text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="dead4" mnemonicParsing="false" text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="dead5" mnemonicParsing="false" text="5" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="dead6" mnemonicParsing="false" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="dead7" mnemonicParsing="false" text="7" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="dead8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane layoutX="26.0" layoutY="444.0" prefHeight="90.0" prefWidth="116.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="alive0" mnemonicParsing="false" text="0" GridPane.columnIndex="3" />
+                        <ToggleButton fx:id="alive1" mnemonicParsing="false" text="1" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="alive2" mnemonicParsing="false" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="alive3" mnemonicParsing="false" text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="alive4" mnemonicParsing="false" text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ToggleButton fx:id="alive5" mnemonicParsing="false" text="5" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="alive6" mnemonicParsing="false" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="alive7" mnemonicParsing="false" text="7" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="alive8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <Button layoutX="15.0" layoutY="331.0" mnemonicParsing="false" text="Randomize Grid Values" />
+                  <Label layoutX="8.0" layoutY="400.0" text="Export Number:" />
+                  <TextField fx:id="iterations1" layoutX="106.0" layoutY="395.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <Separator layoutX="-1.0" layoutY="246.0" prefHeight="4.0" prefWidth="180.0" />
                </children>
             </Pane>
          </children>
@@ -61,13 +98,13 @@
          <children>
             <Pane prefHeight="94.0" prefWidth="774.0">
                <children>
-                  <Button fx:id="start" layoutX="512.0" layoutY="10.0" mnemonicParsing="false" onAction="#setColor" prefHeight="27.0" prefWidth="62.0" text="Initiate" />
-                  <ColorPicker fx:id="backcolor" layoutX="76.0" layoutY="42.0" />
-                  <ColorPicker fx:id="drawcolor" layoutX="310.0" layoutY="42.0" />
-                  <Label layoutX="76.0" layoutY="14.0" text="Background Color:" />
-                  <Label layoutX="310.0" layoutY="14.0" text="Pen Color:" />
-                  <Button fx:id="export" layoutX="513.0" layoutY="42.0" mnemonicParsing="false" onAction="#exportAs" text="Export" />
-                  <Button fx:id="clear" layoutX="633.0" layoutY="24.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
+                  <Button fx:id="start" layoutX="433.0" layoutY="11.0" mnemonicParsing="false" onAction="#setColor" prefHeight="27.0" prefWidth="62.0" text="Initiate" />
+                  <ColorPicker fx:id="backcolor" layoutX="50.0" layoutY="39.0" />
+                  <ColorPicker fx:id="drawcolor" layoutX="240.0" layoutY="42.0" />
+                  <Label layoutX="50.0" layoutY="14.0" text="Background Color:" />
+                  <Label layoutX="240.0" layoutY="14.0" text="Pen Color:" />
+                  <Button fx:id="export" layoutX="439.0" layoutY="52.0" mnemonicParsing="false" onAction="#exportAs" text="Export" />
+                  <Button fx:id="clear" layoutX="577.0" layoutY="26.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
                </children>
             </Pane>
          </children>
@@ -76,5 +113,7 @@
       <Separator layoutX="181.0" layoutY="685.0" prefHeight="17.0" prefWidth="694.0" />
       <Canvas fx:id="picture" height="700.0" layoutX="177.0" layoutY="-8.0" width="700.0" />
       <Separator layoutX="872.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="692.0" prefWidth="6.0" />
+      <Separator layoutY="680.0" prefHeight="25.0" prefWidth="180.0" />
+      <Separator layoutX="172.0" layoutY="691.0" orientation="VERTICAL" prefHeight="107.0" prefWidth="16.0" />
    </children>
 </Pane>
