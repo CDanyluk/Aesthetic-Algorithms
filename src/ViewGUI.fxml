@@ -104,7 +104,8 @@
                   <Label layoutX="50.0" layoutY="14.0" text="Background Color:" />
                   <Label layoutX="240.0" layoutY="14.0" text="Pen Color:" />
                   <Button fx:id="export" layoutX="439.0" layoutY="52.0" mnemonicParsing="false" onAction="#export" text="Export" />
-                  <Button fx:id="clear" layoutX="577.0" layoutY="26.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
+                  <Button fx:id="clear" layoutX="571.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
+                  <Button fx:id="openedge" layoutX="553.0" layoutY="52.0" mnemonicParsing="false" onAction="#edgeScreen" text="Edge Detection" />
                </children>
             </Pane>
          </children>

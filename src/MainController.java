@@ -13,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +21,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
@@ -30,7 +32,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
+import theGUI.CharacterController;
+import theGUI.LevelController;
 
 public class MainController {
 	
@@ -95,6 +100,9 @@ public class MainController {
 	Button randomizegrid;
 	
 	@FXML
+	Button openedge;
+	
+	@FXML
 	Button fetch;
 	
 	@FXML
@@ -147,6 +155,26 @@ public class MainController {
             }
         });
 	}	
+	
+	@FXML 
+	private void edgeScreen() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainController.class.getResource("EdgeDetector.fxml"));
+			Pane root = (Pane)loader.load();
+
+			EdgeController second = (EdgeController)loader.getController();
+
+			Stage secondStage = new Stage();
+			Scene scene = new Scene(root);
+			secondStage.setScene(scene);
+			secondStage.show();
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			System.out.println("Edge Detector failed");
+		}
+	}
 	
 	private void clearHandler(){
 		clear.setOnAction(new EventHandler<ActionEvent>() {
