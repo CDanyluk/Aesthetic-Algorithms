@@ -86,9 +86,9 @@
                         <ToggleButton fx:id="alive8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Button layoutX="15.0" layoutY="331.0" mnemonicParsing="false" text="Randomize Grid Values" />
+                  <Button fx:id="randomizegrid" layoutX="15.0" layoutY="331.0" mnemonicParsing="false" onAction="#randomGrid" text="Randomize Grid Values" />
                   <Label layoutX="8.0" layoutY="400.0" text="Export Number:" />
-                  <TextField fx:id="iterations1" layoutX="106.0" layoutY="395.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <TextField fx:id="exporthowmany" layoutX="106.0" layoutY="395.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
                   <Separator layoutX="-1.0" layoutY="246.0" prefHeight="4.0" prefWidth="180.0" />
                </children>
             </Pane>
@@ -103,7 +103,7 @@
                   <ColorPicker fx:id="drawcolor" layoutX="240.0" layoutY="42.0" />
                   <Label layoutX="50.0" layoutY="14.0" text="Background Color:" />
                   <Label layoutX="240.0" layoutY="14.0" text="Pen Color:" />
-                  <Button fx:id="export" layoutX="439.0" layoutY="52.0" mnemonicParsing="false" onAction="#exportAs" text="Export" />
+                  <Button fx:id="export" layoutX="439.0" layoutY="52.0" mnemonicParsing="false" onAction="#export" text="Export" />
                   <Button fx:id="clear" layoutX="577.0" layoutY="26.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
                </children>
             </Pane>

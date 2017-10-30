@@ -22,10 +22,6 @@ public class CellPattern {
 		this.aliveMap = alive;
 		this.deadMap = dead;
 		randomizeColors(25);
-		/* HashMap<Integer, Color> rainbow = new HashMap<Integer, Color>();
-		rainbow.put(1, Color.BLACK);
-		rainbow.put(0, Color.WHITE);
-		this.colorMap = rainbow;*/
 	}
 	
 	//All the getter and setter methods

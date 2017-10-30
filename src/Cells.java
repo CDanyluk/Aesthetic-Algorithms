@@ -44,24 +44,55 @@ public class Cells {
 		}
 	}
 	
-	
-	public void iterate(int num, Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		for (int i = 0; i < num; i++) {
-		//	generalLifeandDeath(alive, dead);
+	//luck is randomized and it will have 1/luck chance of coming alive
+	public void randomGraph() {
+		int luck = (int)Math.floor( Math.random() * 100 );
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
+				int change = (int)Math.floor( Math.random() * luck );
+				if (change == 1) {
+					liveColor(x, y);
+				}
+			}
 		}
 	}
 	
+	//chance is set by the user, and it will have 1/chance of coming alive
+	public void randomGraph(int chance) {
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y ++) {
+				int change = (int)Math.floor( Math.random() * chance );
+				if (change == 1) {
+					liveColor(x, y);
+				}
+			}
+		}
+	}
+	
+	
+	public void iterate(int num, Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
+		for (int i = 0; i < num; i++) {
+			change(alive, dead);
+		}
+	}
+	
+	//Randomizes 3 values in dead and alive
+	//Randomizes 1 color each iteration
 	public void change(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		//pattern.setAlive(alive);
-		//pattern.setDead(dead);
 		pattern.randomValDead(3);
 		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
-		//pattern.randomAColor();
-
-		//System.out.println("Dead : " + pattern.getDead());
-		//System.out.println("Alive " + pattern.getAlive());
+		pattern.randomAColor(1);
 	}
+	
+	//Plays by the rules set by the user
+	public void ruleset(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
+		pattern.setAlive(alive);
+		pattern.setDead(dead);
+		graph = pattern.colorAutomata(graph);
+	}
+	
+	
 	
 	public Color getColor(int i) {
 		return pattern.getColorMap().get(i);
@@ -77,24 +108,13 @@ public class Cells {
 		}
 	}
 	
-	public void live(int x, int y) {
-		graph[x][y] = 1;
-	}
 	
-	public void liveColor(double x, double y) {
+	public void liveColor(int x, int y) {
 		int max = pattern.getColorSize();
 		int newx = (int) x;
 		int newy = (int) y;
 		graph[newx][newy] = max;
 	}
 	
-	public void live(double x, double y) {
-		int newx = (int) x;
-		int newy = (int) y;
-		graph[newx][newy] = 1;
-	}
 
-	public void dead(int x, int y) {
-		graph[x][y] = 0;
-	}
 }

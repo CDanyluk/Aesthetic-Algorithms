@@ -83,10 +83,16 @@ public class MainController {
 	TextField iterations;
 	
 	@FXML
+	TextField exporthowmany;
+	
+	@FXML
 	Button start;
 	
 	@FXML
 	Button lsystemgo;
+	
+	@FXML
+	Button randomizegrid;
 	
 	@FXML
 	Button fetch;
@@ -174,17 +180,31 @@ public class MainController {
 		drawTree(seed);
 	}
 	
+	//decides whether you should choose where to export,
+	//or whether it should auto-export
 	@FXML
+	public void export() {
+		int picNum = 0;
+		try {
+			picNum = Integer.parseInt(exporthowmany.getText());
+		}catch (Exception e) {
+			picNum = 1;
+		}
+		if (picNum == 1) {
+			exportAs();
+		}else {
+			autoExport(picNum);
+		}
+		
+	}
+	
+	//manual export
 	public void exportAs() {
 		FileChooser fileChooser = new FileChooser();
-        
         //Set extension filter
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
-       
 		//Show save file dialog
         File file = fileChooser.showSaveDialog(null);
-        
-         
         if(file != null){
             try {
                 WritableImage writableImage = new WritableImage(width, height);
@@ -199,9 +219,52 @@ public class MainController {
         }
 	}
 	
+	//auto-export
+	public void autoExport(int picNum) {
+		String path = "/AutomataImages/Images"+randomnumber();
+		File directory = new File(path);
+		directory.mkdirs();
+		for (int i = 0; i < picNum; i ++) {
+			exportImage(directory);
+		}
+		
+	}
+	
+	//ideally we would save by the date not a random number but oh well
+	public String randomnumber () {
+		String one = (int)Math.floor( Math.random() * 1000 ) + "";
+		String two = (int)Math.floor( Math.random() * 1000 ) + "";
+		String three = (int)Math.floor( Math.random() * 1000 ) + "";
+		return one+two+three;
+	}
+	
+	public void exportImage(File directory) {
+		File file = new File(directory, "automata" + randomnumber() + ".png");
+		initialize();
+		randomGrid();
+		fetchButton();
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportImage() fuuuuucked");
+		        }
+		    }
+	}
+	
+	@FXML
+	public void randomGrid() {
+		cells.randomGraph(100);
+		drawColorAutomata();
+	}
+	
 	@FXML
 	public void fetchButton() {
-		
 		//checks if iterations is valid and gets the number
 		int iterateNum = 0;
 		try {
@@ -209,7 +272,6 @@ public class MainController {
 		}catch (Exception e) {
 			iterateNum = 1;
 		}
-		
 		//Create two hashmap of alive and dead buttons pressed
 		//These hashmaps represent the rules where the cells come alive and die
 		//For alive: black cells will live where true; die otherwise
@@ -243,7 +305,7 @@ public class MainController {
 		
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
-		cells.change(alive, dead);
+		cells.iterate(iterateNum, alive, dead);
 		drawColorAutomata();
 	}
 	
@@ -277,9 +339,6 @@ public class MainController {
 				int colorKey = (int)cells.graph[x][y];
 				int cellx = (x)*10;
 				int celly = (y)*10;
-				System.out.println(".");
-				System.out.println("Retrieved cells : " + x + " , " + y);
-				System.out.println("Drawn cells : " + cellx + " , " + celly);
 				drawColorPoint(cellx, celly, colorKey);
 			}
 		}
@@ -360,8 +419,6 @@ public class MainController {
 			//No, first we divide by 10 ;)
 			int cellx = (int)(x)/10;
 			int celly = (int)(y)/10;
-			//System.out.println("Original raw cell : " + x + " , " + y);
-			//System.out.println("Stored cell: " + cellx + " , " + celly);
 			//Now we plop them in, or they come "alive"
 			//Will be -1 without error number
 			cells.liveColor(cellx, celly);
