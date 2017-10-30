@@ -13,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +21,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
@@ -30,7 +32,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
+import theGUI.CharacterController;
+import theGUI.LevelController;
 
 public class MainController {
 	
@@ -83,10 +88,19 @@ public class MainController {
 	TextField iterations;
 	
 	@FXML
+	TextField exporthowmany;
+	
+	@FXML
 	Button start;
 	
 	@FXML
 	Button lsystemgo;
+	
+	@FXML
+	Button randomizegrid;
+	
+	@FXML
+	Button openedge;
 	
 	@FXML
 	Button fetch;
@@ -104,13 +118,20 @@ public class MainController {
 	Canvas picture;
 	
 	private double[] seed;
-	private LSystems lway;
 	private Cells cells;
+	private int width;
+	private int height;
+	private LSystems lway;
 	
 	@FXML 
 	public void initialize() {
 		seed = new double[2];
-		cells = new Cells();
+		cells = new Cells(width, height);
+		setButtonGroup();
+		startHandler();
+		height = (int)picture.getHeight();
+		width = (int)picture.getWidth();
+		cells = new Cells(width, height);
 		setButtonGroup();
 		startHandler();
 		clearHandler();
@@ -120,7 +141,7 @@ public class MainController {
 
 		setColor();
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.clearRect(0, 0, 610, 460);
+		gc.clearRect(0, 0, width, height);
 
 	}
 	
@@ -135,12 +156,32 @@ public class MainController {
         });
 	}	
 	
+	@FXML 
+	private void edgeScreen() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainController.class.getResource("EdgeDetector.fxml"));
+			Pane root = (Pane)loader.load();
+
+			EdgeController second = (EdgeController)loader.getController();
+
+			Stage secondStage = new Stage();
+			Scene scene = new Scene(root);
+			secondStage.setScene(scene);
+			secondStage.show();
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			System.out.println("Edge Detector failed");
+		}
+	}
+	
 	private void clearHandler(){
 		clear.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	GraphicsContext gc = picture.getGraphicsContext2D();
-        		gc.clearRect(0, 0, 610, 460);
+        		gc.clearRect(0, 0, width, height);
             	initialize();
             	
             }
@@ -157,8 +198,8 @@ public class MainController {
 	public void setColor(){
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(backcolor.getValue());
-		gc.fillRect(0,0,613,460);
-		cells = new Cells();
+		gc.fillRect(0,0,width,height);
+		cells = new Cells(width, height);
 	}
 	
 	@FXML
@@ -167,20 +208,34 @@ public class MainController {
 		drawTree(seed);
 	}
 	
+	//decides whether you should choose where to export,
+	//or whether it should auto-export
 	@FXML
+	public void export() {
+		int picNum = 0;
+		try {
+			picNum = Integer.parseInt(exporthowmany.getText());
+		}catch (Exception e) {
+			picNum = 1;
+		}
+		if (picNum == 1) {
+			exportAs();
+		}else {
+			autoExport(picNum);
+		}
+		
+	}
+	
+	//manual export
 	public void exportAs() {
 		FileChooser fileChooser = new FileChooser();
-        
         //Set extension filter
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
-       
 		//Show save file dialog
         File file = fileChooser.showSaveDialog(null);
-        
-         
         if(file != null){
             try {
-                WritableImage writableImage = new WritableImage(610, 460);
+                WritableImage writableImage = new WritableImage(width, height);
                 picture.snapshot(null, writableImage);
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 //Write the snapshot to the chosen file
@@ -192,9 +247,52 @@ public class MainController {
         }
 	}
 	
+	//auto-export
+	public void autoExport(int picNum) {
+		String path = "/AutomataImages/Images"+randomnumber();
+		File directory = new File(path);
+		directory.mkdirs();
+		for (int i = 0; i < picNum; i ++) {
+			exportImage(directory);
+		}
+		
+	}
+	
+	//ideally we would save by the date not a random number but oh well
+	public String randomnumber () {
+		String one = (int)Math.floor( Math.random() * 1000 ) + "";
+		String two = (int)Math.floor( Math.random() * 1000 ) + "";
+		String three = (int)Math.floor( Math.random() * 1000 ) + "";
+		return one+two+three;
+	}
+	
+	public void exportImage(File directory) {
+		File file = new File(directory, "automata" + randomnumber() + ".png");
+		initialize();
+		randomGrid();
+		fetchButton();
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportImage() fuuuuucked");
+		        }
+		    }
+	}
+	
+	@FXML
+	public void randomGrid() {
+		cells.randomGraph(100);
+		drawColorAutomata();
+	}
+	
 	@FXML
 	public void fetchButton() {
-		
 		//checks if iterations is valid and gets the number
 		int iterateNum = 0;
 		try {
@@ -202,7 +300,6 @@ public class MainController {
 		}catch (Exception e) {
 			iterateNum = 1;
 		}
-		
 		//Create two hashmap of alive and dead buttons pressed
 		//These hashmaps represent the rules where the cells come alive and die
 		//For alive: black cells will live where true; die otherwise
@@ -234,13 +331,9 @@ public class MainController {
 		if (dead7.isSelected()) { dead.put(7, true);}
 		if (dead8.isSelected()) { dead.put(8, true);}
 		
-		
-		//FOR uncolored cellular automata
-		//cells.iterate(iterateNum, alive, dead);
-		//drawAutomata();
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
-		cells.change(alive, dead);
+		cells.iterate(iterateNum, alive, dead);
 		drawColorAutomata();
 	}
 	
@@ -248,8 +341,8 @@ public class MainController {
 		//Gets the graph stored in cells
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 				//if the point is "alive" or 1
 				if (graph[x][y] == 1) {
 					//Then draw it on the canvas
@@ -269,17 +362,19 @@ public class MainController {
 		double[][] graph = cells.getGraph();
 		//Goes through for loop and fetches the values from cells
 		
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 				int colorKey = (int)cells.graph[x][y];
-				drawColorPoint(((x-1)*10),((y-1)*10), colorKey);
+				int cellx = (x)*10;
+				int celly = (y)*10;
+				drawColorPoint(cellx, celly, colorKey);
 			}
 		}
 	}
 	
 	public void printGraph(double[][] graph) {
-		for (int x = 0; x < 63; x++) {
-			for (int y = 0; y < 48; y ++) {
+		for (int x = 0; x < cells.getWidth(); x++) {
+			for (int y = 0; y < cells.getHeight(); y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}
@@ -291,7 +386,7 @@ public class MainController {
 	public void drawTree(double[] start) {
 		//Creates a new LSystem
 		HashMap<String, String> rules = new HashMap<String, String>();
-		
+		//lway = new LSystem(Double.parseDouble(length.getText()), start);
 		//Binary Tree
 		//rules.put("0", "1[0]0");
 		//rules.put("1", "11");
@@ -350,8 +445,8 @@ public class MainController {
 			//Now we want to store these values in cells
 			//But we can't just plop them in since cells is actually 61x46
 			//No, first we divide by 10 ;)
-			double cellx = (x+1)/10;
-			double celly = (y+1)/10;
+			int cellx = (int)(x)/10;
+			int celly = (int)(y)/10;
 			//Now we plop them in, or they come "alive"
 			//Will be -1 without error number
 			cells.liveColor(cellx, celly);
@@ -359,7 +454,9 @@ public class MainController {
 		//When L-System is selected
 		}else if (lSystem.isSelected()) {
 			gc.setFill(backcolor.getValue());
-			gc.fillRect(0,0,613,460);
+			gc.fillRect(0,0,width,height);
+			//Wherever is clicked will become the new seed
+			gc.fillRect(0,0,width,height);
 			seed[0] = x;
 			seed[1] = y;
 		}

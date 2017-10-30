@@ -11,8 +11,8 @@ public class CellPattern {
 	private Automata automata;
 	
 	//We initialize them to be empty, but can set them later on
-	public CellPattern() {
-		automata = new Automata();
+	public CellPattern(int width, int height) {
+		automata = new Automata(width, height);
 		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
 		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
 		for (int i = 0; i < 9; i++) {
@@ -22,10 +22,6 @@ public class CellPattern {
 		this.aliveMap = alive;
 		this.deadMap = dead;
 		randomizeColors(25);
-		/* HashMap<Integer, Color> rainbow = new HashMap<Integer, Color>();
-		rainbow.put(1, Color.BLACK);
-		rainbow.put(0, Color.WHITE);
-		this.colorMap = rainbow;*/
 	}
 	
 	//All the getter and setter methods
