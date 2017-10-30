@@ -29,9 +29,9 @@ public class LSystems {
 		this.angle = angle;
 		//drawTree("1111[11[1[0]0]1[0]0]11[1[0]0]1[0]0");
 		//drawTree(new Turtle(startPoint[0], startPoint[1], 270), recurseTree(axiom, recursions));
-		//drawTriangle(new Turtle(startPoint[0], startPoint[1], 0), recurseTriangle(axiom, recursions));
+		drawTriangle(new Turtle(startPoint[0], startPoint[1], 0), recurseTriangle(axiom, recursions));
 		//drawDragon(new Turtle(startPoint[0], startPoint[1], 0), recurseDragon(axiom, recursions));
-		drawKoch(new Turtle(startPoint[0], startPoint[1], 0), recurseKoch(axiom, recursions));
+		//drawKoch(new Turtle(startPoint[0], startPoint[1], 0), recurseKoch(axiom, recursions));
 	}
 
 

@@ -297,20 +297,20 @@ public class MainController {
 		//rules.put("1", "11");
 		
 		//Sierpinski Triangle
-		//rules.put("A", "B-A-B");
-		//rules.put("B", "A+B+A");
+		rules.put("A", "B-A-B");
+		rules.put("B", "A+B+A");
 		
 		//Dragon Curve
 		//rules.put("X", "X+YF+");
 		//rules.put("Y", "−FX−Y");
 		
 		//Koch Curve
-		rules.put("F", "F+F-F-F");
+		//rules.put("F", "F+F-F-F");
 		
 		//Koch Adaptation
 		//rules.put("F", "F+F-F+F");
 		
-		lway = new LSystems(start, "F-F-F+F", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
+		lway = new LSystems(start, "A+B-A", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getTree();
 		//for every line in that tree, draw it
