@@ -34,8 +34,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import theGUI.CharacterController;
-import theGUI.LevelController;
 
 public class MainController {
 	
