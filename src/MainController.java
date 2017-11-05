@@ -34,8 +34,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import theGUI.CharacterController;
-import theGUI.LevelController;
 
 public class MainController {
 	
@@ -337,26 +335,6 @@ public class MainController {
 		drawColorAutomata();
 	}
 	
-	public void drawAutomata() {
-		//Gets the graph stored in cells
-		double[][] graph = cells.getGraph();
-		//Goes through for loop and fetches the values from cells
-		for (int x = 0; x < cells.getWidth(); x++) {
-			for (int y = 0; y < cells.getHeight(); y ++) {
-				//if the point is "alive" or 1
-				if (graph[x][y] == 1) {
-					//Then draw it on the canvas
-					//At ten times the original value of course ;)
-					drawPoint((x-1)*10,(y-1)*10);
-				}if (graph[x][y] == 0) {
-					erasePoint((x-1)*10,(y-1)*10);
-				}if (graph[x][y] == 2) {
-					errorPoint((x-1)*10,(y-1)*10);
-				}
-			}
-		}
-	}
-	
 	public void drawColorAutomata() {
 		//Gets the graph stored in cells
 		double[][] graph = cells.getGraph();
@@ -470,48 +448,19 @@ public class MainController {
 		gc.fillRect(x,y,10,10);
 	}
 	
-	//Draws a single point
-	public void drawPoint(int x, int y) {
-		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(drawcolor.getValue());
-		gc.fillRect(x,y,10,10);
-	}
-	
 	public void drawColorPoint(int x, int y, int color) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(cells.getColor(color));
 		gc.fillRect(x,y,10,10);
 	}
 	
-	//Erases single point
-	public void erasePoint(int x, int y) {
-		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(backcolor.getValue());
-		gc.fillRect(x,y,10,10);
-	}
-	
-	//Error point, red shows bad
-	public void errorPoint(int x, int y) {
-		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setFill(Color.RED);
-		gc.fillRect(x,y,10,10);
-	}
-	
-	//THE THREE WAYS TO DRAW A LINE ----------------------------
-	
-	//By individual points
-	public void drawLine(int x, int y, int x2, int y2) {
-		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setStroke(drawcolor.getValue());
-		gc.setLineWidth(10);
-		gc.strokeLine(x,  y, x2, y2);
-	}
+	//THE WAYS TO DRAW A LINE ----------------------------
 	
 	//By two double[] arrays
-	public void drawLine(double[] start, double[] end) {
+	public void drawLine(double[] start, double[] end, int linewidth) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setStroke(drawcolor.getValue());
-		gc.setLineWidth(5);
+		gc.setLineWidth(linewidth);
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
 		
 	}
@@ -520,10 +469,15 @@ public class MainController {
 	public void drawLine(Line line) {
 		double[] start = line.getFirst();
 		double[] end = line.getLast();
-		drawLine(start, end);
+		drawLine(start, end, 10);
 	}
 	
-	
-
+	//Draws a line of your requested width
+	public void drawLine(Line line, int linewidth) {
+		double[] start = line.getFirst();
+		double[] end = line.getLast();
+		drawLine(start, end, linewidth);
+		
+	}
 
 }

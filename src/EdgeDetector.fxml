@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EdgeController">
    <children>
       <HBox layoutY="-1.0" prefHeight="700.0" prefWidth="875.0">
          <children>
@@ -17,29 +17,29 @@
                <children>
                   <Pane prefHeight="715.0" prefWidth="173.0">
                      <children>
-                        <Button layoutX="53.0" layoutY="24.0" mnemonicParsing="false" text="Import" />
+                        <Button fx:id="in" layoutX="53.0" layoutY="24.0" mnemonicParsing="false" onAction="#importButt" text="Import" />
                         <Separator layoutX="170.0" layoutY="4.0" orientation="VERTICAL" prefHeight="694.0" prefWidth="5.0" />
-                        <Button layoutX="53.0" layoutY="73.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="52.0" text="Detect" />
+                        <Button fx:id="detect" layoutX="53.0" layoutY="73.0" mnemonicParsing="false" onAction="#AnaColor" prefHeight="51.0" prefWidth="52.0" text="Detect" />
                         <Label layoutX="9.0" layoutY="163.0" text="Colors Detected:" />
                         <Label layoutX="10.0" layoutY="277.0" text="Distint Colors Detected:" />
                         <Label layoutX="8.0" layoutY="383.0" text="Vertical Edges Detected:" />
                         <Label layoutX="7.0" layoutY="506.0" text="Horizontal Edges Detected:" />
-                        <Label layoutX="75.0" layoutY="202.0" text="0">
+                        <Label fx:id="colors" layoutX="75.0" layoutY="202.0" text="0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="75.0" layoutY="322.0" text="0">
+                        <Label fx:id="distinctcolors" layoutX="75.0" layoutY="322.0" text="0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="75.0" layoutY="427.0" text="0">
+                        <Label fx:id="verticaledges" layoutX="75.0" layoutY="427.0" text="0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="75.0" layoutY="551.0" text="0">
+                        <Label fx:id="horizontaledges" layoutX="75.0" layoutY="551.0" text="0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -52,7 +52,7 @@
                   </Pane>
                </children>
             </VBox>
-            <Canvas height="700.0" width="700.0" />
+            <Canvas fx:id="canvas" height="700.0" width="700.0" />
          </children>
       </HBox>
    </children>

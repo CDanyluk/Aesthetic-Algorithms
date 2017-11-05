@@ -10,11 +10,13 @@ public class Cells {
 	public double[][] graph;
 	private int w;
 	private int h;
+	private int iteration;
 	private CellPattern pattern;
 	
 	public Cells(int width, int height) {
 		this.w = (width/10)+1;
 		this.h = (height/10)+1;
+		this.iteration = -1;
 		graph = new double[w][h];
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y ++) {
@@ -44,6 +46,15 @@ public class Cells {
 		}
 	}
 	
+	//THIS HERE BITCH SHOULD RETURN THE RULESET USED FOR ALL THIS JAZZZ
+	public String getRuleset() {
+		System.out.println(pattern.getDead());
+		System.out.println(pattern.getAlive());
+		System.out.println(pattern.getColorMap());
+		//Cells.getwherever the alive pixels are
+		System.out.println(iteration);
+	}
+	
 	//luck is randomized and it will have 1/luck chance of coming alive
 	public void randomGraph() {
 		int luck = (int)Math.floor( Math.random() * 100 );
@@ -71,8 +82,15 @@ public class Cells {
 	
 	
 	public void iterate(int num, Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		for (int i = 0; i < num; i++) {
-			change(alive, dead);
+		if (num == 0) {
+			ruleset(alive, dead);
+		}else {
+			this.iteration = num;
+			pattern.randomDead();
+			pattern.randomAlive();
+			for (int i = 0; i < num; i++) {
+				predictable(alive, dead);
+			}
 		}
 	}
 	
@@ -83,6 +101,10 @@ public class Cells {
 		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
 		pattern.randomAColor(1);
+	}
+	
+	public void predictable(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
+		graph = pattern.colorAutomata(graph);
 	}
 	
 	//Plays by the rules set by the user
