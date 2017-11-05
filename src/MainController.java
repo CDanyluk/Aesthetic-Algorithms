@@ -207,7 +207,7 @@ public class MainController {
 	@FXML
 	public void goButton() {
 		//A tree will be drawn from that seed
-		drawTree(seed);
+		drawLSystem(seed);
 	}
 	
 	//decides whether you should choose where to export,
@@ -383,17 +383,19 @@ public class MainController {
 	}
 	
 
-	public void drawTree(double[] start) {
-		//Creates a new LSystem
+	public void drawLSystem(double[] start) {
 		HashMap<String, String> rules = new HashMap<String, String>();
-		//lway = new LSystem(Double.parseDouble(length.getText()), start);
 		//Binary Tree
-		//rules.put("0", "1[0]0");
-		//rules.put("1", "11");
+		rules.put("0", "1[0]0");
+		rules.put("1", "11");
+		
+		// Fractal Plant
+		//rules.put("0", "F[−X][X]F[−X]+FX");
+		//rules.put("F", "FF");
 		
 		//Sierpinski Triangle
-		rules.put("A", "B-A-B");
-		rules.put("B", "A+B+A");
+		//rules.put("0", "1-0-1");
+		//rules.put("1", "0+1+0");
 		
 		//Dragon Curve
 		//rules.put("X", "X+YF+");
@@ -405,9 +407,13 @@ public class MainController {
 		//Koch Adaptation
 		//rules.put("F", "F+F-F+F");
 		
-		lway = new LSystems(start, "A+B-A", rules, Integer.parseInt(trimmer.getText()), Double.parseDouble(length.getText()), Integer.parseInt(angle.getText()));
+		lway = new LSystems(start, "0", rules, 
+							false,
+							Integer.parseInt(trimmer.getText()),
+							Double.parseDouble(length.getText()), 
+							Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
-		Set<Line> tree = lway.getTree();
+		Set<Line> tree = lway.getDrawing();
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			drawLine(currentBranch);
