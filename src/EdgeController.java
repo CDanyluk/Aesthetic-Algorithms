@@ -10,7 +10,9 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -56,13 +58,16 @@ public class EdgeController {
 	private double height;
 	BufferedImage pic;
 	Graphics graphic;
+	private Set<Line> vert;
+	private Set<Line> hor;
 
 	
 	@FXML 
 	public void initialize() {
 		height = canvas.getHeight();
 		width = canvas.getWidth();
-		//Graphics2D gc = new Graphics2D();
+		this.vert = new HashSet<Line>();
+		this.hor = new HashSet<Line>();
 	}
 	
 	@FXML
@@ -83,22 +88,7 @@ public class EdgeController {
 		} else {
 			System.out.println("file was null");
 		}
-	}
-	
-	@FXML 
-	public void AnaColor() {
-		List<Color> colorList = new ArrayList<Color>();
-		for (int x = 0; x < pic.getWidth(); x++) {
-			for (int y = 0; y < pic.getHeight(); y++) {
-				//Get RGB value on each pixel
-				Color c = new Color(pic.getRGB(x, y));
-				if (colorList.contains(c) == false) {
-					colorList.add(c);
-				}
-			}
-		}
-		System.out.println(colorList);
-		colors.setText(colorList.size()+"");
+		initialize();
 	}
 	
 	public void setGraphics(File file) {
@@ -112,6 +102,101 @@ public class EdgeController {
 		}
 	
 	}
-
+	
+	@FXML
+	public void Detect() {
+		AnaColor();
+		DistColor();
+		Vertical();
+		Horizontal();
+		drawAll();
+	}
+	
+	public void AnaColor() {
+		List<Color> colorList = new ArrayList<Color>();
+		for (int x = 0; x < pic.getWidth(); x++) {
+			for (int y = 0; y < pic.getHeight(); y++) {
+				//Get RGB value on each pixel
+				Color c = new Color(pic.getRGB(x, y));
+				if (colorList.contains(c) == false) {
+					colorList.add(c);
+				}
+			}
+		}
+		colors.setText(colorList.size()+"");
+	}
+	
+	public void DistColor() {
+		
+	}
+	
+	public void Vertical() {
+		//Go through the picture
+		for (int x = 0; x < pic.getWidth()-10; x=x+10) {
+			for (int y = 0; y < pic.getHeight(); y=y+10) {
+				//if the RGB on pixel x is different from the next pixel over
+				Color before = new Color(pic.getRGB(x, y));
+				Color after = new Color(pic.getRGB(x+10, y));
+				if (before.equals(after) == false) {
+					//create a line between them
+					double[] start = new double[2];
+					double[] end = new double[2];
+					start[0] = x+10;
+					start[1] = y;
+					end[0] = x+10;
+					end[1] = y + 10;
+					//add the line to vert
+					vert.add(new Line(start, end));
+				}
+			}
+		}
+		verticaledges.setText(vert.size()+"");
+	}
+	
+	public void Horizontal() {
+		//Go through the picture
+		for (int x = 0; x < pic.getWidth(); x=x+10) {
+			for (int y = 0; y < pic.getHeight()-10; y=y+10) {
+				//if the RGB on pixel x is different from the next pixel over
+				Color before = new Color(pic.getRGB(x, y));
+				Color after = new Color(pic.getRGB(x, y+10));
+				if (before.equals(after) == false) {
+					//create a line between them
+					double[] start = new double[2];
+					double[] end = new double[2];
+					start[0] = x;
+					start[1] = y+10;
+					end[0] = x+10;
+					end[1] = y + 10;
+					//add the line to vert
+					hor.add(new Line(start, end));
+					}
+				}
+			}
+		horizontaledges.setText(vert.size()+"");
+	}
+	
+	public void drawAll() {
+		for (Line v: vert) {
+			drawLine(v);
+		}
+		for (Line h: hor) {
+			drawLine(h);
+		}
+	}
+	
+	public void drawLine(Line line) {
+		double[] start = line.getFirst();
+		double[] end = line.getLast();
+		drawLine(start, end, 1);
+	}
+	
+	public void drawLine(double[] start, double[] end, int linewidth) {
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setStroke(gc.getFill());
+		gc.setLineWidth(linewidth);
+		gc.strokeLine(start[0],  start[1], end[0], end[1]);
+		
+	}
 
 }

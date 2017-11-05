@@ -171,6 +171,9 @@ public class MainController {
 			Scene scene = new Scene(root);
 			secondStage.setScene(scene);
 			secondStage.show();
+			//close the current window so just edge detector is there
+			Stage stage = (Stage) openedge.getScene().getWindow();
+			stage.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
