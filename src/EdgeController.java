@@ -60,6 +60,7 @@ public class EdgeController {
 	Graphics graphic;
 	private Set<Line> vert;
 	private Set<Line> hor;
+	List<Color> colorList;
 
 	
 	@FXML 
@@ -68,6 +69,7 @@ public class EdgeController {
 		width = canvas.getWidth();
 		this.vert = new HashSet<Line>();
 		this.hor = new HashSet<Line>();
+		colorList = new ArrayList<Color>();
 	}
 	
 	@FXML
@@ -113,7 +115,6 @@ public class EdgeController {
 	}
 	
 	public void AnaColor() {
-		List<Color> colorList = new ArrayList<Color>();
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
 				//Get RGB value on each pixel
@@ -127,7 +128,44 @@ public class EdgeController {
 	}
 	
 	public void DistColor() {
+		List<Color> distColor = new ArrayList<Color>(colorList);
+		for (int i = 0; i < distColor.size(); i++) {
+			for (int j = 0; j < colorList.size(); j++) {
+				if (isDistinct(distColor.get(i), colorList.get(j)) == false) {
+					distColor.remove(i);
+				}
+			}
+		}
+		distinctcolors.setText(distColor.size()+"");
+	}
+	
+	//returns true if there is a difference greater than 20
+	public boolean isDistinct(Color first, Color second) {
+		//RGB values of first
+		int red1 = first.getRed();
+		int green1 = first.getGreen();
+		int blue1 = first.getBlue();
+		//RGB values of second
+		int red2 = second.getRed();
+		int green2 = second.getGreen();
+		int blue2 = second.getBlue();
 		
+		//if any of the values are 20 off
+		if (Math.abs(red1-red2) > 20) {
+			return true;
+		}
+		if (Math.abs(green1-green2) > 20) {
+			return true;
+		}
+		if (Math.abs(blue1-blue2) > 20) {
+			return true;
+		}if (first.equals(second)) {
+			return true;
+		}else {
+			System.out.println("first: "+red1+","+green1+","+blue1);
+			System.out.println("second: "+red2+","+green2+","+blue2);
+			return false;
+		}
 	}
 	
 	public void Vertical() {
