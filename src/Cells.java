@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,13 +48,48 @@ public class Cells {
 		}
 	}
 	
+	public void centerOf() {
+		liveColor(w/2, h/2);
+	}
+	
+	public HashMap<Integer, List<Integer>> getSeed() {
+		double[][] g = graph;
+		HashMap<Integer, List<Integer>> seeds = new HashMap<Integer, List<Integer>>();
+		//go through x
+		for (int x = 0; x < w; x++) {
+			//create a list for y values that are true at x
+			List<Integer> yvals = new ArrayList<Integer>();
+			for (int y = 0; y < h; y ++) {
+				//if the value at that point is true
+				if (g[x][y] != 0) {
+					//add the y value to the list
+					yvals.add(y);
+					//and put it in the map
+					seeds.put(x, yvals);
+				}
+			}
+		}
+		return seeds;
+	}
+	
 	//THIS HERE BITCH SHOULD RETURN THE RULESET USED FOR ALL THIS JAZZZ
 	public String getRuleset() {
-		System.out.println(pattern.getDead());
-		System.out.println(pattern.getAlive());
-		System.out.println(pattern.getColorMap());
-		//Cells.getwherever the alive pixels are
-		System.out.println(iteration);
+		String rules = new String();
+		rules = rules + "Dead: " + pattern.getDead() + "\n";
+		rules = rules + "Alive: " + pattern.getAlive() + "\n";
+		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
+		HashMap<Integer, String> colors = new HashMap<Integer, String>();
+		for (int i = 0; i < colorsRaw.size(); i++) {
+			Color c = colorsRaw.get(i);
+			int red = (int)c.getRed();
+			int green = (int)c.getGreen();
+			int blue = (int)c.getBlue();
+			String color = red + green + blue + "";
+			colors.put(i, color);
+		}
+		rules = rules + "Color: " + colors + "\n";
+		rules = rules + "Iterations: " + iteration + "\n";
+		return rules;
 	}
 	
 	//luck is randomized and it will have 1/luck chance of coming alive

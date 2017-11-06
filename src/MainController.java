@@ -1,8 +1,12 @@
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -168,6 +172,9 @@ public class MainController {
 			Scene scene = new Scene(root);
 			secondStage.setScene(scene);
 			secondStage.show();
+			//close the current window so just edge detector is there
+			Stage stage = (Stage) openedge.getScene().getWindow();
+			stage.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -266,10 +273,24 @@ public class MainController {
 	}
 	
 	public void exportImage(File directory) {
-		File file = new File(directory, "automata" + randomnumber() + ".png");
+		String number = randomnumber();
 		initialize();
-		randomGrid();
+		//randomGrid();
+		centerGrid();
+		//This dumb chunk is literally to record the seeds
+		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
+		String name = seed + cells.getRuleset();
+		
+		//Write the text file
+		try(  PrintWriter out = new PrintWriter( directory + "/automata" + number + ".txt" )  ){
+		    out.println( name );
+		} catch (FileNotFoundException e) {
+			System.out.println("Your text writer is fucked");
+		}
+		
+		//Write the image file
+		File file = new File(directory, "automata" + number + ".png");
 		if (file != null){
 			try {
 				WritableImage writableImage = new WritableImage(width, height);
@@ -288,6 +309,10 @@ public class MainController {
 	public void randomGrid() {
 		cells.randomGraph(100);
 		drawColorAutomata();
+	}
+	
+	public void centerGrid() {
+		cells.centerOf();
 	}
 	
 	@FXML
