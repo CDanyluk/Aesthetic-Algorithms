@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -345,7 +346,7 @@ public class MainController {
 				int colorKey = (int)cells.graph[x][y];
 				int cellx = (x)*10;
 				int celly = (y)*10;
-				drawColorPoint(cellx, celly, colorKey);
+				drawColorPoint(cellx, celly, colorKey, 3);
 			}
 		}
 	}
@@ -364,26 +365,27 @@ public class MainController {
 	public void drawLSystem(double[] start) {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		//Binary Tree
-		rules.put("0", "1[0]0");
-		rules.put("1", "11");
+		//rules.put("0", "1[0]0");
+		//rules.put("1", "11");
 		
 		// Fractal Plant
-		//rules.put("0", "F[−X][X]F[−X]+FX");
-		//rules.put("F", "FF");
+		//rules.put("X", "0[−X][X]0[−X]+0X");
+		//rules.put("0", "00");
 		
 		//Sierpinski Triangle
-		//rules.put("0", "1-0-1");
-		//rules.put("1", "0+1+0");
+		rules.put("0", "1-0-1");
+		rules.put("1", "0+1+0");
 		
 		//Dragon Curve
 		//rules.put("X", "X+YF+");
 		//rules.put("Y", "−FX−Y");
 		
 		//Koch Curve
-		//rules.put("F", "F+F-F-F");
+		//rules.put("0", "0+00-0+0-0+0");
 		
 		//Koch Adaptation
 		//rules.put("F", "F+F-F+F");
+
 		
 		lway = new LSystems(start, "0", rules, 
 							false,
@@ -392,9 +394,24 @@ public class MainController {
 							Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getDrawing();
+		
+		int red =  ThreadLocalRandom.current().nextInt(0, 255);
+		int green = ThreadLocalRandom.current().nextInt(0, 255);
+		int blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		int colorChange = 20;
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
-			drawLine(currentBranch);
+			double[] first = currentBranch.getFirst();
+			double[] last = currentBranch.getLast();
+			if(red + colorChange > 255){
+				red = colorChange;
+			} if(green + colorChange > 255){
+				green = colorChange;
+			} if(blue + colorChange > 255){
+				blue = colorChange;
+			}
+			
+			drawLineSpecificColor(first, last, 3, red += colorChange, green, blue);
 		}
 	}
 		
@@ -444,24 +461,38 @@ public class MainController {
 			seed[0] = x;
 			seed[1] = y;
 		}
+		
+		
 		gc.setFill(drawcolor.getValue());
 		gc.fillRect(x,y,10,10);
 	}
 	
-	public void drawColorPoint(int x, int y, int color) {
+	public void drawColorPoint(int x, int y, int color, int width) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.setFill(cells.getColor(color));
-		gc.fillRect(x,y,10,10);
+		gc.fillRect(x,y,width,width);
 	}
+	
 	
 	//THE WAYS TO DRAW A LINE ----------------------------
 	
 	//By two double[] arrays
 	public void drawLine(double[] start, double[] end, int linewidth) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setStroke(drawcolor.getValue());
+		int red =  ThreadLocalRandom.current().nextInt(0, 255);
+		int green = ThreadLocalRandom.current().nextInt(0, 255);
+		int blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		gc.setStroke(Color.rgb(red, green, blue));
 		gc.setLineWidth(linewidth);
 		gc.strokeLine(start[0],  start[1], end[0], end[1]);
+		
+	}
+	
+	public void drawLineSpecificColor(double[] first, double[] last, int linewidth, int red, int green, int blue) {
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.setStroke(Color.rgb(red, green, blue));
+		gc.setLineWidth(linewidth);
+		gc.strokeLine(first[0],  first[1], last[0], last[1]);
 		
 	}
 	
@@ -469,7 +500,7 @@ public class MainController {
 	public void drawLine(Line line) {
 		double[] start = line.getFirst();
 		double[] end = line.getLast();
-		drawLine(start, end, 10);
+		drawLine(start, end, 3);
 	}
 	
 	//Draws a line of your requested width
