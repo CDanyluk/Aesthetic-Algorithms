@@ -390,16 +390,16 @@ public class MainController {
 	public void drawLSystem(double[] start) {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		//Binary Tree
-		//rules.put("0", "1[0]0");
-		//rules.put("1", "11");
+		rules.put("0", "1[0]0");
+		rules.put("1", "11");
 		
 		// Fractal Plant
 		//rules.put("X", "0[−X][X]0[−X]+0X");
 		//rules.put("0", "00");
 		
 		//Sierpinski Triangle
-		rules.put("0", "1-0-1");
-		rules.put("1", "0+1+0");
+		//rules.put("0", "1-0-1");
+		//rules.put("1", "0+1+0");
 		
 		//Dragon Curve
 		//rules.put("X", "X+YF+");
@@ -419,11 +419,17 @@ public class MainController {
 							Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
 		Set<Line> tree = lway.getDrawing();
+		drawLSystemLines(tree);
 		
+	}
+	
+	private void drawLSystemLines(Set<Line> tree){
 		int red =  ThreadLocalRandom.current().nextInt(0, 255);
 		int green = ThreadLocalRandom.current().nextInt(0, 255);
 		int blue =  ThreadLocalRandom.current().nextInt(0, 255);
-		int colorChange = 20;
+		int colorChange = 1;
+		System.out.println("\n" + tree.size());
+		
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			double[] first = currentBranch.getFirst();
