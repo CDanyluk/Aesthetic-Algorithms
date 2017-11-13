@@ -94,6 +94,9 @@ public class MainController {
 	TextField exporthowmany;
 	
 	@FXML
+	TextField exportLSystem;
+	
+	@FXML
 	Button start;
 	
 	@FXML
@@ -219,15 +222,28 @@ public class MainController {
 	@FXML
 	public void export() {
 		int picNum = 0;
-		try {
-			picNum = Integer.parseInt(exporthowmany.getText());
-		}catch (Exception e) {
-			picNum = 1;
-		}
-		if (picNum == 1) {
-			exportAs();
+		if (algorithm.getSelectedToggle() == cellularAutomata) {
+			try {
+				picNum = Integer.parseInt(exporthowmany.getText());
+			}catch (Exception e) {
+				picNum = 1;
+			}
+			if (picNum == 1) {
+				exportAs();
+			}else {
+				autoExport(picNum, "/AutomataImages/Images");
+			}
 		}else {
-			autoExport(picNum);
+			try {
+				picNum = Integer.parseInt(exportLSystem.getText());
+			}catch (Exception e) {
+				picNum = 1;
+			}
+			if (picNum == 1) {
+				exportAs();
+			}else {
+				autoExport(picNum, "/LSystemImages/Images");
+			}
 		}
 		
 	}
@@ -254,14 +270,43 @@ public class MainController {
 	}
 	
 	//auto-export
-	public void autoExport(int picNum) {
-		String path = "/AutomataImages/Images"+randomnumber();
+	public void autoExport(int picNum, String p) {
+		String path = p+randomnumber();
 		File directory = new File(path);
 		directory.mkdirs();
 		for (int i = 0; i < picNum; i ++) {
-			exportImage(directory);
+			if ( p == "/AutomataImages/Images" ) {
+				exportImage(directory);
+			}
+			else {
+				exportLSystem(directory);
+			}
 		}
 		
+	}
+	
+	public void exportLSystem(File directory) {
+		String number = randomnumber();
+		initialize();
+		//here is where you put functions to randomize your L system
+		
+		goButton();
+		//Write the text file
+		
+		//Write the image file
+		File file = new File(directory, "lsystem" + number + ".png");
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportImage() fuuuuucked");
+		        }
+		    }
 	}
 	
 	//ideally we would save by the date not a random number but oh well
@@ -275,8 +320,8 @@ public class MainController {
 	public void exportImage(File directory) {
 		String number = randomnumber();
 		initialize();
-		//randomGrid();
-		centerGrid();
+		randomGrid();
+		//centerGrid();
 		//This dumb chunk is literally to record the seeds
 		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
