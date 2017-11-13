@@ -56,6 +56,8 @@ public class LSystems {
 	}
 	
 	private void draw(Turtle first, String toDraw, boolean randomize){
+		System.out.print(toDraw);
+		System.out.println(toDraw.length());
 		toDo.push(first);
 		for(int i = 0; i < toDraw.length(); i++){
 			String letter = toDraw.substring(i, i +1);
@@ -75,6 +77,12 @@ public class LSystems {
 				double[] end = new double[2];
 				end[0] = toDo.peek().x;
 				end[1] = toDo.peek().y;
+				if(toDraw.substring(i+1, i+2).equals("1")){
+					toDo.peek().goForward(length);
+					end[0] = toDo.peek().x;
+					end[1] = toDo.peek().y;
+					i+=1;
+				}
 				drawing.add(new Line(start, end));
 			} if(letter.equals("[")){toDo.push(new Turtle(toDo.peek().x, toDo.peek().y, toDo.peek().angle));	
 				if(randomize){
