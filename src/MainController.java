@@ -390,8 +390,8 @@ public class MainController {
 	public void drawLSystem(double[] start) {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		//Binary Tree
-		rules.put("0", "1[0]0");
-		rules.put("1", "11");
+		//rules.put("0", "1[0]0");
+		//rules.put("1", "11");
 		
 		// Fractal Plant
 		//rules.put("X", "0[−X][X]0[−X]+0X");
@@ -406,29 +406,31 @@ public class MainController {
 		//rules.put("Y", "−FX−Y");
 		
 		//Koch Curve
-		//rules.put("0", "0+00-0+0-0+0");
+		rules.put("0", "0+00-0+0-0+0");
 		
 		//Koch Adaptation
 		//rules.put("F", "F+F-F+F");
 
 		
-		lway = new LSystems(start, "0", rules, 
-							false,
+		lway = new LSystems(start, "000", rules, 
+							true,
 							Integer.parseInt(trimmer.getText()),
 							Double.parseDouble(length.getText()), 
 							Integer.parseInt(angle.getText()));
 		//get the tree out of lway, since it auto-makes it
-		Set<Line> tree = lway.getDrawing();
+		ArrayList<Line> tree = lway.getDrawing();
 		drawLSystemLines(tree);
 		
 	}
 	
-	private void drawLSystemLines(Set<Line> tree){
-		int red =  ThreadLocalRandom.current().nextInt(0, 255);
-		int green = ThreadLocalRandom.current().nextInt(0, 255);
-		int blue =  ThreadLocalRandom.current().nextInt(0, 255);
-		int colorChange = 3;
-		System.out.println("\n" + tree.size());
+	private void drawLSystemLines(ArrayList
+			<Line> tree){
+		double red = 0; //ThreadLocalRandom.current().nextInt(0, 255);
+		double green = ThreadLocalRandom.current().nextInt(0, 255);
+		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		//double colorChange = (1.0/tree.size()) * 255;
+		double colorChange = 10.0;
+		//System.out.println("\n" + tree.size());
 		
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
@@ -441,8 +443,8 @@ public class MainController {
 			} if(blue + colorChange > 255){
 				blue = colorChange;
 			}
-			
-			drawLineSpecificColor(first, last, 12, red += colorChange, green, blue);
+			//System.out.println(red);
+			drawLineSpecificColor(first, last, 3, red += colorChange, green, blue );
 		}
 	}
 		
@@ -519,9 +521,9 @@ public class MainController {
 		
 	}
 	
-	public void drawLineSpecificColor(double[] first, double[] last, int linewidth, int red, int green, int blue) {
+	public void drawLineSpecificColor(double[] first, double[] last, int linewidth, double red, double green, double blue) {
 		GraphicsContext gc = picture.getGraphicsContext2D();
-		gc.setStroke(Color.rgb(red, green, blue));
+		gc.setStroke(Color.rgb((int)red, (int)green,(int) blue));
 		gc.setLineWidth(linewidth);
 		gc.strokeLine(first[0],  first[1], last[0], last[1]);
 		

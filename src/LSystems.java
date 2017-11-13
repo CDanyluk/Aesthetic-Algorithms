@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ public class LSystems {
 	private HashMap<String, String> rules;
 	private Stack<Turtle> toDo;
 	private double[] startPoint;
-	private Set<Line> drawing;
+	private ArrayList<Line> drawing;
 	private double length;
 	private int angle;
 	private boolean randomize;
@@ -25,7 +26,7 @@ public class LSystems {
 		this.startPoint = startPoint;
 		this.rules = rules;
 		this.toDo = new Stack<Turtle>();
-		this.drawing = new HashSet<Line>();
+		this.drawing = new ArrayList<Line>();
 		this.length = length;
 		this.angle = angle;
 		this.randomize = randomize;
@@ -34,7 +35,7 @@ public class LSystems {
 	}
 
 
-	public Set<Line> getDrawing() {
+	public ArrayList<Line> getDrawing() {
 		return drawing;
 	}
 	
@@ -56,8 +57,6 @@ public class LSystems {
 	}
 	
 	private void draw(Turtle first, String toDraw, boolean randomize){
-		System.out.print(toDraw);
-		System.out.println(toDraw.length());
 		toDo.push(first);
 		for(int i = 0; i < toDraw.length(); i++){
 			String letter = toDraw.substring(i, i +1);
