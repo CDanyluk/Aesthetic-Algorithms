@@ -531,7 +531,7 @@ public class MainController {
 	public void drawLine(Line line) {
 		double[] start = line.getFirst();
 		double[] end = line.getLast();
-		drawLine(start, end, 3);
+		drawLine(start, end, 10);
 	}
 	
 	//Draws a line of your requested width

@@ -22,7 +22,7 @@ public class CellPattern {
 		}
 		this.aliveMap = alive;
 		this.deadMap = dead;
-		rainbow();
+		randomizeColors(30);
 	}
 	
 	//All the getter and setter methods
