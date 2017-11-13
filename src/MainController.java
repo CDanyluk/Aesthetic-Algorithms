@@ -371,7 +371,7 @@ public class MainController {
 				int colorKey = (int)cells.graph[x][y];
 				int cellx = (x)*10;
 				int celly = (y)*10;
-				drawColorPoint(cellx, celly, colorKey, 3);
+				drawColorPoint(cellx, celly, colorKey, 10);
 			}
 		}
 	}
@@ -427,7 +427,7 @@ public class MainController {
 		int red =  ThreadLocalRandom.current().nextInt(0, 255);
 		int green = ThreadLocalRandom.current().nextInt(0, 255);
 		int blue =  ThreadLocalRandom.current().nextInt(0, 255);
-		int colorChange = 1;
+		int colorChange = 3;
 		System.out.println("\n" + tree.size());
 		
 		//for every line in that tree, draw it
@@ -442,7 +442,7 @@ public class MainController {
 				blue = colorChange;
 			}
 			
-			drawLineSpecificColor(first, last, 3, red += colorChange, green, blue);
+			drawLineSpecificColor(first, last, 12, red += colorChange, green, blue);
 		}
 	}
 		
@@ -531,7 +531,7 @@ public class MainController {
 	public void drawLine(Line line) {
 		double[] start = line.getFirst();
 		double[] end = line.getLast();
-		drawLine(start, end, 3);
+		drawLine(start, end, 10);
 	}
 	
 	//Draws a line of your requested width
