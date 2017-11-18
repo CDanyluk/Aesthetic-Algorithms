@@ -12,6 +12,7 @@ import edu.hendrix.util.Alerter;
 import edu.hendrix.util.Util;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -31,6 +32,15 @@ public class ClusterPointsController {
 	TextField blobNum;
 	@FXML
 	CheckBox showBlob;
+	
+	@FXML
+	TextField largeBlobs;
+	@FXML 
+	TextField mediumBlobs;
+	@FXML
+	TextField smallBlobs;
+	@FXML
+	Button export;
 	
 	FileChooser chooser = new FileChooser();
 	

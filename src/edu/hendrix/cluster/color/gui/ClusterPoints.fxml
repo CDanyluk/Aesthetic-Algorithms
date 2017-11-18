@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
+<BorderPane prefHeight="578.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -19,10 +26,10 @@
       </MenuBar>
    </top>
    <center>
-      <Canvas fx:id="canvas" height="300.0" width="300.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="437.0" width="490.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <VBox>
+      <VBox prefHeight="110.0" prefWidth="505.0">
          <children>
             <HBox>
                <children>
@@ -43,7 +50,29 @@
                   <Button mnemonicParsing="false" onAction="#nextBlob" text="&gt;" />
                </children>
             </HBox>
+            <HBox prefHeight="25.0" prefWidth="455.0">
+               <children>
+                  <Label text="Large Blobs:  " />
+                  <TextField fx:id="largeBlobs" prefHeight="25.0" prefWidth="101.0" />
+                  <Label text="Medium Blobs:" />
+                  <TextField fx:id="mediumBlobs" prefHeight="25.0" prefWidth="137.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Small Blobs:  " />
+                  <TextField fx:id="smallBlobs" prefHeight="25.0" prefWidth="99.0" />
+                  <Button fx:id="export" mnemonicParsing="false" text="Export">
+                     <HBox.margin>
+                        <Insets left="78.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
       </VBox>
    </bottom>
 </BorderPane>
