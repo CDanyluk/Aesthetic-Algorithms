@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#open" text="Open" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <Canvas fx:id="canvas" height="300.0" width="300.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <VBox>
+         <children>
+            <HBox>
+               <children>
+                  <CheckBox fx:id="showK" mnemonicParsing="false" onAction="#showImage" text="Show k colors" />
+                  <Button mnemonicParsing="false" onAction="#kMeans" text="K-Means" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#prevK" text="&lt;" />
+                  <TextField fx:id="kField" prefHeight="26.0" prefWidth="85.0" text="2" />
+                  <Button mnemonicParsing="false" onAction="#nextK" text="&gt;" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#findBlobs" text="Find Blobs" />
+                  <TextField fx:id="numBlobs" editable="false" prefHeight="26.0" prefWidth="97.0" />
+                  <CheckBox fx:id="showBlob" mnemonicParsing="false" onAction="#showImage" text="Show blob" />
+                  <Button mnemonicParsing="false" onAction="#prevBlob" text="&lt;" />
+                  <TextField fx:id="blobNum" prefHeight="26.0" prefWidth="85.0" />
+                  <Button mnemonicParsing="false" onAction="#nextBlob" text="&gt;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

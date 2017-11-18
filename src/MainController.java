@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import edu.hendrix.cluster.color.gui.ClusterPointsController;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -166,22 +168,24 @@ public class MainController {
 	private void edgeScreen() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainController.class.getResource("EdgeDetector.fxml"));
-			Pane root = (Pane)loader.load();
+			loader.setLocation(getClass().getResource("/edu/hendrix/cluster/color/gui/ClusterPoints.fxml"));
+			BorderPane root = (BorderPane)loader.load();
 
-			EdgeController second = (EdgeController)loader.getController();
+			ClusterPointsController second = (ClusterPointsController)loader.getController();
 
 			Stage secondStage = new Stage();
 			Scene scene = new Scene(root);
 			secondStage.setScene(scene);
 			secondStage.show();
+			
+			
 			//close the current window so just edge detector is there
 			Stage stage = (Stage) openedge.getScene().getWindow();
 			stage.close();
 
 		} catch (Exception exc) {
 			exc.printStackTrace();
-			System.out.println("Edge Detector failed");
+			System.out.println("Could not open Ferrers program!");
 		}
 	}
 	
