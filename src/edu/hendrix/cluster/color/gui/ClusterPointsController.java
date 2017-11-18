@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
+import edu.hendrix.blob.Blob;
 import edu.hendrix.cluster.KMeansPlusPlus;
 import edu.hendrix.cluster.color.ColorCluster;
 import edu.hendrix.util.Alerter;
@@ -40,6 +41,8 @@ public class ClusterPointsController {
 	@FXML
 	TextField smallBlobs;
 	@FXML
+	TextField tinyBlobs;
+	@FXML
 	Button export;
 	
 	FileChooser chooser = new FileChooser();
@@ -47,6 +50,7 @@ public class ClusterPointsController {
 	Optional<BufferedImage> image = Optional.empty();
 	Optional<KMeansPlusPlus<ColorCluster>> clusters = Optional.empty();
 	Optional<WrappedBlobList> blobs = Optional.empty();
+	
 	
 	@FXML
 	void initialize() {
@@ -89,7 +93,17 @@ public class ClusterPointsController {
 					if (showBlob.isSelected() && blobs.isPresent()) {
 						WrappedBlobList wbl = blobs.get();
 						if (wbl.inCurrentBlob(x, y)) {
-							chosen = Color.RED;
+							//Color the blobs differently depending on size
+							//If large blob = red
+							if (wbl.getBlob(x, y).getSize() >= 25000) {
+								chosen = Color.RED;
+							} else if (wbl.getBlob(x, y).getSize() < 25000 && wbl.getBlob(x, y).getSize() >= 1000) {
+								chosen = Color.YELLOW;
+							} else if (wbl.getBlob(x, y).getSize() < 1000 && wbl.getBlob(x, y).getSize()>= 100) {
+							
+							}else {
+								chosen = Color.CYAN;
+							}
 						}
 					}
 					canvas.getGraphicsContext2D().setFill(chosen);
@@ -131,11 +145,39 @@ public class ClusterPointsController {
 			clusters.ifPresent(cls -> {
 				blobs = Optional.of(new WrappedBlobList(img, cls));
 				numBlobs.setText(Integer.toString(blobs.get().size()));
+				findSizeBlobs(new WrappedBlobList(img, cls));
 				blobNum.setText("0");
 				showBlob.setSelected(true);
 				showImage();
+				
+				
 			});
 		});
+	}
+	
+	@FXML
+	void findSizeBlobs(WrappedBlobList blobs) {
+		int big = 0;
+		int medium = 0;
+		int small = 0;
+		int tiny = 0;
+		for (int i = 0; i < blobs.size(); i++) {
+			Blob blob = blobs.get(i);
+			int howBig = blob.getSize();
+			if (howBig >= 25000) {
+				big++;
+			}else if (howBig < 25000 && howBig >= 1000) {
+				medium++;
+			}else if (howBig < 1000 && howBig>= 100) {
+				small++;
+			}else {
+				tiny++;
+			}
+		}
+		largeBlobs.setText(Integer.toString(big));
+		mediumBlobs.setText(Integer.toString(medium));
+		smallBlobs.setText(Integer.toString(small));
+		tinyBlobs.setText(Integer.toString(tiny));
 	}
 	
 	@FXML

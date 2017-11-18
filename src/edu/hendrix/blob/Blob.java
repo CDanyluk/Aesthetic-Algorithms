@@ -13,7 +13,12 @@ public class Blob {
 		ps.add(new Point(x, y));
 	}
 	
+	public int getSize() {
+		return ps.size();
+	}
+	
 	public LinkedHashSet<Point> getPoints() {
 		return new LinkedHashSet<Point>(ps);
 	}
+	
 }
