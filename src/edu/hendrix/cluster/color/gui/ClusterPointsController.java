@@ -157,27 +157,17 @@ public class ClusterPointsController {
 	
 	@FXML
 	void findSizeBlobs(WrappedBlobList blobs) {
-		int big = 0;
-		int medium = 0;
-		int small = 0;
-		int tiny = 0;
-		for (int i = 0; i < blobs.size(); i++) {
-			Blob blob = blobs.get(i);
-			int howBig = blob.getSize();
-			if (howBig >= 25000) {
-				big++;
-			}else if (howBig < 25000 && howBig >= 1000) {
-				medium++;
-			}else if (howBig < 1000 && howBig>= 100) {
-				small++;
-			}else {
-				tiny++;
-			}
-		}
-		largeBlobs.setText(Integer.toString(big));
-		mediumBlobs.setText(Integer.toString(medium));
-		smallBlobs.setText(Integer.toString(small));
-		tinyBlobs.setText(Integer.toString(tiny));
+		Fitness fit = new Fitness(blobs);
+		fit.findSizeBlobs();
+		percentageChange(fit);
+		largeBlobs.setText(Integer.toString(fit.getBigBlobs()));
+		mediumBlobs.setText(Integer.toString(fit.getMediumBlobs()));
+		smallBlobs.setText(Integer.toString(fit.getSmallBlobs()));
+		tinyBlobs.setText(Integer.toString(fit.getTinyBlobs()));
+	}
+	
+	void percentageChange(Fitness fit) {
+		System.out.println(fit.percentageChange());
 	}
 	
 	@FXML
