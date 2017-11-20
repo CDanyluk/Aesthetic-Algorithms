@@ -24,7 +24,7 @@ public class findLines {
 		for (int i = 0; i < blobs.size(); i++) {
 			Blob b = blobs.get(i);
 			b.setHW();
-			if (((double)(b.getWidth()/imagew) < 0.06) || (double)(b.getHeight()/imageh) < 0.06) {
+			if ((b.getWidth()*1.0/imagew < 0.05) || (b.getHeight()*1.0/imageh < 0.05)) {
 				System.out.println("Width : " + b.getWidth()+ "   Height : " + b.getHeight());
 				lines.add(b);
 			}
