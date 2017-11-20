@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="578.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
+<BorderPane prefHeight="642.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -29,7 +29,7 @@
       <Canvas fx:id="canvas" height="437.0" width="490.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <VBox prefHeight="110.0" prefWidth="505.0">
+      <VBox prefHeight="149.0" prefWidth="505.0">
          <children>
             <HBox>
                <children>
@@ -66,12 +66,18 @@
                   <TextField fx:id="mediumBlobs" prefHeight="25.0" prefWidth="104.0" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="25.0" prefWidth="455.0">
                <children>
                   <Label text="Small Blobs:  " />
                   <TextField fx:id="smallBlobs" prefHeight="25.0" prefWidth="99.0" />
                   <Label text="Tiny Blobs:        " />
                   <TextField fx:id="tinyBlobs" prefHeight="25.0" prefWidth="102.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="31.0" prefWidth="455.0">
+               <children>
+                  <Label text="Lines Found: " />
+                  <TextField fx:id="numLine" prefHeight="25.0" prefWidth="112.0" />
                </children>
             </HBox>
          </children>

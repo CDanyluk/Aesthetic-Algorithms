@@ -44,6 +44,8 @@ public class ClusterPointsController {
 	TextField tinyBlobs;
 	@FXML
 	Button export;
+	@FXML
+	TextField numLine;
 	
 	FileChooser chooser = new FileChooser();
 	
@@ -156,6 +158,15 @@ public class ClusterPointsController {
 	}
 	
 	@FXML
+	void findLine(WrappedBlobList blobs) {
+		findLines lineFinder = new findLines(blobs);
+		//call function for returning lines found
+		lineFinder.lineSize();
+		//change text box
+		numLine.setText("0");
+	}
+	
+	@FXML
 	void findSizeBlobs(WrappedBlobList blobs) {
 		Fitness fit = new Fitness(blobs);
 		fit.findSizeBlobs();
@@ -164,6 +175,7 @@ public class ClusterPointsController {
 		mediumBlobs.setText(Integer.toString(fit.getMediumBlobs()));
 		smallBlobs.setText(Integer.toString(fit.getSmallBlobs()));
 		tinyBlobs.setText(Integer.toString(fit.getTinyBlobs()));
+		findLine(blobs);
 	}
 	
 	void percentageChange(Fitness fit) {
