@@ -159,11 +159,12 @@ public class ClusterPointsController {
 	
 	@FXML
 	void findLine(WrappedBlobList blobs) {
-		findLines lineFinder = new findLines(blobs);
+		BufferedImage pic = image.get();
+		findLines lineFinder = new findLines(pic.getWidth(), pic.getHeight(), blobs);
 		//call function for returning lines found
-		lineFinder.lineSize();
+		int num = lineFinder.getLineNum();
 		//change text box
-		numLine.setText("0");
+		numLine.setText(Integer.toString(num));
 	}
 	
 	@FXML

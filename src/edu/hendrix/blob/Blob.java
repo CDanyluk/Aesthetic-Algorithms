@@ -4,8 +4,10 @@ import java.util.LinkedHashSet;
 
 public class Blob {
 	private LinkedHashSet<Point> ps;
-	private int width;
-	private int height;
+	private int x1 = Integer.MAX_VALUE;
+	private int x2 = 0;
+	private int y1 = Integer.MAX_VALUE;
+	private int y2 = 0;
 	
 	public Blob() {
 		ps = new LinkedHashSet<Point>();
@@ -23,31 +25,22 @@ public class Blob {
 		return new LinkedHashSet<Point>(ps);
 	}
 	
-	//First try
-	public void setWidth() {
-		Point[] array = (Point[]) ps.toArray();
-		Point p = array[1];
-		Point p2 = array[array.length];
-		int x1 = p.getX();
-		int y1 = p.getY();
-		System.out.println("Start point = " + x1 + " , " + y1);
+	public int getHeight() {
+		return y2 - y1;
 	}
 	
-	//Second try
-	public void setHeight() {
-		int x1 = 0;
-		int x2 = 0;
-		int y1 = 0;
-		int y2 = 0;
+	public int getWidth() {
+		return x2 - x1;
+	}
+
+	
+	public void setHW() {
 		for (Point p : ps) {
 			x1 = Math.min(x1, p.getX());
 			x2 = Math.max(x2, p.getX());
 			y1 = Math.min(y1, p.getY());
 			y2 = Math.max(y2, p.getY());
 		}
-		
-		System.out.println("Start point = " + x1 + " , " + y1);
-		System.out.println("End point = " + x2 + " , " + y2);
 		
 	}
 	
