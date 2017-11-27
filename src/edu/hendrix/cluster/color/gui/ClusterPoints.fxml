@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="642.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#open" text="Open" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <Canvas fx:id="canvas" height="437.0" width="490.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <VBox prefHeight="149.0" prefWidth="505.0">
+         <children>
+            <HBox>
+               <children>
+                  <CheckBox fx:id="showK" mnemonicParsing="false" onAction="#showImage" text="Show k colors" />
+                  <Button mnemonicParsing="false" onAction="#kMeans" text="K-Means" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#prevK" text="&lt;">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Button>
+                  <TextField fx:id="kField" prefHeight="26.0" prefWidth="85.0" text="2" />
+                  <Button mnemonicParsing="false" onAction="#nextK" text="&gt;" />
+                  <Button fx:id="export" mnemonicParsing="false" text="Export">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#findBlobs" text="Find Blobs" />
+                  <TextField fx:id="numBlobs" editable="false" prefHeight="26.0" prefWidth="97.0" />
+                  <CheckBox fx:id="showBlob" mnemonicParsing="false" onAction="#showImage" text="Show blob" />
+                  <Button mnemonicParsing="false" onAction="#prevBlob" text="&lt;" />
+                  <TextField fx:id="blobNum" prefHeight="26.0" prefWidth="85.0" />
+                  <Button mnemonicParsing="false" onAction="#nextBlob" text="&gt;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="455.0">
+               <children>
+                  <Label text="Large Blobs:  " />
+                  <TextField fx:id="largeBlobs" prefHeight="25.0" prefWidth="101.0" />
+                  <Label text="Medium Blobs:" />
+                  <TextField fx:id="mediumBlobs" prefHeight="25.0" prefWidth="104.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="455.0">
+               <children>
+                  <Label text="Small Blobs:  " />
+                  <TextField fx:id="smallBlobs" prefHeight="25.0" prefWidth="99.0" />
+                  <Label text="Tiny Blobs:        " />
+                  <TextField fx:id="tinyBlobs" prefHeight="25.0" prefWidth="102.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="31.0" prefWidth="455.0">
+               <children>
+                  <Label text="Lines Found: " />
+                  <TextField fx:id="numLine" prefHeight="25.0" prefWidth="112.0" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="50.0" />
+         </padding>
+      </VBox>
+   </bottom>
+</BorderPane>
