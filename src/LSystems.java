@@ -76,12 +76,15 @@ public class LSystems {
 				double[] end = new double[2];
 				end[0] = toDo.peek().x;
 				end[1] = toDo.peek().y;
-				if(toDraw.substring(i+1, i+2).equals("1")){
-					toDo.peek().goForward(length);
-					end[0] = toDo.peek().x;
-					end[1] = toDo.peek().y;
-					i+=1;
+				if(!(i + 2 > toDraw.length()) ){
+					if(toDraw.substring(i+1, i+2).equals("1")){
+						toDo.peek().goForward(length);
+						end[0] = toDo.peek().x;
+						end[1] = toDo.peek().y;
+						i+=1;
+					}
 				}
+				
 				drawing.add(new Line(start, end));
 			} if(letter.equals("[")){toDo.push(new Turtle(toDo.peek().x, toDo.peek().y, toDo.peek().angle));	
 				if(randomize){
