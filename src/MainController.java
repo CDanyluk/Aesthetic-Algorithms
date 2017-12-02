@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
@@ -218,6 +219,9 @@ public class MainController {
 	@FXML
 	public void goButton() {
 		//A tree will be drawn from that seed
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.clearRect(0, 0, width, height);
+		
 		drawLSystem(seed);
 	}
 	
@@ -438,35 +442,62 @@ public class MainController {
 
 	public void drawLSystem(double[] start) {
 		HashMap<String, String> rules = new HashMap<String, String>();
-		//Binary Tree
-		//rules.put("0", "1[0]0");
-		//rules.put("1", "11");
 		
-		// Fractal Plant
-		//rules.put("X", "0[−X][X]0[−X]+0X");
-		//rules.put("0", "00");
+		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
+		//System.out.println(numRules);
+		for(int i = 0; i < numRules; i++){
+			int numChars = ThreadLocalRandom.current().nextInt(1, 50);
+			//System.out.println(numChars);
+			String toUse = "";
+			for(int j = 0; j < numChars; j++){
+				String alphabet = "01-+";
+				int k = alphabet.length();
+				Random r = new Random();
+				toUse += alphabet.charAt(r.nextInt(k));
+			}
+			//System.out.println(toUse);
+			rules.put(i + "",toUse );
+		}
 		
-		//Sierpinski Triangle
-		//rules.put("0", "1-0-1");
-		//rules.put("1", "0+1+0");
+		int startStringLength = ThreadLocalRandom.current().nextInt(1, 4);
+		String startingString = "";
+		for(int m = 0; m < startStringLength; m++){
+			String alphabet = "01";
+			int k = alphabet.length();
+			Random r = new Random();
+			startingString += alphabet.charAt(r.nextInt(k));
+		}
 		
-		//Dragon Curve
-		//rules.put("X", "X+YF+");
-		//rules.put("Y", "−FX−Y");
+		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
+		angle.setText(randomAngle.toString());
 		
-		//Koch Curve
-		rules.put("0", "0+00-0+0-0+0");
+		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 5);
+		trimmer.setText(randomRecursions.toString());
 		
-		//Koch Adaptation
-		//rules.put("F", "F+F-F+F");
-
+		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
+		length.setText(randomLength.toString());
 		
-		lway = new LSystems(start, "000", rules, 
-							true,
-							Integer.parseInt(trimmer.getText()),
-							Double.parseDouble(length.getText()), 
-							Integer.parseInt(angle.getText()));
-		//get the tree out of lway, since it auto-makes it
+		
+		int randomStartX = ThreadLocalRandom.current().nextInt(3, 697);
+		int randomStartY = ThreadLocalRandom.current().nextInt(1, 700);
+		double[] randomStart = new double[2];
+		randomStart[0] = randomStartX;
+		randomStart[1] = randomStartY;
+		
+		
+		int randomMakeRandom = ThreadLocalRandom.current().nextInt(3, 697);
+		boolean makeRandom = false;
+		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
+		
+		
+		lway = new LSystems(randomStart, 
+							startingString, 
+							rules, 
+							makeRandom,
+							randomRecursions,
+							randomLength, 
+							randomAngle);
+		
 		ArrayList<Line> tree = lway.getDrawing();
 		drawLSystemLines(tree);
 		
@@ -474,9 +505,11 @@ public class MainController {
 	
 	private void drawLSystemLines(ArrayList
 			<Line> tree){
-		double red = 0; //ThreadLocalRandom.current().nextInt(0, 255);
+		double red = ThreadLocalRandom.current().nextInt(0, 255);
 		double green = ThreadLocalRandom.current().nextInt(0, 255);
 		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		
+		int randomWidth = ThreadLocalRandom.current().nextInt(2, 10);
 		//double colorChange = (1.0/tree.size()) * 255;
 		double colorChange = 10.0;
 		//System.out.println("\n" + tree.size());
@@ -493,7 +526,7 @@ public class MainController {
 				blue = colorChange;
 			}
 			//System.out.println(red);
-			drawLineSpecificColor(first, last, 3, red += colorChange, green, blue );
+			drawLineSpecificColor(first, last, randomWidth, red += colorChange, green, blue );
 		}
 	}
 		
