@@ -25,6 +25,22 @@ public class Blob {
 		return new LinkedHashSet<Point>(ps);
 	}
 	
+	public int getMinX() {
+		return x1;
+	}
+	
+	public int getMaxX() {
+		return x2;
+	}
+	
+	public int getMinY() {
+		return y1;
+	}
+	
+	public int getMaxY() {
+		return y2;
+	}
+	
 	public int getHeight() {
 		return y2 - y1;
 	}
