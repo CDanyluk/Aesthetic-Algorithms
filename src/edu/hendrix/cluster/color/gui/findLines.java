@@ -52,15 +52,15 @@ public class findLines {
 		Boolean[][] grid = new Boolean[n+1][n+1];
 		int falseNum = 0;
 		for (double i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
+			for (double j = 0; j < n; j++) {
 				double curX = x1+(W*(i/n));
 				double nextX = (x1)+(W*(((i+1)/n)));
 				double curY = y1+(H*(j/n));
 				double nextY = y1+(H*((j+1)/n));
-				grid[(int)i][(int)j] = isEmpty(curX, nextX, curY, nextY, b);
+				grid[(int)j][(int)i] = isEmpty(curX, nextX, curY, nextY, b);
 			}
 		}
-		printGraph(grid);
+		printGraph(grid, n);
 		/*for (int x = 0; x < n; x++) {
 			for (int y = 0; y < n; y++) {
 				if (grid[x][y] == false) {
@@ -73,9 +73,9 @@ public class findLines {
 		
 	}
 	
-	public void printGraph(Boolean[][] graph) {
-		for (int x = 0; x < 4; x++) {
-			for (int y = 0; y < 4; y ++) {
+	public void printGraph(Boolean[][] graph, int num) {
+		for (int x = 0; x < num; x++) {
+			for (int y = 0; y < num; y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}
@@ -87,9 +87,7 @@ public class findLines {
 	//this will only check to see if when cut in the middle both ways it runs across a blob
 	public boolean isEmpty(double x1, double x2, double y1, double y2, Blob b) {
 		double halfX = (x1 + ((x2 - x1)/2));
-		System.out.println("halfX : " + halfX);
 		double halfY = (y1 + ((y2 - y1)/2));
-		System.out.println("halfY : " + halfY);
 		//cut up and down, false if crosses blob
 		for (double i = y1; i <= y2; i ++) {
 			if (blobs.getBlob((int)halfX, (int)i) == b) {
