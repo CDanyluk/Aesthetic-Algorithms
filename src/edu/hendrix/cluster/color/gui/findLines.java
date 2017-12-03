@@ -51,18 +51,15 @@ public class findLines {
 		int n = 4;
 		Boolean[][] grid = new Boolean[n+1][n+1];
 		int falseNum = 0;
-		double j = 0;
-		//for (int j = 0; j <= n; j++) {
-			for (double i = 0; i < n; i++) {
+		for (double i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				double curX = x1+(W*(i/n));
-				System.out.println("curX : " + curX);
 				double nextX = (x1)+(W*(((i+1)/n)));
-				System.out.println("nextX : " + nextX);
 				double curY = y1+(H*(j/n));
 				double nextY = y1+(H*((j+1)/n));
-				grid[(int)j][(int)i] = isEmpty(curX, nextX, curY, nextY, b);
+				grid[(int)i][(int)j] = isEmpty(curX, nextX, curY, nextY, b);
 			}
-		//}
+		}
 		printGraph(grid);
 		/*for (int x = 0; x < n; x++) {
 			for (int y = 0; y < n; y++) {
@@ -77,8 +74,8 @@ public class findLines {
 	}
 	
 	public void printGraph(Boolean[][] graph) {
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y ++) {
+		for (int x = 0; x < 4; x++) {
+			for (int y = 0; y < 4; y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}
@@ -92,6 +89,7 @@ public class findLines {
 		double halfX = (x1 + ((x2 - x1)/2));
 		System.out.println("halfX : " + halfX);
 		double halfY = (y1 + ((y2 - y1)/2));
+		System.out.println("halfY : " + halfY);
 		//cut up and down, false if crosses blob
 		for (double i = y1; i <= y2; i ++) {
 			if (blobs.getBlob((int)halfX, (int)i) == b) {
