@@ -26,7 +26,7 @@ public class findLines {
 			b.setHW();
 			if (straightCheck(b)) {
 				System.out.println("Width : " + b.getWidth()+ "   Height : " + b.getHeight());
-				lines.add(b);
+				//lines.add(b);
 			}else if (concaveCheck(b)) {
 				lines.add(b);
 			}
@@ -48,9 +48,10 @@ public class findLines {
 		int y2 = b.getMaxY();
 		double H = b.getHeight();
 		double W = b.getWidth();
-		int n = 4;
+		int n = 6;
 		Boolean[][] grid = new Boolean[n+1][n+1];
 		int falseNum = 0;
+		int trueNum = 0;
 		for (double i = 0; i < n; i++) {
 			for (double j = 0; j < n; j++) {
 				double curX = x1+(W*(i/n));
@@ -61,15 +62,20 @@ public class findLines {
 			}
 		}
 		printGraph(grid, n);
-		/*for (int x = 0; x < n; x++) {
+		for (int x = 0; x < n; x++) {
 			for (int y = 0; y < n; y++) {
 				if (grid[x][y] == false) {
 					falseNum++;
+				}else {
+					trueNum++;
 				}
 			}
-		}*/
-		return falseNum >= 6;
-		
+		}
+		if (falseNum >= 18 && falseNum <= 30) {
+			System.out.println(falseNum + " : TRUE");
+			return true;
+		}
+		return false;
 		
 	}
 	
@@ -81,6 +87,7 @@ public class findLines {
 			}
 			System.out.print("\n");
 		}
+		System.out.println("---------------------");
 	}
 	
 	//Instead of checking if every pixel in the box is part of the blob, 
