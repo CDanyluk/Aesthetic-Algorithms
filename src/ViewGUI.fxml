@@ -31,7 +31,7 @@
                   <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
                   <TextField fx:id="length" layoutX="84.0" layoutY="41.0" prefHeight="25.0" prefWidth="64.0" promptText="150" />
                   <TextField fx:id="angle" layoutX="84.0" layoutY="120.0" prefHeight="25.0" prefWidth="64.0" promptText="60" />
-                  <TextField fx:id="trimmer" layoutX="84.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="2" />
+                  <TextField fx:id="recursions" layoutX="84.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="2" />
                   <Button layoutX="15.0" layoutY="208.0" mnemonicParsing="false" text="Randomize" />
                   <Button fx:id="lsystemgo" layoutX="117.0" layoutY="208.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
                   <Label layoutX="11.0" layoutY="370.0" text="Iterations:" />

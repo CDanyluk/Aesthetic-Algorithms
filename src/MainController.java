@@ -39,6 +39,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -55,7 +56,7 @@ public class MainController {
 	TextField length;
 	
 	@FXML
-	TextField trimmer;
+	TextField recursions;
 	
 	@FXML
 	RadioButton cellularAutomata;
@@ -222,7 +223,7 @@ public class MainController {
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
 		
-		drawLSystem(seed);
+		drawLSystem();
 	}
 	
 	//decides whether you should choose where to export,
@@ -281,6 +282,10 @@ public class MainController {
 	public void autoExport(int picNum, String p) {
 		String path = p+randomnumber();
 		File directory = new File(path);
+		
+		FileChooser saveLocation = new FileChooser();
+		//File directory = new File("/Desktop/");
+		//System.out.println("here: " + directory);
 		directory.mkdirs();
 		for (int i = 0; i < picNum; i ++) {
 			if ( p == "/AutomataImages/Images" ) {
@@ -288,6 +293,7 @@ public class MainController {
 			}
 			else {
 				exportLSystem(directory);
+				//rSystem.out.println(directory.getPath());
 			}
 		}
 		
@@ -297,7 +303,7 @@ public class MainController {
 		String number = randomnumber();
 		initialize();
 		//here is where you put functions to randomize your L system
-		
+		drawLSystem();
 		goButton();
 		//Write the text file
 		
@@ -440,7 +446,7 @@ public class MainController {
 	}
 	
 
-	public void drawLSystem(double[] start) {
+	public void drawLSystem() {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		
 		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
@@ -471,15 +477,15 @@ public class MainController {
 		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
 		angle.setText(randomAngle.toString());
 		
-		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 5);
-		trimmer.setText(randomRecursions.toString());
+		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
+		recursions.setText(randomRecursions.toString());
 		
 		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
 		length.setText(randomLength.toString());
 		
 		
-		int randomStartX = ThreadLocalRandom.current().nextInt(3, 697);
-		int randomStartY = ThreadLocalRandom.current().nextInt(1, 700);
+		int randomStartX = ThreadLocalRandom.current().nextInt(15, 685);
+		int randomStartY = ThreadLocalRandom.current().nextInt(15, 685);
 		double[] randomStart = new double[2];
 		randomStart[0] = randomStartX;
 		randomStart[1] = randomStartY;
@@ -510,24 +516,45 @@ public class MainController {
 		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
 		
 		int randomWidth = ThreadLocalRandom.current().nextInt(2, 10);
-		//double colorChange = (1.0/tree.size()) * 255;
-		double colorChange = 10.0;
-		//System.out.println("\n" + tree.size());
+		double colorChange = ThreadLocalRandom.current().nextInt(1, 60);
+		int randomColor = ThreadLocalRandom.current().nextInt(1, 3);
+		
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		int canvasRed = ThreadLocalRandom.current().nextInt(0, 255);
+		int canvasGreen = ThreadLocalRandom.current().nextInt(0, 255);
+		int canvasBlue =  ThreadLocalRandom.current().nextInt(0, 255);
+		gc.setFill(Color.rgb(canvasRed, canvasGreen, canvasBlue));
+		gc.fillRect(0,0,width,height);
+		
 		
 		//for every line in that tree, draw it
 		for (Line currentBranch: tree) {
 			double[] first = currentBranch.getFirst();
 			double[] last = currentBranch.getLast();
-			if(red + colorChange > 255){
-				red = colorChange;
-			} if(green + colorChange > 255){
-				green = colorChange;
-			} if(blue + colorChange > 255){
-				blue = colorChange;
+			if(randomColor == 1){
+				if(red + colorChange > 255){
+					red = colorChange;
+				}else{
+					red += colorChange;
+				}
+			}if(randomColor == 2){
+				if(green + colorChange > 255){
+					green = colorChange;
+				} else {
+					green += colorChange;
+				}
+			}if(randomColor == 3){
+				if(blue + colorChange > 255){
+					blue = colorChange;
+				} else {
+					blue += colorChange;
+				}
 			}
 			//System.out.println(red);
-			drawLineSpecificColor(first, last, randomWidth, red += colorChange, green, blue );
+			
+			drawLineSpecificColor(first, last, randomWidth, red, green, blue );
 		}
+		
 	}
 		
 	
