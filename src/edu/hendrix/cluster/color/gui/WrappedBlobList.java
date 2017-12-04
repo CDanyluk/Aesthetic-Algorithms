@@ -49,7 +49,6 @@ public class WrappedBlobList {
 		return blobs.getLabelOf(x, y) == labels.get(current);
 	}
 	
-	//not safe outside of where it is used
 	public Blob getBlob(int x, int y) {
 		return blobs.getBlobFor(x, y);
 		

@@ -4,6 +4,7 @@ import java.util.*;
 
 public class BlobList {
 	private TreeMap<Integer,Blob> blobs;
+	//A matric with numbers in it of the 
 	private int[][] blobNums;
 	
 	public BlobList(int width, int height) {
