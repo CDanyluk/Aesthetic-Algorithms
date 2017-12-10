@@ -14,12 +14,19 @@ public class FindShapes {
 	private int imagew;
 	private int imageh;
 	private int n;
+	private HashMap<String, Integer> numOfShapes;
 	
 	public FindShapes(int imagew, int imageh, WrappedBlobList b) {
 		this.blobs = b;
 		this.imagew = imagew;
 		this.imageh = imageh;
-		//n is the matrix dimensions : nxn
+		HashMap<String, Integer> shapes = new HashMap<String, Integer>();
+		shapes.put("line", 0);
+		shapes.put("square", 0);
+		shapes.put("triangle", 0);
+		shapes.put("circle", 0);
+		this.numOfShapes = shapes;
+		//n is the matrix dimensions : n*n
 		this.n = 6;
 		this.blobTypes = new HashMap<Blob, HashMap<String, Double>>();
 		initializeShapes();
@@ -29,6 +36,11 @@ public class FindShapes {
 		return blobTypes;
 	}
 	
+	public HashMap<String, Integer> getNumOfShapes() {
+		return numOfShapes;
+	}
+	
+	//This will compare shapes to their grids and then call countShapes
 	public void initializeShapes() {
 		HashMap<String, Double> percentages = new HashMap<String, Double>();
 		for (int i = 0; i < blobs.size(); i++) {
@@ -55,11 +67,53 @@ public class FindShapes {
 			}
 			blobTypes.put(b, percentages);
 		}
+		System.out.println(blobTypes);
+		countShapes();
 	}
 	
+	//Parse through the established map and counts how many of each type of blob
+	//The "counting" counts a shape as something that it is closest to by its chi value
+	public void countShapes() {
+		//fetch the hashmap inside the hashmap corresponding to that blob
+		for (Blob b : blobTypes.keySet()) {
+			//hashmap of chi values for that blob
+			HashMap<String, Double> percent = blobTypes.get(b);
+			//when we find the shape this blob is most like, 
+			//we want to declare it that shape
+			String gShape = "";
+			double greatest = 0;
+			//iterate through the hashmap of chi values
+			for (String k : percent.keySet()) {
+				if (k == "line" && Double.compare(percent.get(k), greatest) == 1) {
+					gShape = "line";
+					greatest = percent.get(k);
+				}
+				//ERROR ERRROR ERROR ----------------------------
+				/*if (k == "square" && Double.compare(percent.get(k), greatest) == 1) {
+					gShape = "square";
+					greatest = percent.get(k);
+				}*/
+				if (k == "triangle" && Double.compare(percent.get(k), greatest) == 1) {
+					gShape = "triangle";
+					greatest = percent.get(k);
+				}
+				if (k == "circle" && Double.compare(percent.get(k), greatest) == 1) {
+					gShape = "circle";
+					greatest = percent.get(k);
+				}
+			}
+			//outside of the for loop, determine which shape we should increment
+			int old = numOfShapes.get(gShape);
+			int newVal = old+1;
+			numOfShapes.put(gShape, newVal);
+		}
+		System.out.println(numOfShapes);
+	}
+	
+	//Compares two grids and returns a chi value
 	public double gridComparison(Boolean[][] expected, Boolean[][] given) {
 		//initialize the number of squares different
-		int dif = 0;
+		double dif = 0;
 		//Go through and find the number of squares different
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -74,6 +128,7 @@ public class FindShapes {
 		
 	}
 	
+	//This just compares the height and width to see if it is a line
 	public boolean straightCheck(Blob b) {
 		return (b.getWidth()*1.0/imagew < 0.05) || (b.getHeight()*1.0/imageh < 0.05);
 	}

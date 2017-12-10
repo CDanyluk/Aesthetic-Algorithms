@@ -47,6 +47,12 @@ public class ClusterPointsController {
 	Button export;
 	@FXML
 	TextField numLine;
+	@FXML
+	TextField numSquare;
+	@FXML
+	TextField numTriangle;
+	@FXML
+	TextField numCircle;
 	
 	FileChooser chooser = new FileChooser();
 	
@@ -173,8 +179,11 @@ public class ClusterPointsController {
 		BufferedImage pic = image.get();
 		FindShapes blobShapes = new FindShapes(pic.getWidth(), pic.getHeight(), blobs);
 		//call function for returning lines found
-		HashMap<Blob, HashMap<String, Double>> blobTypes = blobShapes.getTypes();
-		System.out.println(blobTypes);
+		HashMap<String, Integer> numShapes = blobShapes.getNumOfShapes();
+		numLine.setText(Integer.toString(numShapes.get("line")));
+		numSquare.setText(Integer.toString(numShapes.get("square")));
+		numTriangle.setText(Integer.toString(numShapes.get("triangle")));
+		numCircle.setText(Integer.toString(numShapes.get("circle")));
 	}
 	
 	@FXML

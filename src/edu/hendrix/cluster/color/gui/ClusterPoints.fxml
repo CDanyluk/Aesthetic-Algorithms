@@ -79,15 +79,15 @@
                   <Label text="Lines Found: " />
                   <TextField fx:id="numLine" prefHeight="25.0" prefWidth="101.0" />
                   <Label text="Squares Found: " />
-                  <TextField prefHeight="25.0" prefWidth="101.0" />
+                  <TextField fx:id="numSquare" prefHeight="25.0" prefWidth="101.0" />
                </children>
             </HBox>
             <HBox prefHeight="25.0" prefWidth="455.0">
                <children>
                   <Label text="Circles Found: " />
-                  <TextField prefHeight="25.0" prefWidth="93.0" />
+                  <TextField fx:id="numCircle" prefHeight="25.0" prefWidth="93.0" />
                   <Label text="Triangles Found: " />
-                  <TextField prefHeight="25.0" prefWidth="97.0" />
+                  <TextField fx:id="numTriangle" prefHeight="25.0" prefWidth="97.0" />
                </children>
             </HBox>
          </children>
