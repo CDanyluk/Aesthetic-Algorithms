@@ -10,7 +10,7 @@ public class FindShapes {
 	
 	private WrappedBlobList blobs;
 
-	private HashMap<Blob, HashMap<String, Double>> classBlob;
+	private HashMap<Blob, HashMap<String, Double>> blobTypes;
 	private int imagew;
 	private int imageh;
 	private int n;
@@ -21,8 +21,12 @@ public class FindShapes {
 		this.imageh = imageh;
 		//n is the matrix dimensions : nxn
 		this.n = 6;
-		this.classBlob = new HashMap<Blob, HashMap<String, Double>>();
+		this.blobTypes = new HashMap<Blob, HashMap<String, Double>>();
 		initializeShapes();
+	}
+	
+	public HashMap<Blob, HashMap<String, Double>> getTypes() {
+		return blobTypes;
 	}
 	
 	public void initializeShapes() {
@@ -32,22 +36,24 @@ public class FindShapes {
 			b.setHW();
 			Boolean[][] grid = BlobToMatrix(b);
 			//Compare whether the blob is a line and store the value
-			double line = gridComparison(getLine(), grid);
+			double line = gridComparison(Shapes.LINE.getLine(), grid);
 			percentages.put("line", line);
 			//compare whether the blob is a square and store the value
-			double square = gridComparison(getSquare(), grid);
+			double square = gridComparison(Shapes.SQUARE.getSquare(), grid);
 			percentages.put("square", square);
 			//compare whether the blob is a triangle and store the value
-			
+			double triangle = gridComparison(Shapes.TRIANGLE.getTriangle(), grid);
+			percentages.put("triangle", triangle);
 			//compare whether the blob is a circle and store the value
-			
+			double circle = gridComparison(Shapes.CIRClE.getCircle(), grid);
+			percentages.put("circle", circle);
 			//Check to see if it is a line without matrix
 			if (straightCheck(b)) {
 				//this means it is absolutely a line, or 1/1
 				//override previous value
 				percentages.put("line", 1.0);
 			}
-			classBlob.put(b, percentages);
+			blobTypes.put(b, percentages);
 		}
 	}
 	
@@ -63,7 +69,7 @@ public class FindShapes {
 			}
 		}
 		//What is the chi-square statistic?
-		double chi = 1/(dif)+1;
+		double chi = 1/((dif)+1);
 		return chi;
 		
 	}

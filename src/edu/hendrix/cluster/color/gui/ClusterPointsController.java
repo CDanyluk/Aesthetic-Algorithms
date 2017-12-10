@@ -1,6 +1,7 @@
 package edu.hendrix.cluster.color.gui;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -168,6 +169,15 @@ public class ClusterPointsController {
 	}
 	
 	@FXML
+	void findShapes(WrappedBlobList blobs) {
+		BufferedImage pic = image.get();
+		FindShapes blobShapes = new FindShapes(pic.getWidth(), pic.getHeight(), blobs);
+		//call function for returning lines found
+		HashMap<Blob, HashMap<String, Double>> blobTypes = blobShapes.getTypes();
+		System.out.println(blobTypes);
+	}
+	
+	@FXML
 	void findSizeBlobs(WrappedBlobList blobs) {
 		Fitness fit = new Fitness(blobs);
 		fit.findSizeBlobs();
@@ -176,7 +186,7 @@ public class ClusterPointsController {
 		mediumBlobs.setText(Integer.toString(fit.getMediumBlobs()));
 		smallBlobs.setText(Integer.toString(fit.getSmallBlobs()));
 		tinyBlobs.setText(Integer.toString(fit.getTinyBlobs()));
-		findLine(blobs);
+		findShapes(blobs);
 	}
 	
 	void percentageChange(Fitness fit) {
