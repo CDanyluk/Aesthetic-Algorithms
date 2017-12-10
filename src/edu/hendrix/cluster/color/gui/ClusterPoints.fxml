@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="642.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
+<BorderPane prefHeight="671.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hendrix.cluster.color.gui.ClusterPointsController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -29,7 +29,7 @@
       <Canvas fx:id="canvas" height="437.0" width="490.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <VBox prefHeight="149.0" prefWidth="505.0">
+      <VBox prefHeight="190.0" prefWidth="505.0">
          <children>
             <HBox>
                <children>
@@ -48,7 +48,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox>
+            <HBox prefHeight="33.0" prefWidth="455.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#findBlobs" text="Find Blobs" />
                   <TextField fx:id="numBlobs" editable="false" prefHeight="26.0" prefWidth="97.0" />
@@ -58,7 +58,7 @@
                   <Button mnemonicParsing="false" onAction="#nextBlob" text="&gt;" />
                </children>
             </HBox>
-            <HBox prefHeight="25.0" prefWidth="455.0">
+            <HBox prefHeight="32.0" prefWidth="455.0">
                <children>
                   <Label text="Large Blobs:  " />
                   <TextField fx:id="largeBlobs" prefHeight="25.0" prefWidth="101.0" />
@@ -66,7 +66,7 @@
                   <TextField fx:id="mediumBlobs" prefHeight="25.0" prefWidth="104.0" />
                </children>
             </HBox>
-            <HBox prefHeight="25.0" prefWidth="455.0">
+            <HBox prefHeight="31.0" prefWidth="455.0">
                <children>
                   <Label text="Small Blobs:  " />
                   <TextField fx:id="smallBlobs" prefHeight="25.0" prefWidth="99.0" />
@@ -74,10 +74,20 @@
                   <TextField fx:id="tinyBlobs" prefHeight="25.0" prefWidth="102.0" />
                </children>
             </HBox>
-            <HBox prefHeight="31.0" prefWidth="455.0">
+            <HBox prefHeight="34.0" prefWidth="455.0">
                <children>
                   <Label text="Lines Found: " />
-                  <TextField fx:id="numLine" prefHeight="25.0" prefWidth="112.0" />
+                  <TextField fx:id="numLine" prefHeight="25.0" prefWidth="101.0" />
+                  <Label text="Squares Found: " />
+                  <TextField prefHeight="25.0" prefWidth="101.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="455.0">
+               <children>
+                  <Label text="Circles Found: " />
+                  <TextField prefHeight="25.0" prefWidth="93.0" />
+                  <Label text="Triangles Found: " />
+                  <TextField prefHeight="25.0" prefWidth="97.0" />
                </children>
             </HBox>
          </children>
