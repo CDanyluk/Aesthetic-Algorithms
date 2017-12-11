@@ -49,6 +49,10 @@ public class WrappedBlobList {
 		return blobs.getLabelOf(x, y) == labels.get(current);
 	}
 	
+	public boolean inBlob(int x, int y, int i) {
+		return blobs.getLabelOf(x, y) == labels.get(i);
+	}
+	
 	public Blob getBlob(int x, int y) {
 		return blobs.getBlobFor(x, y);
 		

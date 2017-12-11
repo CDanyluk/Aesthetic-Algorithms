@@ -42,11 +42,11 @@ public class FindShapes {
 	
 	//This will compare shapes to their grids and then call countShapes
 	public void initializeShapes() {
-		HashMap<String, Double> percentages = new HashMap<String, Double>();
 		for (int i = 0; i < blobs.size(); i++) {
+			HashMap<String, Double> percentages = new HashMap<String, Double>();
 			Blob b = blobs.get(i);
 			b.setHW();
-			Boolean[][] grid = BlobToMatrix(b);
+			Boolean[][] grid = BlobToMatrix(b, i);
 			//Compare whether the blob is a line and store the value
 			double line = gridComparison(Shapes.LINE.getLine(), grid);
 			percentages.put("line", line);
@@ -89,10 +89,10 @@ public class FindShapes {
 					greatest = percent.get(k);
 				}
 				//ERROR ERRROR ERROR ----------------------------
-				/*if (k == "square" && Double.compare(percent.get(k), greatest) == 1) {
+				if (k == "square" && Double.compare(percent.get(k), greatest) == 1) {
 					gShape = "square";
 					greatest = percent.get(k);
-				}*/
+				}
 				if (k == "triangle" && Double.compare(percent.get(k), greatest) == 1) {
 					gShape = "triangle";
 					greatest = percent.get(k);
@@ -134,7 +134,7 @@ public class FindShapes {
 	}
 	
 	//Takes a blob and return a 6x6 matrix version of it
-	public Boolean[][] BlobToMatrix(Blob b) {
+	public Boolean[][] BlobToMatrix(Blob b, int bi) {
 		int x1 = b.getMinX();
 		int y1 = b.getMinY();
 		int x2 = b.getMaxX();
@@ -150,7 +150,7 @@ public class FindShapes {
 				double nextX = (x1)+(W*(((i+1)/n)));
 				double curY = y1+(H*(j/n));
 				double nextY = y1+(H*((j+1)/n));
-				grid[(int)j][(int)i] = isEmpty(curX, nextX, curY, nextY, b);
+				grid[(int)j][(int)i] = isEmpty(curX, nextX, curY, nextY, b, bi);
 			}
 		}
 		return grid;
@@ -170,18 +170,18 @@ public class FindShapes {
 	
 	//Instead of checking if every pixel in the box is part of the blob, 
 	//this will only check to see if when cut in the middle both ways it runs across a blob
-	public boolean isEmpty(double x1, double x2, double y1, double y2, Blob b) {
+	public boolean isEmpty(double x1, double x2, double y1, double y2, Blob b, int bi) {
 		double halfX = (x1 + ((x2 - x1)/2));
 		double halfY = (y1 + ((y2 - y1)/2));
 		//cut up and down, false if crosses blob
 		for (double i = y1; i <= y2; i ++) {
-			if (blobs.getBlob((int)halfX, (int)i) == b) {
+			if (blobs.inBlob((int)halfX, (int)i, bi)) {
 				return true;
 			}
 		}
 		//cut left and right and sees if it crosses blob
 		for (double j = x1; j <= x2; j ++) {
-			if (blobs.getBlob((int)j, (int)halfY) == b) {
+			if (blobs.inBlob((int)j, (int)halfY, bi)) {
 				return true;
 			}
 		}
