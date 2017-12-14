@@ -21,10 +21,10 @@ public class FindShapes {
 		this.imagew = imagew;
 		this.imageh = imageh;
 		HashMap<String, Integer> shapes = new HashMap<String, Integer>();
-		shapes.put("line", 0);
-		shapes.put("square", 0);
-		shapes.put("triangle", 0);
-		shapes.put("circle", 0);
+		//Enum loop again ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		for (Shapes shape : Shapes.values()) {
+			shapes.put(shape.getName(), 0);
+		}
 		this.numOfShapes = shapes;
 		//n is the matrix dimensions : n*n
 		this.n = 6;
@@ -48,10 +48,14 @@ public class FindShapes {
 			b.setHW();
 			Boolean[][] grid = BlobToMatrix(b, i);
 			//Go through the shapes enum and compare + store value
-			//DID YOU REALLY WRITE THIS BY HAND INSTEAD OF USING A GODDAMN LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~
 			for (Shapes shape : Shapes.values()) {
-				double val = gridComparison(shape.getGrid(), grid);
-				percentages.put(shape.getName(), val);
+				if (shape.getName() == "line") {
+					double val = lineCheck(grid);
+					percentages.put(shape.getName(), val);
+				}else {
+					double val = gridComparison(shape.getGrid(), grid);
+					percentages.put(shape.getName(), val);
+				}
 			}
 			//Check to see if it is a line without matrix
 			if (straightCheck(b)) {
@@ -63,6 +67,32 @@ public class FindShapes {
 		}
 		System.out.println(blobTypes);
 		countShapes();
+	}
+	
+	public double lineCheck(Boolean[][] g) {
+		int falseNum = 0;
+		int trueNum = 0;
+		for (int x = 0; x < n; x++) {
+			for (int y = 0; y < n; y++) {
+				if (g[x][y] == false) {
+					falseNum++;
+				}else {
+					trueNum++;
+				}
+			}
+		}
+		
+		if (falseNum >= 20 && falseNum <= 30) {
+			return 1.0;
+		}else if (falseNum < 20) {
+			double dif = 20.0 - falseNum;
+			double chi = 1/((dif)+1);
+			return chi;
+		}else {
+			double dif = falseNum - 30.0;
+			double chi = 1/((dif)+1);
+			return chi;
+		}
 	}
 	
 	//Parse through the established map and counts how many of each type of blob
@@ -78,7 +108,7 @@ public class FindShapes {
 			double greatest = 0;
 			//iterate through the hashmap of chi values
 			for (String k : percent.keySet()) {
-				//DID YOU REALLY WRITE THIS BY HAND INSTEAD OF USING A GODDAMN LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~
+				//Go through all enums and compare which one is greatest
 				for (Shapes shape : Shapes.values()) {
 					if (k == shape.getName() && Double.compare(percent.get(k), greatest) == 1) {
 						gShape = shape.getName();
