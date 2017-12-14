@@ -50,7 +50,7 @@ public class FindShapes {
 			//Go through the shapes enum and compare + store value
 			//DID YOU REALLY WRITE THIS BY HAND INSTEAD OF USING A GODDAMN LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~
 			for (Shapes shape : Shapes.values()) {
-				double val = gridComparison(shape.getLine(), grid);
+				double val = gridComparison(shape.getGrid(), grid);
 				percentages.put(shape.getName(), val);
 			}
 			//Check to see if it is a line without matrix
