@@ -47,18 +47,12 @@ public class FindShapes {
 			Blob b = blobs.get(i);
 			b.setHW();
 			Boolean[][] grid = BlobToMatrix(b, i);
-			//Compare whether the blob is a line and store the value
-			double line = gridComparison(Shapes.LINE.getLine(), grid);
-			percentages.put("line", line);
-			//compare whether the blob is a square and store the value
-			double square = gridComparison(Shapes.SQUARE.getSquare(), grid);
-			percentages.put("square", square);
-			//compare whether the blob is a triangle and store the value
-			double triangle = gridComparison(Shapes.TRIANGLE.getTriangle(), grid);
-			percentages.put("triangle", triangle);
-			//compare whether the blob is a circle and store the value
-			double circle = gridComparison(Shapes.CIRClE.getCircle(), grid);
-			percentages.put("circle", circle);
+			//Go through the shapes enum and compare + store value
+			//DID YOU REALLY WRITE THIS BY HAND INSTEAD OF USING A GODDAMN LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~
+			for (Shapes shape : Shapes.values()) {
+				double val = gridComparison(shape.getLine(), grid);
+				percentages.put(shape.getName(), val);
+			}
 			//Check to see if it is a line without matrix
 			if (straightCheck(b)) {
 				//this means it is absolutely a line, or 1/1
@@ -84,22 +78,12 @@ public class FindShapes {
 			double greatest = 0;
 			//iterate through the hashmap of chi values
 			for (String k : percent.keySet()) {
-				if (k == "line" && Double.compare(percent.get(k), greatest) == 1) {
-					gShape = "line";
-					greatest = percent.get(k);
-				}
-				//ERROR ERRROR ERROR ----------------------------
-				if (k == "square" && Double.compare(percent.get(k), greatest) == 1) {
-					gShape = "square";
-					greatest = percent.get(k);
-				}
-				if (k == "triangle" && Double.compare(percent.get(k), greatest) == 1) {
-					gShape = "triangle";
-					greatest = percent.get(k);
-				}
-				if (k == "circle" && Double.compare(percent.get(k), greatest) == 1) {
-					gShape = "circle";
-					greatest = percent.get(k);
+				//DID YOU REALLY WRITE THIS BY HAND INSTEAD OF USING A GODDAMN LOOP ~~~~~~~~~~~~~~~~~~~~~~~~~~
+				for (Shapes shape : Shapes.values()) {
+					if (k == shape.getName() && Double.compare(percent.get(k), greatest) == 1) {
+						gShape = shape.getName();
+						greatest = percent.get(k);
+					}
 				}
 			}
 			//outside of the for loop, determine which shape we should increment
@@ -157,9 +141,9 @@ public class FindShapes {
 		
 	}
 	
-	public void printGraph(Boolean[][] graph, int num) {
-		for (int x = 0; x < num; x++) {
-			for (int y = 0; y < num; y ++) {
+	public void printGraph(Boolean[][] graph) {
+		for (int x = 0; x < n; x++) {
+			for (int y = 0; y < n; y ++) {
 			
 				System.out.print(graph[x][y]+ " ");
 			}

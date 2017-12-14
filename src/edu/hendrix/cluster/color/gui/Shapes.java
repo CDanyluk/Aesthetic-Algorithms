@@ -66,11 +66,11 @@ public enum Shapes {
 				grid[j][i] = true;
 			}
 		}
-		grid[0][0] = false; grid[1][0] = false; grid[4][0] = false; grid[5][0] = false;
-		grid[0][1] = false; grid[1][1] = false; grid[4][1] = false; grid[5][1] = false;
-		grid[0][2] = false; grid[1][2] = false; grid[4][2] = false; grid[5][2] = false;
-		grid[0][3] = false; grid[5][3] = false;
-		grid[0][4] = false; grid[5][4] = false;
+		grid[0][0] = false; grid[0][1] = false; grid[0][4] = false; grid[0][5] = false;
+		grid[1][0] = false; grid[1][1] = false; grid[1][4] = false; grid[1][5] = false;
+		grid[2][0] = false; grid[2][1] = false; grid[2][4] = false; grid[2][5] = false;
+		grid[3][0] = false; grid[3][5] = false;
+		grid[4][0] = false; grid[4][5] = false;
 		
 		return grid;
 		
