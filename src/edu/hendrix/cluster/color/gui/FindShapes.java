@@ -46,24 +46,27 @@ public class FindShapes {
 			HashMap<String, Double> percentages = new HashMap<String, Double>();
 			Blob b = blobs.get(i);
 			b.setHW();
-			Boolean[][] grid = BlobToMatrix(b, i);
-			//Go through the shapes enum and compare + store value
-			for (Shapes shape : Shapes.values()) {
-				if (shape.getName() == "line") {
-					double val = lineCheck(grid);
-					percentages.put(shape.getName(), val);
-				}else {
-					double val = gridComparison(shape.getGrid(), grid);
-					percentages.put(shape.getName(), val);
+			//DO NOT CHECK TINY BLOBS
+			if (b.getSize() > 100) {
+				Boolean[][] grid = BlobToMatrix(b, i);
+				//Go through the shapes enum and compare + store value
+				for (Shapes shape : Shapes.values()) {
+					if (shape.getName() == "line") {
+						double val = lineCheck(grid);
+						percentages.put(shape.getName(), val);
+					}else {
+						double val = gridComparison(shape.getGrid(), grid);
+						percentages.put(shape.getName(), val);
+					}
 				}
+				//Check to see if it is a line without matrix or fancy county things
+				if (straightCheck(b)) {
+					//this means it is absolutely a line, or 1/1
+					//override previous value
+					percentages.put("line", 1.0);
+				}
+				blobTypes.put(b, percentages);
 			}
-			//Check to see if it is a line without matrix
-			if (straightCheck(b)) {
-				//this means it is absolutely a line, or 1/1
-				//override previous value
-				percentages.put("line", 1.0);
-			}
-			blobTypes.put(b, percentages);
 		}
 		System.out.println(blobTypes);
 		countShapes();
@@ -142,9 +145,23 @@ public class FindShapes {
 		
 	}
 	
+	//Brand new twisting function
+	public double twistCheck(Boolean[][] expected, Boolean[][] given) {
+		//check the original
+		
+		//this needs to twist the shape
+		
+	}
+	
 	//This just compares the height and width to see if it is a line
 	public boolean straightCheck(Blob b) {
-		return (b.getWidth()*1.0/imagew < 0.05) || (b.getHeight()*1.0/imageh < 0.05);
+		if ((b.getWidth()*1.0/imagew < 0.05) && (b.getHeight() >= b.getWidth()*3)) {
+			return true;
+		}else if ((b.getHeight()*1.0/imageh < 0.05) && (b.getWidth() >= b.getHeight()*3)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	//Takes a blob and return a 6x6 matrix version of it

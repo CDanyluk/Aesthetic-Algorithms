@@ -165,16 +165,6 @@ public class ClusterPointsController {
 	}
 	
 	@FXML
-	void findLine(WrappedBlobList blobs) {
-		BufferedImage pic = image.get();
-		findLines lineFinder = new findLines(pic.getWidth(), pic.getHeight(), blobs);
-		//call function for returning lines found
-		int num = lineFinder.getLineNum();
-		//change text box
-		numLine.setText(Integer.toString(num));
-	}
-	
-	@FXML
 	void findShapes(WrappedBlobList blobs) {
 		BufferedImage pic = image.get();
 		FindShapes blobShapes = new FindShapes(pic.getWidth(), pic.getHeight(), blobs);
@@ -188,7 +178,7 @@ public class ClusterPointsController {
 	
 	@FXML
 	void findSizeBlobs(WrappedBlobList blobs) {
-		Fitness fit = new Fitness(blobs);
+		FindSizes fit = new FindSizes(blobs);
 		fit.findSizeBlobs();
 		percentageChange(fit);
 		largeBlobs.setText(Integer.toString(fit.getBigBlobs()));
@@ -198,7 +188,7 @@ public class ClusterPointsController {
 		findShapes(blobs);
 	}
 	
-	void percentageChange(Fitness fit) {
+	void percentageChange(FindSizes fit) {
 		System.out.println(fit.percentageChange());
 	}
 	

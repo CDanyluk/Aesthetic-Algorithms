@@ -5,14 +5,14 @@ import java.util.Map;
 
 import edu.hendrix.blob.Blob;
 
-public class Fitness {
+public class FindSizes {
 	
 	private WrappedBlobList blobs;
 
 	Map<String, Integer> blobTypes = new HashMap<String, Integer>();
 	Map<String, Integer> goodValues = new HashMap<String, Integer>();
 	
-	public Fitness(WrappedBlobList b) {
+	public FindSizes(WrappedBlobList b) {
 		this.blobs = b;
 		goodValues.put("big", 2);
 		goodValues.put("medium", 11);
@@ -39,7 +39,7 @@ public class Fitness {
 				big++;
 			}else if (howBig < 25000 && howBig >= 1000) {
 				medium++;
-			}else if (howBig < 1000 && howBig>= 100) {
+			}else if (howBig < 1000 && howBig > 100) {
 				small++;
 			}else {
 				tiny++;
