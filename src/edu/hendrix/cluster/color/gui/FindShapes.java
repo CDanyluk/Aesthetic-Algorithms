@@ -55,7 +55,7 @@ public class FindShapes {
 						double val = lineCheck(grid);
 						percentages.put(shape.getName(), val);
 					}else {
-						double val = gridComparison(shape.getGrid(), grid);
+						double val = twistCheck(shape.getGrid(), grid);
 						percentages.put(shape.getName(), val);
 					}
 				}
@@ -147,10 +147,37 @@ public class FindShapes {
 	
 	//Brand new twisting function
 	public double twistCheck(Boolean[][] expected, Boolean[][] given) {
-		//check the original
+
+		double max = 0.0;
 		
-		//this needs to twist the shape
-		
+		//a is the angle to be twisted.
+		for (int angle = 0; angle < 360; angle += 45) {
+			//Create new twisted 6x6 grid
+			Boolean[][] twisted = new Boolean[n+2][n+2];
+			//Set everything in it to be false
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					twisted[i][j] = false;
+				}
+			}
+			//iterate over the array, changing the values with math and
+			//storing them in twisted
+			for (int x = 0; x < n; x++) {
+				for (int y = 0; y < n; y++) {
+					if (expected[x][y] == true) {
+						double a = Math.toRadians(angle);
+						int newx = (int)(Math.cos(a)*x + Math.sin(a)*y);
+						int newy = (int)(Math.sin(a)*x + Math.cos(a)*y);
+						//put the new value in twisted
+						twisted[newx][newy] = true;
+					}
+				}
+			}
+			printGraph(twisted);
+			//check the twisted shape
+			max = Math.max(max, gridComparison(twisted, given));
+		}
+		return max;
 	}
 	
 	//This just compares the height and width to see if it is a line
