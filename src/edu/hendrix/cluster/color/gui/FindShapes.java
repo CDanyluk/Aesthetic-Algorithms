@@ -1,6 +1,7 @@
 package edu.hendrix.cluster.color.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,12 +152,13 @@ public class FindShapes {
 		double max = 0.0;
 		
 		//a is the angle to be twisted.
-		for (int angle = 0; angle < 360; angle += 45) {
+		for (int angle = 0; angle <= 360; angle += 45) {
+			double a = Math.toRadians(angle);
 			//Create new twisted 6x6 grid
-			Boolean[][] twisted = new Boolean[n+2][n+2];
+			Boolean[][] twisted = new Boolean[n+3][n+3];
 			//Set everything in it to be false
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
+			for (int i = 0; i < n + 3; i++) {
+				for (int j = 0; j < n + 3; j++) {
 					twisted[i][j] = false;
 				}
 			}
@@ -164,20 +166,69 @@ public class FindShapes {
 			//storing them in twisted
 			for (int x = 0; x < n; x++) {
 				for (int y = 0; y < n; y++) {
-					if (expected[x][y] == true) {
-						double a = Math.toRadians(angle);
-						int newx = (int)(Math.cos(a)*x + Math.sin(a)*y);
-						int newy = (int)(Math.sin(a)*x + Math.cos(a)*y);
+					//System.out.println("look" + x + "," + y);
+					if (expected[x][y]) {
+						int X = x - n/2;
+						int Y = y - n/2;
+						int newx = (int)Math.round(Math.cos(a)*X + Math.sin(a)*Y);
+						int newy = (int)Math.round(-Math.sin(a)*X + Math.cos(a)*Y);
+						//System.out.println(x + "->" + (newx+(n/2)) + ";" + y + "->" + (newy+(n/2)));
 						//put the new value in twisted
-						twisted[newx][newy] = true;
+						twisted[newx+((n+3)/2)][newy+((n+3)/2)] = true;
 					}
 				}
 			}
-			printGraph(twisted);
+			printGraph(subMatrix(twisted));
 			//check the twisted shape
 			max = Math.max(max, gridComparison(twisted, given));
 		}
 		return max;
+	}
+	
+	public Boolean[][] subMatrix(Boolean[][] grid) {
+		int left = Integer.MAX_VALUE;
+		int right = -1;
+		int top = Integer.MAX_VALUE;
+		int bottom = -1;
+		//Find the max and min values, ot the square surrounding the twisted shape
+		for (int y = 0; y < n+3; y++) {
+			for (int x = 0; x < n+3; x++) {
+				if (grid[x][y]) {
+					if (left > x) {
+						left = x;
+					}if (right < x) {
+						right = x;
+					}if (top > y) {
+						top = y;
+					}if (bottom < y) {
+						bottom = y;
+					}
+							
+				}
+			}
+		}
+		// Cut it so that there is no extra space on the side of the twisted shape
+		if ((top - bottom) > 6) {
+			top--;
+		}
+		if ((right - left) > 6) {
+			right--;
+		}
+		Boolean[][] sub = new Boolean[n][n];
+		//Go through the large list
+		for (int y = bottom; y <= top; y++) {
+			int Y = 0;
+			for (int x = left; x <= right; x++) {
+			int X = 0;	
+			if (grid[x][y]) {
+				sub[X][Y] = true;
+			}
+			X++;
+			}
+			Y++;
+		}
+		return sub;
+		
 	}
 	
 	//This just compares the height and width to see if it is a line
@@ -216,10 +267,14 @@ public class FindShapes {
 	}
 	
 	public void printGraph(Boolean[][] graph) {
-		for (int x = 0; x < n; x++) {
-			for (int y = 0; y < n; y ++) {
-			
-				System.out.print(graph[x][y]+ " ");
+		for (int x = 0; x < n + 3; x++) {
+			for (int y = 0; y < n + 3; y ++) {
+				if (graph[x][y]) {
+					System.out.print("@");
+				} else {
+					System.out.print(".");
+				}
+				//System.out.print(graph[x][y]+ " ");
 			}
 			System.out.print("\n");
 		}
