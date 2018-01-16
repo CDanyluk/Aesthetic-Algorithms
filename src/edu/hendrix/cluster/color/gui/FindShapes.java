@@ -56,7 +56,8 @@ public class FindShapes {
 						double val = lineCheck(grid);
 						percentages.put(shape.getName(), val);
 					}else {
-						double val = twistCheck(shape.getGrid(), grid);
+						//EDIT EDIT EDIT EDIT
+						double val = twistCheck(shape, grid);
 						percentages.put(shape.getName(), val);
 					}
 				}
@@ -147,40 +148,14 @@ public class FindShapes {
 	}
 	
 	//Brand new twisting function
-	public double twistCheck(Boolean[][] expected, Boolean[][] given) {
-
+	public double twistCheck(Shapes s, Boolean[][] given) {
+		//max stores the greatest value of comparison
 		double max = 0.0;
-		
-		//a is the angle to be twisted.
-		for (int angle = 0; angle <= 360; angle += 45) {
-			double a = Math.toRadians(angle);
-			//Create new twisted 6x6 grid
-			Boolean[][] twisted = new Boolean[n+3][n+3];
-			//Set everything in it to be false
-			for (int i = 0; i < n + 3; i++) {
-				for (int j = 0; j < n + 3; j++) {
-					twisted[i][j] = false;
-				}
-			}
-			//iterate over the array, changing the values with math and
-			//storing them in twisted
-			for (int x = 0; x < n; x++) {
-				for (int y = 0; y < n; y++) {
-					//System.out.println("look" + x + "," + y);
-					if (expected[x][y]) {
-						int X = x - n/2;
-						int Y = y - n/2;
-						int newx = (int)Math.round(Math.cos(a)*X + Math.sin(a)*Y);
-						int newy = (int)Math.round(-Math.sin(a)*X + Math.cos(a)*Y);
-						//System.out.println(x + "->" + (newx+(n/2)) + ";" + y + "->" + (newy+(n/2)));
-						//put the new value in twisted
-						twisted[newx+((n+3)/2)][newy+((n+3)/2)] = true;
-					}
-				}
-			}
-			printGraph(subMatrix(twisted));
-			//check the twisted shape
-			max = Math.max(max, gridComparison(twisted, given));
+		for (int i = 1; i <=8; i++) {
+			//get the twisted shape
+			Boolean[][] twist = s.getGrid(i);
+			//Compare the twisted shape to the given grid
+			max = Math.max(max, gridComparison(twist, given));
 		}
 		return max;
 	}
@@ -267,8 +242,8 @@ public class FindShapes {
 	}
 	
 	public void printGraph(Boolean[][] graph) {
-		for (int x = 0; x < n + 3; x++) {
-			for (int y = 0; y < n + 3; y ++) {
+		for (int x = 0; x < n; x++) {
+			for (int y = 0; y < n; y ++) {
 				if (graph[x][y]) {
 					System.out.print("@");
 				} else {
