@@ -6,7 +6,18 @@ public enum Shapes {
 		public Boolean[][] getGrid(int num) { return getLine(); }
 	},
 	SQUARE("square"){
-		public Boolean[][] getGrid(int num) { return getSquare(); }
+		public Boolean[][] getGrid(int num) { 
+			if (num == 4) {
+				return getSquare4();
+			}else if (num == 3) {
+				return getSquare3();
+			}else if (num == 2) {
+				return getSquare2();
+			}else {
+				return getSquare1();
+			}
+			
+		}
 		
 	},
 	TRIANGLE("triangle"){
@@ -62,15 +73,42 @@ public enum Shapes {
 		return grid;
 	}
 	
-	//Grid for square
-	public Boolean[][] getSquare() {
+	//Grid for square ---------------------------------------------
+	public Boolean[][] getSquare1() {
 		int n = 6;
-		Boolean[][] grid = new Boolean[n+1][n+1];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				grid[j][i] = true;
-			}
-		}
+		Boolean[][] grid = fullGrid();
+		return grid;
+	}
+	
+	public Boolean[][] getSquare2() {
+		int n = 6;
+		Boolean[][] grid = fullGrid();
+		grid[0][0] = false; grid[0][1] = false; grid[0][4] = false; grid[0][5] = false;
+		grid[1][0] = false; grid[1][5] = false;
+		grid[4][0] = false; grid[4][5] = false;
+		grid[5][0] = false; grid[5][1] = false; grid[5][4] = false; grid[5][5] = false;
+		
+		return grid;
+	}
+	
+	public Boolean[][] getSquare3() {
+		int n = 6;
+		Boolean[][] grid = fullGrid();
+		grid[0][0] = false; grid[0][4] = false; grid[0][5] = false;
+		grid[1][0] = false;
+		grid[4][5] = false;
+		grid[5][0] = false; grid[5][1] = false; grid[5][5] = false;
+		
+		return grid;
+	}
+	
+	public Boolean[][] getSquare4() {
+		int n = 6;
+		Boolean[][] grid = fullGrid();
+		grid[0][0] = false; grid[0][1] = false; grid[0][5] = false;
+		grid[1][5] = false;
+		grid[4][0] = false;
+		grid[5][0] = false; grid[5][4] = false; grid[5][5] = false;
 		return grid;
 	}
 	

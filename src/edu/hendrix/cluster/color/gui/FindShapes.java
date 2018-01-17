@@ -57,6 +57,7 @@ public class FindShapes {
 						percentages.put(shape.getName(), val);
 					}else {
 						//EDIT EDIT EDIT EDIT
+						printGraph(grid);
 						double val = twistCheck(shape, grid);
 						percentages.put(shape.getName(), val);
 					}
