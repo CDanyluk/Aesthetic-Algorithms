@@ -60,16 +60,48 @@ public class ClusterPointsController {
 	Optional<KMeansPlusPlus<ColorCluster>> clusters = Optional.empty();
 	Optional<WrappedBlobList> blobs = Optional.empty();
 	
+	//God bad programming but shit take it
+	private HashMap<Blob, HashMap<String, Double>> blobTypes = new HashMap<Blob, HashMap<String, Double>>();
+	private HashMap<String, Integer> numOfShapes = new HashMap<String, Integer>();
 	
 	@FXML
 	void initialize() {
 		showK.setSelected(false);
 	}
 	
+	//Make a proper array
+	//chi square it
+	//your notes are in your phone
+	@FXML
+	void export() {
+		kMeans(3);
+		findBlobs();
+		System.out.println(numOfShapes);
+		
+	}
+	
+	private int chisquared(HashMap<String, Integer> expected, HashMap<String, Integer> given) {
+		return 0;
+	}
+	
 	@FXML
 	void kMeans() {
 		image.ifPresent(img -> {
 			KMeansPlusPlus<ColorCluster> kmeans = new KMeansPlusPlus<>(Integer.parseInt(kField.getText()));
+			for (int x = 0; x < img.getWidth(); x++) {
+				for (int y = 0; y < img.getHeight(); y++) {
+					kmeans.train(new ColorCluster(img.getRGB(x, y)));
+				}
+			}
+			clusters = Optional.of(kmeans);
+			showK.setSelected(true);
+			showImage();
+		});
+	}
+	
+	void kMeans(int num) {
+		image.ifPresent(img -> {
+			KMeansPlusPlus<ColorCluster> kmeans = new KMeansPlusPlus<>(num);
 			for (int x = 0; x < img.getWidth(); x++) {
 				for (int y = 0; y < img.getHeight(); y++) {
 					kmeans.train(new ColorCluster(img.getRGB(x, y)));
@@ -174,6 +206,8 @@ public class ClusterPointsController {
 		numSquare.setText(Integer.toString(numShapes.get("square")));
 		numTriangle.setText(Integer.toString(numShapes.get("triangle")));
 		numCircle.setText(Integer.toString(numShapes.get("circle")));
+		blobTypes = blobShapes.getTypes();
+		numOfShapes = blobShapes.getNumOfShapes();
 	}
 	
 	@FXML

@@ -41,7 +41,7 @@
                      </HBox.margin></Button>
                   <TextField fx:id="kField" prefHeight="26.0" prefWidth="85.0" text="2" />
                   <Button mnemonicParsing="false" onAction="#nextK" text="&gt;" />
-                  <Button fx:id="export" mnemonicParsing="false" text="Export">
+                  <Button fx:id="export" mnemonicParsing="false" onAction="#export" text="Export">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>

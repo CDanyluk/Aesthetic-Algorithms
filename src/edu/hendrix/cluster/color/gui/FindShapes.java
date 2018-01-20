@@ -33,10 +33,12 @@ public class FindShapes {
 		initializeShapes();
 	}
 	
+	//Blobs with their chi values??
 	public HashMap<Blob, HashMap<String, Double>> getTypes() {
 		return blobTypes;
 	}
 	
+	//How many shapes there are based on the chi values
 	public HashMap<String, Integer> getNumOfShapes() {
 		return numOfShapes;
 	}
@@ -56,8 +58,6 @@ public class FindShapes {
 						double val = lineCheck(grid);
 						percentages.put(shape.getName(), val);
 					}else {
-						//EDIT EDIT EDIT EDIT
-						printGraph(grid);
 						double val = twistCheck(shape, grid);
 						percentages.put(shape.getName(), val);
 					}
@@ -71,7 +71,7 @@ public class FindShapes {
 				blobTypes.put(b, percentages);
 			}
 		}
-		System.out.println(blobTypes);
+		//System.out.println(blobTypes);
 		countShapes();
 	}
 	
@@ -127,7 +127,7 @@ public class FindShapes {
 			int newVal = old+1;
 			numOfShapes.put(gShape, newVal);
 		}
-		System.out.println(numOfShapes);
+		//System.out.println(numOfShapes);
 	}
 	
 	//Compares two grids and returns a chi value
