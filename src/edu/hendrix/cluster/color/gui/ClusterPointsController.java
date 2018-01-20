@@ -76,12 +76,34 @@ public class ClusterPointsController {
 	void export() {
 		kMeans(3);
 		findBlobs();
+		HashMap<String, Integer> ideal = new HashMap<String, Integer>();
+		ideal.put("square", 12);
+		ideal.put("line", 19);
+		ideal.put("circle", 1);
+		ideal.put("triangle", 2);
 		System.out.println(numOfShapes);
-		
+		System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
 	}
 	
-	private int chisquared(HashMap<String, Integer> expected, HashMap<String, Integer> given) {
-		return 0;
+	
+	private double chisquared(HashMap<String, Integer> expected, HashMap<String, Integer> given) {
+		double difcount = 0;
+		//blobcount exists because if there is only one blob it should automatically get a score of 0
+		int blobcount = 0;
+		for (String k : expected.keySet()) {
+			double dif = 0;
+			dif = Math.abs(expected.get(k) - given.get(k));
+			//add the blobs of given to blobcount
+			blobcount += given.get(k);
+			dif++;
+			difcount = difcount + (1/dif);
+		}
+		difcount = difcount / expected.size();
+		//if the blobcount is 1 that is v bad and means the picture is empty
+		if (blobcount == 1) {
+			return 0.0;
+		}
+		return difcount;
 	}
 	
 	@FXML
@@ -214,12 +236,12 @@ public class ClusterPointsController {
 	void findSizeBlobs(WrappedBlobList blobs) {
 		FindSizes fit = new FindSizes(blobs);
 		fit.findSizeBlobs();
-		percentageChange(fit);
 		largeBlobs.setText(Integer.toString(fit.getBigBlobs()));
 		mediumBlobs.setText(Integer.toString(fit.getMediumBlobs()));
 		smallBlobs.setText(Integer.toString(fit.getSmallBlobs()));
 		tinyBlobs.setText(Integer.toString(fit.getTinyBlobs()));
 		findShapes(blobs);
+
 	}
 	
 	void percentageChange(FindSizes fit) {
