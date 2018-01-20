@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,7 +18,12 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import edu.hendrix.cluster.KMeansPlusPlus;
+import edu.hendrix.cluster.color.ColorCluster;
 import edu.hendrix.cluster.color.gui.ClusterPointsController;
+import edu.hendrix.cluster.color.gui.WrappedBlobList;
+import edu.hendrix.util.Alerter;
+import edu.hendrix.util.Util;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -79,9 +87,7 @@ public class MainController {
 	@FXML ToggleButton dead6;
 	@FXML ToggleButton dead7;
 	@FXML ToggleButton dead8;
-	
-	@FXML
-	RadioButton cartesianGenetic;
+
 	
 	final ToggleGroup algorithm = new ToggleGroup();
 	
@@ -116,7 +122,10 @@ public class MainController {
 	Button fetch;
 	
 	@FXML
-	Button judgeus;
+	Button score;
+	
+	@FXML
+	Button delete;
 	
 	@FXML
 	Button export;
@@ -132,6 +141,11 @@ public class MainController {
 	private int width;
 	private int height;
 	private LSystems lway;
+	private String folder;
+	private int picNum;
+	
+	Optional<BufferedImage> image = Optional.empty();
+	Optional<KMeansPlusPlus<ColorCluster>> clusters = Optional.empty();
 	
 	@FXML 
 	public void initialize() {
@@ -206,7 +220,6 @@ public class MainController {
 	public void setButtonGroup(){
 		lSystem.setToggleGroup(algorithm);
 		cellularAutomata.setToggleGroup(algorithm);
-		cartesianGenetic.setToggleGroup(algorithm);
 		lSystem.setSelected(true);
 	}
 	
@@ -222,15 +235,74 @@ public class MainController {
 		//A tree will be drawn from that seed
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
-		
 		drawLSystem();
+	}
+	
+	//Ferrer Code mixed in --------------------------------------------------------------------------------------
+	
+	void kMeans(int num) {
+		image.ifPresent(img -> {
+			KMeansPlusPlus<ColorCluster> kmeans = new KMeansPlusPlus<>(num);
+			for (int x = 0; x < img.getWidth(); x++) {
+				for (int y = 0; y < img.getHeight(); y++) {
+					kmeans.train(new ColorCluster(img.getRGB(x, y)));
+				}
+			}
+			clusters = Optional.of(kmeans);
+			showImage();
+		});
+	}
+	
+	void showImage() {
+		image.ifPresent(img -> {
+			picture.getGraphicsContext2D().setFill(Color.WHITE);
+			picture.getGraphicsContext2D().fillRect(0, 0, picture.getWidth(), picture.getHeight());
+			double pixelWidth = picture.getWidth() / img.getWidth();
+			double pixelHeight = picture.getHeight() / img.getHeight();
+			for (int x = 0; x < img.getWidth(); x++) {
+				for (int y = 0; y < img.getHeight(); y++) {
+					Color chosen;
+						KMeansPlusPlus<ColorCluster> kmeans = clusters.get();
+						chosen = kmeans.getMatchingIdealInputFor(new ColorCluster(img.getRGB(x, y))).toColor();
+					
+					picture.getGraphicsContext2D().setFill(chosen);
+					picture.getGraphicsContext2D().fillRect(x * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);						
+				}
+			}
+		});
+	}
+	
+	//THIS IS WHERE IT READS IN A FILE
+	@FXML
+	public void score() {
+		//read file in
+		//the global variable folder has the folder name that has been randomly generated.
+		
+		if (picNum >= 0) {
+			//Go through the images up to the number exported, picNum is stored as a global variable :(
+			//for (int i = picNum; i >= 0; i --) {
+				File path = new File(folder + "/automata" + 5 + ".png");
+				System.out.println("Path for reading : " + path);
+				try {
+					image = Optional.of(ImageIO.read(path));
+				} catch (IOException e) {
+					System.out.println("The program couldn't auto read a damn file, problem in score()");
+					e.printStackTrace();
+				}
+				showImage();
+				//execute some kind of code to give it a score
+				
+				
+				//print score
+			//}
+		}
+		
 	}
 	
 	//decides whether you should choose where to export,
 	//or whether it should auto-export
 	@FXML
 	public void export() {
-		int picNum = 0;
 		if (algorithm.getSelectedToggle() == cellularAutomata) {
 			try {
 				picNum = Integer.parseInt(exporthowmany.getText());
@@ -240,7 +312,7 @@ public class MainController {
 			if (picNum == 1) {
 				exportAs();
 			}else {
-				autoExport(picNum, "/AutomataImages/Images");
+				autoExport("/AutomataImages/Images");
 			}
 		}else {
 			try {
@@ -251,7 +323,7 @@ public class MainController {
 			if (picNum == 1) {
 				exportAs();
 			}else {
-				autoExport(picNum, "/LSystemImages/Images");
+				autoExport("/LSystemImages/Images");
 			}
 		}
 		
@@ -279,21 +351,19 @@ public class MainController {
 	}
 	
 	//auto-export
-	public void autoExport(int picNum, String p) {
+	public void autoExport(String p) {
 		String path = p+randomnumber();
+		folder = path;
+		System.out.println(folder);
 		File directory = new File(path);
-		
 		FileChooser saveLocation = new FileChooser();
-		//File directory = new File("/Desktop/");
-		//System.out.println("here: " + directory);
 		directory.mkdirs();
-		for (int i = 0; i < picNum; i ++) {
+		for (int i = 0; i < picNum; i++) {
 			if ( p == "/AutomataImages/Images" ) {
-				exportImage(directory);
+				exportImage(i, directory);
 			}
 			else {
 				exportLSystem(directory);
-				//rSystem.out.println(directory.getPath());
 			}
 		}
 		
@@ -331,8 +401,9 @@ public class MainController {
 		return one+two+three;
 	}
 	
-	public void exportImage(File directory) {
-		String number = randomnumber();
+	public void exportImage(int num, File directory) {
+		//String number = randomnumber();
+		String number = num + "";
 		initialize();
 		randomGrid();
 		//centerGrid();
@@ -362,6 +433,7 @@ public class MainController {
 		        System.out.println("exportImage() fuuuuucked");
 		        }
 		    }
+		return;
 	}
 	
 	@FXML
