@@ -1,3 +1,4 @@
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 
 import java.awt.image.RenderedImage;
@@ -18,9 +19,12 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import edu.hendrix.blob.Blob;
 import edu.hendrix.cluster.KMeansPlusPlus;
 import edu.hendrix.cluster.color.ColorCluster;
 import edu.hendrix.cluster.color.gui.ClusterPointsController;
+import edu.hendrix.cluster.color.gui.FindShapes;
+import edu.hendrix.cluster.color.gui.FindSizes;
 import edu.hendrix.cluster.color.gui.WrappedBlobList;
 import edu.hendrix.util.Alerter;
 import edu.hendrix.util.Util;
@@ -146,6 +150,12 @@ public class MainController {
 	
 	Optional<BufferedImage> image = Optional.empty();
 	Optional<KMeansPlusPlus<ColorCluster>> clusters = Optional.empty();
+	Optional<WrappedBlobList> blobs = Optional.empty();
+	
+	//God bad programming but shit take it
+	private HashMap<Blob, HashMap<String, Double>> blobTypes = new HashMap<Blob, HashMap<String, Double>>();
+	private HashMap<String, Integer> numOfShapes = new HashMap<String, Integer>();
+	ArrayList<Color> colors = new ArrayList<>();
 	
 	@FXML 
 	public void initialize() {
@@ -254,6 +264,7 @@ public class MainController {
 	}
 	
 	void showImage() {
+		colors = new ArrayList<>();
 		image.ifPresent(img -> {
 			picture.getGraphicsContext2D().setFill(Color.WHITE);
 			picture.getGraphicsContext2D().fillRect(0, 0, picture.getWidth(), picture.getHeight());
@@ -262,14 +273,57 @@ public class MainController {
 			for (int x = 0; x < img.getWidth(); x++) {
 				for (int y = 0; y < img.getHeight(); y++) {
 					Color chosen;
-						KMeansPlusPlus<ColorCluster> kmeans = clusters.get();
-						chosen = kmeans.getMatchingIdealInputFor(new ColorCluster(img.getRGB(x, y))).toColor();
-					
+					KMeansPlusPlus<ColorCluster> kmeans = clusters.get();
+					chosen = kmeans.getMatchingIdealInputFor(new ColorCluster(img.getRGB(x, y))).toColor();
+					if (!colors.contains(chosen)) {
+						colors.add(chosen);
+					}
 					picture.getGraphicsContext2D().setFill(chosen);
 					picture.getGraphicsContext2D().fillRect(x * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);						
 				}
 			}
 		});
+	}
+	
+	void findBlobs() {
+		image.ifPresent(img -> {
+			clusters.ifPresent(cls -> {
+				blobs = Optional.of(new WrappedBlobList(img, cls));
+				//Find number of blobs
+				//blobs.get().size();
+				findSizeBlobs(new WrappedBlobList(img, cls));
+				showImage();
+				
+				
+			});
+		});
+	}
+	
+	//find blobsize and findshapes can probably be put outside of the controller too
+	void findSizeBlobs(WrappedBlobList blobs) {
+		FindSizes fit = new FindSizes(blobs);
+		fit.findSizeBlobs();
+		//Get number of large med and small blobs
+		//fit.getBigBlobs();
+		//fit.getMediumBlobs();
+		//fit.getSmallBlobs();
+		//fit.getTinyBlobs();
+		findShapes(blobs);
+
+	}
+	
+	void findShapes(WrappedBlobList blobs) {
+		BufferedImage pic = image.get();
+		FindShapes blobShapes = new FindShapes(pic.getWidth(), pic.getHeight(), blobs);
+		//call function for returning lines found
+		HashMap<String, Integer> numShapes = blobShapes.getNumOfShapes();
+		//Get amount of shapes in the image
+		//numShapes.get("line");
+		//numShapes.get("square");
+		//numShapes.get("triangle");
+		//numShapes.get("circle");
+		blobTypes = blobShapes.getTypes();
+		numOfShapes = blobShapes.getNumOfShapes();
 	}
 	
 	//THIS IS WHERE IT READS IN A FILE
@@ -280,8 +334,8 @@ public class MainController {
 		
 		if (picNum >= 0) {
 			//Go through the images up to the number exported, picNum is stored as a global variable :(
-			//for (int i = picNum; i >= 0; i --) {
-				File path = new File(folder + "/automata" + 5 + ".png");
+			for (int i = 0; i < picNum; i ++) {
+				File path = new File(folder + "/automata" + i + ".png");
 				System.out.println("Path for reading : " + path);
 				try {
 					image = Optional.of(ImageIO.read(path));
@@ -289,15 +343,66 @@ public class MainController {
 					System.out.println("The program couldn't auto read a damn file, problem in score()");
 					e.printStackTrace();
 				}
-				showImage();
+				kMeans(3);
+				findBlobs();
 				//execute some kind of code to give it a score
-				
-				
+				HashMap<String, Integer> ideal = new HashMap<String, Integer>();
+				ideal.put("square", 12);
+				ideal.put("line", 19);
+				ideal.put("circle", 1);
+				ideal.put("triangle", 2);
 				//print score
-			//}
+				System.out.println("numOfShapes : " + numOfShapes);
+				System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
+				System.out.println("color score = " + colorchi(colors));
+			}
 		}
 		
 	}
+	
+	//These chi things can probably be put outside of the actual controller
+	private double colorchi(ArrayList<Color> colorList) {
+		double scoretotal = 0;
+		for (int i = 0; i < colorList.size(); i++) {
+			double diftotal = 0;
+			if (i != colorList.size()-1) {
+				double rDif = Math.abs(colorList.get(i).getRed() - colorList.get(i+1).getRed());
+				double gDif = Math.abs(colorList.get(i).getGreen() - colorList.get(i+1).getGreen());
+				double bDif = Math.abs(colorList.get(i).getGreen() - colorList.get(i+1).getGreen());
+				diftotal = (rDif + gDif + bDif)/colorList.size();
+			}else {
+				double rDif = Math.abs(colorList.get(i).getRed() - colorList.get(0).getRed());
+				double gDif = Math.abs(colorList.get(i).getGreen() - colorList.get(0).getGreen());
+				double bDif = Math.abs(colorList.get(i).getGreen() - colorList.get(0).getGreen());
+				diftotal = (rDif + gDif + bDif)/colorList.size();
+			}
+			scoretotal += 1/((1/diftotal)+1);
+		}
+		scoretotal = scoretotal/colorList.size();
+		return scoretotal;
+	}
+	
+	private double chisquared(HashMap<String, Integer> expected, HashMap<String, Integer> given) {
+		double difcount = 0;
+		//blobcount exists because if there is only one blob it should automatically get a score of 0
+		int blobcount = 0;
+		for (String k : expected.keySet()) {
+			double dif = 0;
+			dif = Math.abs(expected.get(k) - given.get(k));
+			//add the blobs of given to blobcount
+			blobcount += given.get(k);
+			dif++;
+			difcount = difcount + (1/dif);
+		}
+		difcount = difcount / expected.size();
+		//if the blobcount is 1 that is v bad and means the picture is empty
+		if (blobcount == 1) {
+			return 0.0;
+		}
+		return difcount;
+	}
+	
+	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
 	
 	//decides whether you should choose where to export,
 	//or whether it should auto-export
