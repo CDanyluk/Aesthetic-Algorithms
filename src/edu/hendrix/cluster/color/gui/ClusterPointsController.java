@@ -245,7 +245,7 @@ public class ClusterPointsController {
 	}
 	
 	void percentageChange(FindSizes fit) {
-		System.out.println(fit.percentageChange());
+		System.out.println("fit percentage" + fit.percentageChange());
 	}
 	
 	@FXML

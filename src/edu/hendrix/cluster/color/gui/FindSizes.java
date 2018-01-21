@@ -8,7 +8,8 @@ import edu.hendrix.blob.Blob;
 public class FindSizes {
 	
 	private WrappedBlobList blobs;
-
+	//TAYLOR : You want Blobtypes, use the getter function to get it.
+	//It will have string of "big" "medium" "small" and "tiny" as the keys
 	Map<String, Integer> blobTypes = new HashMap<String, Integer>();
 	Map<String, Integer> goodValues = new HashMap<String, Integer>();
 	

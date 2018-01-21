@@ -11,6 +11,9 @@ public class FindShapes {
 	
 	private WrappedBlobList blobs;
 
+	//TAYLOR: blobTypes hashmap of a hashmap contains what you are looking for
+	//It it stored {Blob b, {line = 0.1, circle, = 0.2, square = 0.3, triangle = 0.4}}
+	//You can iterate over shapes to go through the hashmaps inside it, and use the getter function to obtain it
 	private HashMap<Blob, HashMap<String, Double>> blobTypes;
 	private int imagew;
 	private int imageh;
@@ -71,7 +74,7 @@ public class FindShapes {
 				blobTypes.put(b, percentages);
 			}
 		}
-		//System.out.println(blobTypes);
+		System.out.println(blobTypes);
 		countShapes();
 	}
 	
