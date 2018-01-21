@@ -61,6 +61,7 @@ public class ClusterPointsController {
 	Optional<WrappedBlobList> blobs = Optional.empty();
 	
 	//God bad programming but shit take it
+	//Most of what you need is here
 	private HashMap<Blob, HashMap<String, Double>> blobTypes = new HashMap<Blob, HashMap<String, Double>>();
 	private HashMap<String, Integer> numOfShapes = new HashMap<String, Integer>();
 	
@@ -72,7 +73,7 @@ public class ClusterPointsController {
 	//Make a proper array
 	//chi square it
 	//your notes are in your phone
-	@FXML
+	/*@FXML
 	void export() {
 		kMeans(3);
 		findBlobs();
@@ -83,6 +84,13 @@ public class ClusterPointsController {
 		ideal.put("triangle", 2);
 		System.out.println(numOfShapes);
 		System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
+	}*/
+	
+	//TAYLORS FUNCTION TO PLAY WITH
+	@FXML
+	void export() {
+		System.out.println("blobTypes : " + blobTypes);
+		System.out.println("numOfShapes : " + numOfShapes);
 	}
 	
 	
