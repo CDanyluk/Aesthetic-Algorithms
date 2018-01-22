@@ -74,7 +74,7 @@ public class FindShapes {
 				blobTypes.put(b, percentages);
 			}
 		}
-		System.out.println(blobTypes);
+		//System.out.println(blobTypes);
 		countShapes();
 	}
 	

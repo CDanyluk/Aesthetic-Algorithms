@@ -352,18 +352,20 @@ public class MainController {
 				ideal.put("circle", 1);
 				ideal.put("triangle", 2);
 				//print score
-				System.out.println("numOfShapes : " + numOfShapes);
-				System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
+				//System.out.println("numOfShapes : " + numOfShapes);
+				//System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
+				//System.out.println("colors : " + colors);
 				double colorscore = colorchi(colors);
-				if (colorscore > 0.4) {
-					for (int c = 0; c <= colors.size(); c++) {
+				if (colorscore != 0 && colorscore < 0.22 && colors.size() > 2) {
+					for (int c = 0; c < colors.size(); c++) {
 						System.out.println("Color #" + c + "=");
-						System.out.println("Red : " + colors.get(c).getRed());
-						System.out.println("Green : " + colors.get(c).getGreen());
-						System.out.println("Blue : " + colors.get(c).getBlue());
+						System.out.println("Red : " + Math.round(255 * colors.get(c).getRed()));
+						System.out.println("Green : " + Math.round(255 * colors.get(c).getGreen()));
+						System.out.println("Blue : " + Math.round(255 * colors.get(c).getBlue()));
+						System.out.println("color score = " + colorchi(colors));
 					}
 				}
-				System.out.println("color score = " + colorchi(colors));
+				//System.out.println("color score = " + colorchi(colors));
 			}
 		}
 		
