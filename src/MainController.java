@@ -356,16 +356,17 @@ public class MainController {
 				//System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
 				//System.out.println("colors : " + colors);
 				double colorscore = colorchi(colors);
-				if (colorscore != 0 && colorscore < 0.22 && colors.size() > 2) {
+				if (colorscore > 0.2) {
 					for (int c = 0; c < colors.size(); c++) {
-						System.out.println("Color #" + c + "=");
-						System.out.println("Red : " + Math.round(255 * colors.get(c).getRed()));
-						System.out.println("Green : " + Math.round(255 * colors.get(c).getGreen()));
-						System.out.println("Blue : " + Math.round(255 * colors.get(c).getBlue()));
-						System.out.println("color score = " + colorchi(colors));
+						int r = (int)Math.round(255 * colors.get(c).getRed());
+						int g = (int)Math.round(255 * colors.get(c).getGreen());
+						int b = (int)Math.round(255 * colors.get(c).getBlue());
+						String hex = String.format("#%02x%02x%02x", r, g, b);  
+						System.out.println("color " + c + " hex #" + hex);
 					}
 				}
-				//System.out.println("color score = " + colorchi(colors));
+					
+				System.out.println("color score = " + colorchi(colors));
 			}
 		}
 		
@@ -374,20 +375,19 @@ public class MainController {
 	//These chi things can probably be put outside of the actual controller
 	private double colorchi(ArrayList<Color> colorList) {
 		double scoretotal = 0;
+		double expected = 120;
 		for (int i = 0; i < colorList.size(); i++) {
-			double diftotal = 0;
+			double dif = 0;
 			if (i != colorList.size()-1) {
-				double rDif = Math.abs(colorList.get(i).getRed() - colorList.get(i+1).getRed());
-				double gDif = Math.abs(colorList.get(i).getGreen() - colorList.get(i+1).getGreen());
-				double bDif = Math.abs(colorList.get(i).getGreen() - colorList.get(i+1).getGreen());
-				diftotal = (rDif + gDif + bDif)/colorList.size();
+				double color1 = colorList.get(i).getHue();
+				double color2 = colorList.get(i+1).getHue();
+				dif = Math.abs(color1 - color2);
 			}else {
-				double rDif = Math.abs(colorList.get(i).getRed() - colorList.get(0).getRed());
-				double gDif = Math.abs(colorList.get(i).getGreen() - colorList.get(0).getGreen());
-				double bDif = Math.abs(colorList.get(i).getGreen() - colorList.get(0).getGreen());
-				diftotal = (rDif + gDif + bDif)/colorList.size();
+				double color1 = colorList.get(i).getHue();
+				double color2 = colorList.get(0).getHue();
+				dif = Math.abs(color1 - color2);
 			}
-			scoretotal += 1/((1/diftotal)+1);
+			scoretotal += 1/((Math.abs(expected - dif))+1);
 		}
 		scoretotal = scoretotal/colorList.size();
 		return scoretotal;
