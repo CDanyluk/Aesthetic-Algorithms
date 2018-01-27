@@ -530,7 +530,13 @@ public class MainController {
 		
 		//Write the text file
 		try(  PrintWriter out = new PrintWriter( directory + "/automata" + number + ".txt" )  ){
-		    out.println( name );
+		    out.println(seed);
+		    out.println(cells.getDead());
+		    out.println(cells.getAlive());
+		    out.println(cells.getColors());
+		    out.println(cells.getIterations());
+		    out.println(cells.getFukit());
+		    out.println("WHY THE FUCK IS IT NOT ADDING THIS");
 		} catch (FileNotFoundException e) {
 			System.out.println("Your text writer is fucked");
 		}
