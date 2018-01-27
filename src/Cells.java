@@ -130,10 +130,6 @@ public class Cells {
 		return rules;
 	}
 	
-	public String getFukit() {
-		return "FUCKIT";
-	}
-	
 	//luck is randomized and it will have 1/luck chance of coming alive
 	public void randomGraph() {
 		int luck = (int)Math.floor( Math.random() * 100 );

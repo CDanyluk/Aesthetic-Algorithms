@@ -535,8 +535,6 @@ public class MainController {
 		    out.println(cells.getAlive());
 		    out.println(cells.getColors());
 		    out.println(cells.getIterations());
-		    out.println(cells.getFukit());
-		    out.println("WHY THE FUCK IS IT NOT ADDING THIS");
 		} catch (FileNotFoundException e) {
 			System.out.println("Your text writer is fucked");
 		}
