@@ -13,7 +13,7 @@ public class Build {
 		Class.forName("org.sqlite.JDBC");
 		Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
 		Statement stat = con.createStatement();
-		BufferedReader commands = new BufferedReader(new FileReader("db.txt"));
+		BufferedReader commands = new BufferedReader(new FileReader("resources/db.txt"));
 		String command;
 		while ((command = commands.readLine()) != null) {
 			System.out.println(command);
