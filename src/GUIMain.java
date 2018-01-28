@@ -26,8 +26,7 @@ public class GUIMain extends Application {
 		primaryStage.show();
 	}
 
-	/*public static void main(String[] args) {
-		launch(args);
+	public static void main(String[] args) {
 		launch(args);
 		Build data = new Build();
 		Send send = new Send();
@@ -45,5 +44,5 @@ public class GUIMain extends Application {
 			// TODO Auto-generated catch block
 			System.out.println("IO Exception.");
 		}
-	}*/
+	}
 }
