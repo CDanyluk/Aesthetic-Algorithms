@@ -78,9 +78,9 @@ public class Cells {
 		rules = rules + "Dead: " + pattern.getDead() + "\n";
 		rules = rules + "Alive: " + pattern.getAlive() + "\n";
 		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
-		System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colorsRaw);
+		//System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colorsRaw);
 		HashMap<Integer, String> colors = new HashMap<Integer, String>();
-		System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colors);
+		//System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colors);
 		for (int i = 0; i < colorsRaw.size(); i++) {
 			Color c = colorsRaw.get(i);
 			int red = (int)c.getRed();
@@ -109,9 +109,9 @@ public class Cells {
 	public String getColors() {
 		String rules = new String();
 		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
-		System.out.println("MainController/Cells/getColors()/colorsRaw: " + colorsRaw);
+		//System.out.println("MainController/Cells/getColors()/colorsRaw: " + colorsRaw);
 		HashMap<Integer, String> colors = new HashMap<Integer, String>();
-		System.out.println("MainController/Cells/getColors()/colorsRaw: " + colors);
+		//System.out.println("MainController/Cells/getColors()/colorsRaw: " + colors);
 		for (int i = 0; i < colorsRaw.size(); i++) {
 			Color c = colorsRaw.get(i);
 			int r = (int)Math.round(255 * c.getRed());
@@ -128,10 +128,6 @@ public class Cells {
 		String rules = new String();
 		rules = rules + "Iterations: " + iteration + "\n";
 		return rules;
-	}
-	
-	public String getFukit() {
-		return "FUCKIT";
 	}
 	
 	//luck is randomized and it will have 1/luck chance of coming alive

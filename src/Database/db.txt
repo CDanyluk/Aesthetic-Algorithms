@@ -1,0 +1,2 @@
+CREATE TABLE Cells(ImageName TEXT, Seeds TEXT, Dead TEXT, Live TEXT, Colors TEXT, Iterations INTEGER, Score INTEGER)
+CREATE TABLE LSystems(values INTEGER)

@@ -22,6 +22,9 @@ public class FindSizes {
 		
 	}
 	
+	public Map<String, Integer> getBlobSizes() {
+		return blobTypes;
+	}
 	
 	public int getBigBlobs() { return blobTypes.get("big"); }
 	public int getMediumBlobs() { return blobTypes.get("medium"); }

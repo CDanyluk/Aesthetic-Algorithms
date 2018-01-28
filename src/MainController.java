@@ -155,6 +155,7 @@ public class MainController {
 	//God bad programming but shit take it
 	private HashMap<Blob, HashMap<String, Double>> blobTypes = new HashMap<Blob, HashMap<String, Double>>();
 	private HashMap<String, Integer> numOfShapes = new HashMap<String, Integer>();
+	private Map<String, Integer> blobSizes = new HashMap<String, Integer>();
 	ArrayList<Color> colors = new ArrayList<>();
 	
 	@FXML 
@@ -309,6 +310,7 @@ public class MainController {
 		//fit.getSmallBlobs();
 		//fit.getTinyBlobs();
 		findShapes(blobs);
+		blobSizes = fit.getBlobSizes();
 
 	}
 	
@@ -323,6 +325,7 @@ public class MainController {
 		//numShapes.get("triangle");
 		//numShapes.get("circle");
 		blobTypes = blobShapes.getTypes();
+		
 		numOfShapes = blobShapes.getNumOfShapes();
 	}
 	
@@ -345,28 +348,29 @@ public class MainController {
 				}
 				kMeans(3);
 				findBlobs();
-				//execute some kind of code to give it a score
-				HashMap<String, Integer> ideal = new HashMap<String, Integer>();
-				ideal.put("square", 12);
-				ideal.put("line", 19);
-				ideal.put("circle", 1);
-				ideal.put("triangle", 2);
-				//print score
-				//System.out.println("numOfShapes : " + numOfShapes);
-				//System.out.println("Chi score = " + chisquared(ideal, numOfShapes));
-				//System.out.println("colors : " + colors);
+				//the golden ratio ideal
+				Map<String, Integer> golden = new HashMap<String, Integer>();
+				golden.put("big", 2);
+				golden.put("medium", 4);
+				golden.put("small", 3);
+				//receive the hashmap to compare it to
+				
+				//find the two scores
 				double colorscore = colorchi(colors);
-				if (colorscore > 0.2) {
-					for (int c = 0; c < colors.size(); c++) {
-						int r = (int)Math.round(255 * colors.get(c).getRed());
-						int g = (int)Math.round(255 * colors.get(c).getGreen());
-						int b = (int)Math.round(255 * colors.get(c).getBlue());
-						String hex = String.format("#%02x%02x%02x", r, g, b);  
-						System.out.println("color " + c + " hex #" + hex);
-					}
+				//System.out.println("colorscore : " + colorscore);
+				double sizescore = sizechi(golden, blobSizes);
+				if (sizescore > 0.1) {
+					System.out.println("sizescore : " + sizescore);
 				}
-					
-				System.out.println("color score = " + colorchi(colors));
+				//if (sizescore > 0.27) {
+					System.out.println("size score : " + sizescore);
+					System.out.println("sizes : " + blobSizes);
+				//}
+				
+				//combine the two scores and divide by two
+				
+				//print out the new, total score
+				//System.out.println("colors : " + colors);
 			}
 		}
 		
@@ -393,24 +397,37 @@ public class MainController {
 		return scoretotal;
 	}
 	
-	private double chisquared(HashMap<String, Integer> expected, HashMap<String, Integer> given) {
-		double difcount = 0;
-		//blobcount exists because if there is only one blob it should automatically get a score of 0
-		int blobcount = 0;
-		for (String k : expected.keySet()) {
-			double dif = 0;
-			dif = Math.abs(expected.get(k) - given.get(k));
-			//add the blobs of given to blobcount
-			blobcount += given.get(k);
-			dif++;
-			difcount = difcount + (1/dif);
+	private double sizechi(Map<String, Integer> expected, Map<String, Integer> given) {
+		double bigscore = 0;
+		double medscore = 0;
+		double smallscore = 0;
+		double total = 0;
+		//Compare big blobs
+		//if big blobs are between 2 - 5 give it a perfect score
+		if (given.get("big") >= 2 && given.get("big") <= 5) {
+			bigscore = 1;
+		//otherwise chisquare it
+		}else if (given.get("big") > 5) {
+			bigscore = 1/(Math.abs(given.get("big") - 5)+1);
+		//if it is less than 2 it is just bad
+		}else if (given.get("big") < 2) {
+			bigscore = 0;
 		}
-		difcount = difcount / expected.size();
-		//if the blobcount is 1 that is v bad and means the picture is empty
-		if (blobcount == 1) {
-			return 0.0;
-		}
-		return difcount;
+		
+		//chisquare the medium score
+		double expMed = expected.get("medium");
+		double givMed = given.get("medium");
+		medscore = 1/(Math.abs(expMed - givMed)+1);
+
+		//chisquare the small score
+		double expSmall = expected.get("small");
+		double givSmall = given.get("small");
+		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
+		
+		//add al the scores, divide by three, and return the value
+		total = bigscore + medscore + smallscore;
+		total = total/3;
+		return total;
 	}
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
@@ -535,8 +552,6 @@ public class MainController {
 		    out.println(cells.getAlive());
 		    out.println(cells.getColors());
 		    out.println(cells.getIterations());
-		    out.println(cells.getFukit());
-		    out.println("WHY THE FUCK IS IT NOT ADDING THIS");
 		} catch (FileNotFoundException e) {
 			System.out.println("Your text writer is fucked");
 		}
