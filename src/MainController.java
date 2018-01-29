@@ -359,13 +359,10 @@ public class MainController {
 				double colorscore = colorchi(colors);
 				//System.out.println("colorscore : " + colorscore);
 				double sizescore = sizechi(golden, blobSizes);
-				if (sizescore > 0.1) {
-					System.out.println("sizescore : " + sizescore);
-				}
-				//if (sizescore > 0.27) {
+				if (sizescore > 0.5) {
 					System.out.println("size score : " + sizescore);
 					System.out.println("sizes : " + blobSizes);
-				//}
+				}
 				
 				//combine the two scores and divide by two
 				
@@ -420,13 +417,13 @@ public class MainController {
 		medscore = 1/(Math.abs(expMed - givMed)+1);
 
 		//chisquare the small score
-		double expSmall = expected.get("small");
+		/*double expSmall = expected.get("small");
 		double givSmall = given.get("small");
-		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
+		smallscore = 1/(Math.abs(expSmall - givSmall)+1);*/
 		
 		//add al the scores, divide by three, and return the value
-		total = bigscore + medscore + smallscore;
-		total = total/3;
+		total = bigscore + medscore;
+		total = total/2;
 		return total;
 	}
 	
