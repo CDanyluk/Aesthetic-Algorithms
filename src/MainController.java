@@ -353,7 +353,8 @@ public class MainController {
 				golden.put("big", 2);
 				golden.put("medium", 4);
 				golden.put("small", 3);
-				//receive the hashmap to compare it to
+				
+				//System.out.println(blobSizes);
 				
 				//find the two scores
 				double colorscore = colorchi(colors);
@@ -364,11 +365,14 @@ public class MainController {
 					score = 0;
 				}
 				//print out the new, total score
-				if (score > 0.45) {
+				if (score > 0.3) {
 					System.out.println("Path for reading : " + path);
-					System.out.println("Score: " + score);
+					System.out.println("Good score: " + score);
+				}else if (score < 0.03 && score != 0){
+					System.out.println("Path for reading : " + path);
+					System.out.println("Bad score: " + score);
 				}else {
-					System.out.println(score);
+					System.out.println(".");
 				}
 			}
 			System.out.println("Finished scoring");
@@ -412,7 +416,8 @@ public class MainController {
 		//if it is less than 2 it is just bad
 		}else if (given.get("big") < 2) {
 			bigscore = 0;
-		}else if (given.get("huge") > 1) {
+		}
+		if (given.get("huge") > 0) {
 			return 0;
 		}
 		
