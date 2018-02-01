@@ -26,12 +26,14 @@ public class FindSizes {
 		return blobTypes;
 	}
 	
+	public int getHugeBlobs() { return blobTypes.get("huge"); }
 	public int getBigBlobs() { return blobTypes.get("big"); }
 	public int getMediumBlobs() { return blobTypes.get("medium"); }
 	public int getSmallBlobs() { return blobTypes.get("small"); }
 	public int getTinyBlobs() { return blobTypes.get("tiny"); }
 	
 	public void findSizeBlobs() {
+		int huge = 0;
 		int big = 0;
 		int medium = 0;
 		int small = 0;
@@ -39,7 +41,9 @@ public class FindSizes {
 		for (int i = 0; i < blobs.size(); i++) {
 			Blob blob = blobs.get(i);
 			int howBig = blob.getSize();
-			if (howBig >= 25000) {
+			if (howBig > 100000) {
+				huge++;
+			}else if (howBig < 100000 && howBig >= 25000) {
 				big++;
 			}else if (howBig < 25000 && howBig >= 1000) {
 				medium++;
@@ -49,6 +53,7 @@ public class FindSizes {
 				tiny++;
 			}
 		}
+		blobTypes.put("huge", huge);
 		blobTypes.put("big", big);
 		blobTypes.put("medium", medium);
 		blobTypes.put("small", small);

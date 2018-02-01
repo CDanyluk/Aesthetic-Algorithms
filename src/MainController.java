@@ -339,7 +339,7 @@ public class MainController {
 			//Go through the images up to the number exported, picNum is stored as a global variable :(
 			for (int i = 0; i < picNum; i ++) {
 				File path = new File(folder + "/automata" + i + ".png");
-				System.out.println("Path for reading : " + path);
+				//System.out.println("Path for reading : " + path);
 				try {
 					image = Optional.of(ImageIO.read(path));
 				} catch (IOException e) {
@@ -357,18 +357,21 @@ public class MainController {
 				
 				//find the two scores
 				double colorscore = colorchi(colors);
-				//System.out.println("colorscore : " + colorscore);
 				double sizescore = sizechi(golden, blobSizes);
-				if (sizescore > 0.5) {
-					System.out.println("size score : " + sizescore);
-					System.out.println("sizes : " + blobSizes);
-				}
-				
 				//combine the two scores and divide by two
-				
+				double score = (colorscore + sizescore)/2;
+				if (colorscore == 0 || sizescore == 0) {
+					score = 0;
+				}
 				//print out the new, total score
-				//System.out.println("colors : " + colors);
+				if (score > 0.45) {
+					System.out.println("Path for reading : " + path);
+					System.out.println("Score: " + score);
+				}else {
+					System.out.println(score);
+				}
 			}
+			System.out.println("Finished scoring");
 		}
 		
 	}
@@ -390,7 +393,7 @@ public class MainController {
 			}
 			scoretotal += 1/((Math.abs(expected - dif))+1);
 		}
-		scoretotal = scoretotal/colorList.size();
+		//scoretotal = scoretotal/colorList.size();
 		return scoretotal;
 	}
 	
@@ -409,6 +412,8 @@ public class MainController {
 		//if it is less than 2 it is just bad
 		}else if (given.get("big") < 2) {
 			bigscore = 0;
+		}else if (given.get("huge") > 1) {
+			return 0;
 		}
 		
 		//chisquare the medium score
