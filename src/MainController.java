@@ -384,6 +384,8 @@ public class MainController {
 	public double scoreThis(String imageName) {
 		double score = 0;
 		File path = new File(folder + "/" + imageName + ".png");
+		System.out.println("path : " + path);
+		System.out.println("folder : " + folder);
 		//System.out.println("Path for reading : " + path);
 		try {
 			image = Optional.of(ImageIO.read(path));
@@ -579,20 +581,9 @@ public class MainController {
 		randomGrid();
 		//centerGrid();
 		//This dumb chunk is literally to record the seeds
-		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
 		String name = "automata" + number;
 		System.out.println(name);
-		
-		//Write the text file
-		try {
-		    CellsInput input = new CellsInput();
-		    double score = scoreThis(name);
-		    input.toDatabase(name, seed, cells, score);
-		    
-		} catch (Exception e) {
-			System.out.println("Could not put cells in database");
-		}
 		
 		//Write the image file
 		File file = new File(directory, "automata" + number + ".png");
@@ -608,6 +599,17 @@ public class MainController {
 		        System.out.println("exportImage() fuuuuucked");
 		        }
 		    }
+		
+		//Write the text file
+				try {
+				    CellsInput input = new CellsInput();
+				    double score = scoreThis(name);
+				    input.toDatabase(name, cells, score);
+				    
+				} catch (Exception e) {
+					System.out.println("Could not put cells in database");
+					e.printStackTrace();
+				}
 		return;
 	}
 	
