@@ -16,7 +16,7 @@ public class Build {
 		BufferedReader commands = new BufferedReader(new FileReader("resources/db.txt"));
 		String command;
 		while ((command = commands.readLine()) != null) {
-			System.out.println(command);
+			//System.out.println(command);
 			stat.execute(command);
 		}
 	}

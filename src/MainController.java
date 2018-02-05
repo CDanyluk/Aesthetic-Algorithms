@@ -1,4 +1,5 @@
 import java.awt.color.ColorSpace;
+
 import java.awt.image.BufferedImage;
 
 import java.awt.image.RenderedImage;
@@ -339,7 +340,7 @@ public class MainController {
 			//Go through the images up to the number exported, picNum is stored as a global variable :(
 			for (int i = 0; i < picNum; i ++) {
 				File path = new File(folder + "/automata" + i + ".png");
-				System.out.println("Path for reading : " + path);
+				//System.out.println("Path for reading : " + path);
 				try {
 					image = Optional.of(ImageIO.read(path));
 				} catch (IOException e) {
@@ -353,26 +354,60 @@ public class MainController {
 				golden.put("big", 2);
 				golden.put("medium", 4);
 				golden.put("small", 3);
-				//receive the hashmap to compare it to
+				
+				//System.out.println(blobSizes);
 				
 				//find the two scores
 				double colorscore = colorchi(colors);
-				//System.out.println("colorscore : " + colorscore);
 				double sizescore = sizechi(golden, blobSizes);
-				if (sizescore > 0.1) {
-					System.out.println("sizescore : " + sizescore);
-				}
-				//if (sizescore > 0.27) {
-					System.out.println("size score : " + sizescore);
-					System.out.println("sizes : " + blobSizes);
-				//}
-				
 				//combine the two scores and divide by two
-				
+				double score = (colorscore + sizescore)/2;
+				if (colorscore == 0 || sizescore == 0) {
+					score = 0;
+				}
 				//print out the new, total score
-				//System.out.println("colors : " + colors);
+				if (score > 0.3) {
+					System.out.println("Path for reading : " + path);
+					System.out.println("Good score: " + score);
+				}else if (score < 0.03 && score != 0){
+					System.out.println("Path for reading : " + path);
+					System.out.println("Bad score: " + score);
+				}else {
+					System.out.println(".");
+				}
 			}
+			System.out.println("Finished scoring");
 		}
+		
+	}
+	
+	public double scoreThis(String imageName) {
+		double score = 0;
+		File path = new File(folder + "/" + imageName + ".png");
+		//System.out.println("Path for reading : " + path);
+		try {
+			image = Optional.of(ImageIO.read(path));
+		} catch (IOException e) {
+			System.out.println("The program couldn't auto read a damn file, problem in scoreThis()");
+			e.printStackTrace();
+		}
+		kMeans(3);
+		findBlobs();
+		//the golden ratio ideal
+		Map<String, Integer> golden = new HashMap<String, Integer>();
+		golden.put("big", 2);
+		golden.put("medium", 4);
+		golden.put("small", 3);
+		
+		//find the two scores
+		double colorscore = colorchi(colors);
+		double sizescore = sizechi(golden, blobSizes);
+		//combine the two scores and divide by two
+		score = (colorscore + sizescore)/2;
+		if (colorscore == 0 || sizescore == 0) {
+			score = 0;
+		}
+		return score;
 		
 	}
 	
@@ -393,7 +428,7 @@ public class MainController {
 			}
 			scoretotal += 1/((Math.abs(expected - dif))+1);
 		}
-		scoretotal = scoretotal/colorList.size();
+		//scoretotal = scoretotal/colorList.size();
 		return scoretotal;
 	}
 	
@@ -413,6 +448,9 @@ public class MainController {
 		}else if (given.get("big") < 2) {
 			bigscore = 0;
 		}
+		if (given.get("huge") > 0) {
+			return 0;
+		}
 		
 		//chisquare the medium score
 		double expMed = expected.get("medium");
@@ -420,13 +458,13 @@ public class MainController {
 		medscore = 1/(Math.abs(expMed - givMed)+1);
 
 		//chisquare the small score
-		double expSmall = expected.get("small");
+		/*double expSmall = expected.get("small");
 		double givSmall = given.get("small");
-		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
+		smallscore = 1/(Math.abs(expSmall - givSmall)+1);*/
 		
 		//add al the scores, divide by three, and return the value
-		total = bigscore + medscore + smallscore;
-		total = total/3;
+		total = bigscore + medscore;
+		total = total/2;
 		return total;
 	}
 	
@@ -543,17 +581,17 @@ public class MainController {
 		//This dumb chunk is literally to record the seeds
 		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
-		String name = seed + cells.getRuleset();
+		String name = "automata" + number;
+		System.out.println(name);
 		
 		//Write the text file
-		try(  PrintWriter out = new PrintWriter( directory + "/automata" + number + ".txt" )  ){
-		    out.println(seed);
-		    out.println(cells.getDead());
-		    out.println(cells.getAlive());
-		    out.println(cells.getColors());
-		    out.println(cells.getIterations());
-		} catch (FileNotFoundException e) {
-			System.out.println("Your text writer is fucked");
+		try {
+		    CellsInput input = new CellsInput();
+		    double score = scoreThis(name);
+		    input.toDatabase(name, seed, cells, score);
+		    
+		} catch (Exception e) {
+			System.out.println("Could not put cells in database");
 		}
 		
 		//Write the image file
