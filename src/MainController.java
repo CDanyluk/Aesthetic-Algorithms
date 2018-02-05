@@ -726,15 +726,15 @@ public class MainController {
 		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
 		angle.setText(randomAngle.toString());
 		
-		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
+		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 5);
 		recursions.setText(randomRecursions.toString());
 		
 		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
 		length.setText(randomLength.toString());
 		
 		
-		int randomStartX = ThreadLocalRandom.current().nextInt(15, 685);
-		int randomStartY = ThreadLocalRandom.current().nextInt(15, 685);
+		int randomStartX = ThreadLocalRandom.current().nextInt(200, 485);
+		int randomStartY = ThreadLocalRandom.current().nextInt(200, 485);
 		double[] randomStart = new double[2];
 		randomStart[0] = randomStartX;
 		randomStart[1] = randomStartY;
@@ -755,6 +755,9 @@ public class MainController {
 		
 		ArrayList<Line> tree = lway.getDrawing();
 		drawLSystemLines(tree);
+		
+		System.out.println("\n\n\nStart: " + randomStart[0] + "," + randomStart[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
+				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
 		
 	}
 	
