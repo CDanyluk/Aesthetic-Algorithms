@@ -1,4 +1,5 @@
 import java.awt.color.ColorSpace;
+
 import java.awt.image.BufferedImage;
 
 import java.awt.image.RenderedImage;
@@ -380,6 +381,36 @@ public class MainController {
 		
 	}
 	
+	public double scoreThis(String imageName) {
+		double score = 0;
+		File path = new File(folder + "/" + imageName + ".png");
+		//System.out.println("Path for reading : " + path);
+		try {
+			image = Optional.of(ImageIO.read(path));
+		} catch (IOException e) {
+			System.out.println("The program couldn't auto read a damn file, problem in scoreThis()");
+			e.printStackTrace();
+		}
+		kMeans(3);
+		findBlobs();
+		//the golden ratio ideal
+		Map<String, Integer> golden = new HashMap<String, Integer>();
+		golden.put("big", 2);
+		golden.put("medium", 4);
+		golden.put("small", 3);
+		
+		//find the two scores
+		double colorscore = colorchi(colors);
+		double sizescore = sizechi(golden, blobSizes);
+		//combine the two scores and divide by two
+		score = (colorscore + sizescore)/2;
+		if (colorscore == 0 || sizescore == 0) {
+			score = 0;
+		}
+		return score;
+		
+	}
+	
 	//These chi things can probably be put outside of the actual controller
 	private double colorchi(ArrayList<Color> colorList) {
 		double scoretotal = 0;
@@ -550,17 +581,17 @@ public class MainController {
 		//This dumb chunk is literally to record the seeds
 		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
-		String name = seed + cells.getRuleset();
+		String name = "automata" + number;
+		System.out.println(name);
 		
 		//Write the text file
-		try(  PrintWriter out = new PrintWriter( directory + "/automata" + number + ".txt" )  ){
-		    out.println(seed);
-		    out.println(cells.getDead());
-		    out.println(cells.getAlive());
-		    out.println(cells.getColors());
-		    out.println(cells.getIterations());
-		} catch (FileNotFoundException e) {
-			System.out.println("Your text writer is fucked");
+		try {
+		    CellsInput input = new CellsInput();
+		    double score = scoreThis(name);
+		    input.toDatabase(name, seed, cells, score);
+		    
+		} catch (Exception e) {
+			System.out.println("Could not put cells in database");
 		}
 		
 		//Write the image file

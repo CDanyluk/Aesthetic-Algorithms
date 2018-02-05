@@ -1,1 +1,0 @@
-CREATE TABLE l_system(image_name STRING, rules STRING, score INTEGER)
