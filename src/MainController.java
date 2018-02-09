@@ -127,10 +127,13 @@ public class MainController {
 	Button fetch;
 	
 	@FXML
-	Button score;
+	Button deletebad;
 	
 	@FXML
-	Button delete;
+	Button deleteall;
+	
+	@FXML
+	Button viewcells;
 	
 	@FXML
 	Button export;
@@ -330,56 +333,6 @@ public class MainController {
 		numOfShapes = blobShapes.getNumOfShapes();
 	}
 	
-	//THIS IS WHERE IT READS IN A FILE
-	@FXML
-	public void score() {
-		//read file in
-		//the global variable folder has the folder name that has been randomly generated.
-		
-		if (picNum >= 0) {
-			//Go through the images up to the number exported, picNum is stored as a global variable :(
-			for (int i = 0; i < picNum; i ++) {
-				File path = new File(folder + "/automata" + i + ".png");
-				//System.out.println("Path for reading : " + path);
-				try {
-					image = Optional.of(ImageIO.read(path));
-				} catch (IOException e) {
-					System.out.println("The program couldn't auto read a damn file, problem in score()");
-					e.printStackTrace();
-				}
-				kMeans(3);
-				findBlobs();
-				//the golden ratio ideal
-				Map<String, Integer> golden = new HashMap<String, Integer>();
-				golden.put("big", 2);
-				golden.put("medium", 4);
-				golden.put("small", 3);
-				
-				//System.out.println(blobSizes);
-				
-				//find the two scores
-				double colorscore = colorchi(colors);
-				double sizescore = sizechi(golden, blobSizes);
-				//combine the two scores and divide by two
-				double score = (colorscore + sizescore)/2;
-				if (colorscore == 0 || sizescore == 0) {
-					score = 0;
-				}
-				//print out the new, total score
-				if (score > 0.3) {
-					System.out.println("Path for reading : " + path);
-					System.out.println("Good score: " + score);
-				}else if (score < 0.03 && score != 0){
-					System.out.println("Path for reading : " + path);
-					System.out.println("Bad score: " + score);
-				}else {
-					System.out.println(".");
-				}
-			}
-			System.out.println("Finished scoring");
-		}
-		
-	}
 	
 	public double scoreThis(String imageName) {
 		double score = 0;
@@ -468,6 +421,11 @@ public class MainController {
 		total = bigscore + medscore;
 		total = total/2;
 		return total;
+	}
+	
+	@FXML
+	public void viewCells() {
+		
 	}
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
@@ -600,7 +558,7 @@ public class MainController {
 		        }
 		    }
 		
-		//Write the text file
+		//Write the database
 				try {
 				    CellsInput input = new CellsInput();
 				    double score = scoreThis(name);
