@@ -104,7 +104,6 @@ public class Cells {
 				}
 			}
 		}
-		System.out.println("seeds" + seeds);
 		return seeds;
 	}
 	
@@ -195,7 +194,6 @@ public class Cells {
 			String hex = String.format("#%02x%02x%02x", r, g, b); 
 			rules += hex;
 		}
-		System.out.println("Colors : " + rules);
 		return rules;
 	}
 	

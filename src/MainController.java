@@ -20,6 +20,9 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import Database.Read;
+import Database.ReadCells;
+import Database.Send;
 import edu.hendrix.blob.Blob;
 import edu.hendrix.cluster.KMeansPlusPlus;
 import edu.hendrix.cluster.color.ColorCluster;
@@ -338,7 +341,6 @@ public class MainController {
 		double score = 0;
 		File path = new File(folder + "/" + imageName + ".png");
 		System.out.println("path : " + path);
-		System.out.println("folder : " + folder);
 		//System.out.println("Path for reading : " + path);
 		try {
 			image = Optional.of(ImageIO.read(path));
@@ -425,7 +427,14 @@ public class MainController {
 	
 	@FXML
 	public void viewCells() {
-		
+		ReadCells read = new ReadCells();
+		Send send = new Send();
+		try {
+			//send.readCells();
+			read.readRow();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
@@ -485,7 +494,6 @@ public class MainController {
 	public void autoExport(String p) {
 		String path = p+randomnumber();
 		folder = path;
-		System.out.println(folder);
 		File directory = new File(path);
 		FileChooser saveLocation = new FileChooser();
 		directory.mkdirs();
@@ -541,7 +549,6 @@ public class MainController {
 		//This dumb chunk is literally to record the seeds
 		fetchButton();
 		String name = "automata" + number;
-		System.out.println(name);
 		
 		//Write the image file
 		File file = new File(directory, "automata" + number + ".png");

@@ -35,4 +35,20 @@ public class Read {
         }
 	input.close();
     }
+    
+    public void readCells() throws ClassNotFoundException, SQLException {
+    	  Class.forName("org.sqlite.JDBC");
+          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+          Statement stat = con.createStatement();
+          String command2 = "SELECT ImageName FROM Cells;";
+          String command = "SELECT score FROM Cells;";
+          if (stat.execute(command)) {
+          		ResultSet results = stat.getResultSet();
+          		while (results.next()) {
+                     System.out.print(results.getDouble("score"));
+          			 System.out.println();
+          		}
+          }
+    }
+         
 }
