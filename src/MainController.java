@@ -425,19 +425,41 @@ public class MainController {
 		return total;
 	}
 	
+	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
+	
+	
 	@FXML
 	public void viewCells() {
 		ReadCells read = new ReadCells();
-		Send send = new Send();
 		try {
-			//send.readCells();
 			read.readRow();
 		}catch (Exception e) {
+			System.out.println("viewCells() is broken");
 			e.printStackTrace();
 		}
 	}
 	
-	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
+	@FXML
+	public void deleteCells() {
+		ReadCells read = new ReadCells();
+		try {
+			read.deleteAll();
+		}catch (Exception e) {
+			System.out.println("deleteCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void deleteBad() {
+		ReadCells read = new ReadCells();
+		try {
+			read.deleteBad();
+		}catch (Exception e) {
+			System.out.println("deleteBad() is broken");
+			e.printStackTrace();
+		}
+	}
 	
 	//decides whether you should choose where to export,
 	//or whether it should auto-export

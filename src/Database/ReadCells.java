@@ -124,5 +124,25 @@ public class ReadCells {
          		}
          }
 	 }
+	 
+	 public void deleteAll() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+	     Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+	     Statement stat = con.createStatement();
+	     String command = "DELETE FROM Cells;";
+	     System.out.println("Cells has been cleared");
+	     stat.execute(command);
+	     con.close();
+	 }
+	 
+	 public void deleteBad() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+	     Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+	     Statement stat = con.createStatement();
+	     String command = "DELETE FROM Cells WHERE Score = 0.0;";
+	     System.out.println("Cells with a bad score have been removed from database");
+	     stat.execute(command);
+	     con.close();
+	 }
 
 }
