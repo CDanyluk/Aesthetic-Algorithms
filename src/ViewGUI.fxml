@@ -22,9 +22,9 @@
             <Pane prefHeight="799.0" prefWidth="180.0">
                <children>
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
-                  <RadioButton fx:id="cellularAutomata" layoutX="4.0" layoutY="280.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
-                  <Button fx:id="fetch" layoutX="111.0" layoutY="285.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
-                  <Button fx:id="deletebad" layoutX="92.0" layoutY="706.0" mnemonicParsing="false" onAction="#deleteBad" text="Delete Bad" />
+                  <RadioButton fx:id="cellularAutomata" layoutX="10.0" layoutY="263.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
+                  <Button fx:id="fetch" layoutX="110.0" layoutY="268.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
+                  <Button fx:id="deletebad" layoutX="92.0" layoutY="737.0" mnemonicParsing="false" onAction="#deleteBad" text="Delete Bad" />
                   <Label layoutX="8.0" layoutY="45.0" text="Length:" />
                   <Label layoutX="8.0" layoutY="85.0" text="Recursions:" />
                   <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
@@ -33,11 +33,11 @@
                   <TextField fx:id="recursions" layoutX="84.0" layoutY="81.0" prefHeight="25.0" prefWidth="64.0" promptText="2" />
                   <Button layoutX="15.0" layoutY="208.0" mnemonicParsing="false" text="Randomize" />
                   <Button fx:id="lsystemgo" layoutX="117.0" layoutY="208.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
-                  <Label layoutX="11.0" layoutY="370.0" text="Iterations:" />
-                  <TextField fx:id="iterations" layoutX="106.0" layoutY="365.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
-                  <Label layoutX="13.0" layoutY="427.0" text="Alive:" />
-                  <Label layoutX="12.0" layoutY="543.0" text="Dead:" />
-                  <GridPane layoutX="26.0" layoutY="560.0" prefHeight="90.0" prefWidth="116.0">
+                  <Label layoutX="11.0" layoutY="339.0" text="Iterations:" />
+                  <TextField fx:id="iterations" layoutX="106.0" layoutY="334.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <Label layoutX="13.0" layoutY="399.0" text="Alive:" />
+                  <Label layoutX="12.0" layoutY="501.0" text="Dead:" />
+                  <GridPane layoutX="23.0" layoutY="501.0" prefHeight="90.0" prefWidth="116.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,7 +61,7 @@
                         <ToggleButton fx:id="dead8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <GridPane layoutX="26.0" layoutY="444.0" prefHeight="90.0" prefWidth="116.0">
+                  <GridPane layoutX="26.0" layoutY="400.0" prefHeight="90.0" prefWidth="116.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -85,14 +85,19 @@
                         <ToggleButton fx:id="alive8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Button fx:id="randomizegrid" layoutX="15.0" layoutY="331.0" mnemonicParsing="false" onAction="#randomGrid" text="Randomize Grid Values" />
-                  <Label layoutX="8.0" layoutY="400.0" text="Export Number:" />
-                  <TextField fx:id="exporthowmany" layoutX="106.0" layoutY="395.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
+                  <Button fx:id="randomizegrid" layoutX="12.0" layoutY="304.0" mnemonicParsing="false" onAction="#randomGrid" text="Randomize Grid Values" />
+                  <Label layoutX="11.0" layoutY="368.0" text="Export Number:" />
+                  <TextField fx:id="exporthowmany" layoutX="106.0" layoutY="363.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
                   <Separator layoutX="-1.0" layoutY="246.0" prefHeight="4.0" prefWidth="180.0" />
                   <Label layoutX="14.0" layoutY="170.0" text="Export Number:" />
                   <TextField fx:id="exportLSystem" layoutX="109.0" layoutY="166.0" prefHeight="25.0" prefWidth="45.0" promptText="10" />
-                  <Button fx:id="deleteall" layoutX="95.0" layoutY="745.0" mnemonicParsing="false" onAction="#deleteCells" text="Delete All" />
-                  <Button fx:id="viewcells" layoutX="12.0" layoutY="706.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
+                  <Button fx:id="deleteall" layoutX="95.0" layoutY="770.0" mnemonicParsing="false" onAction="#deleteCells" text="Delete All" />
+                  <Button fx:id="viewcells" layoutX="12.0" layoutY="737.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
+                  <Button layoutX="12.0" layoutY="770.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Mutate" />
+                  <Separator layoutX="-1.0" layoutY="591.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Separator layoutX="2.0" layoutY="693.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="14.0" layoutY="710.0" text="Cells Database Controls" />
+                  <Label layoutX="12.0" layoutY="608.0" text="L-System Database Controls" />
                </children>
             </Pane>
          </children>
@@ -116,7 +121,6 @@
       <Separator layoutX="177.0" orientation="VERTICAL" prefHeight="692.0" prefWidth="6.0" />
       <Separator layoutX="181.0" layoutY="685.0" prefHeight="17.0" prefWidth="700.0" />
       <Canvas fx:id="picture" height="700.0" layoutX="177.0" layoutY="-8.0" width="700.0" />
-      <Separator layoutY="680.0" prefHeight="25.0" prefWidth="180.0" />
       <Separator layoutX="172.0" layoutY="691.0" orientation="VERTICAL" prefHeight="107.0" prefWidth="16.0" />
    </children>
 </Pane>

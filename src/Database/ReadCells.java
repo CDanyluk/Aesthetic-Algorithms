@@ -125,6 +125,18 @@ public class ReadCells {
          }
 	 }
 	 
+	 public Cells readBest() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT MAX(Score) FROM Cells;";
+         if (stat.execute(command)) {
+         		ResultSet results = stat.getResultSet();
+                System.out.print(results.getDouble("Score"));
+
+         }
+	 }
+	 
 	 public void deleteAll() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
 	     Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
