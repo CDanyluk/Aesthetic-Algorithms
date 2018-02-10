@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import Automata.Cells;
+
 public class ReadCells {
 	
 	public void readRow() throws ClassNotFoundException, SQLException {
@@ -125,14 +127,16 @@ public class ReadCells {
          }
 	 }
 	 
-	 public Cells readBest() throws ClassNotFoundException, SQLException {
+	public void readBest() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
-         String command = "SELECT MAX(Score) FROM Cells;";
+         String command = "SELECT Seeds FROM Cells WHERE MAX(Score);";
+         Cells cells = new Cells(700, 700);
+         ParseCells parse = new ParseCells();
          if (stat.execute(command)) {
          		ResultSet results = stat.getResultSet();
-                System.out.print(results.getDouble("Score"));
+                parse.parseSeeds(results.getString("Seeds"));
 
          }
 	 }

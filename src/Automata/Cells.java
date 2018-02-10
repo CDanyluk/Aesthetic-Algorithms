@@ -1,3 +1,4 @@
+package Automata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,19 +86,19 @@ public class Cells {
 					//Add 0's to make them three digits long (009008)
 					//Check if x value needs 0's
 					if (x < 10) {
-						num += "[00" + x;
+						num += "00" + x;
 					}else if (x < 100) {
-						num += "[0" + x;
+						num += "0" + x;
 					}else {
-						num += "[" + x;
+						num += "" + x;
 					}
 					//check if y value needs 0's
 					if (y < 10) {
-						num += "00" + y + "]";
+						num += "00" + y + "%";
 					}else if (y < 100) {
-						num += "0" + y + "]";
+						num += "0" + y + "%";
 					}else {
-						num += y + "]";
+						num += y + "%";
 					}
 					seeds += num;
 					

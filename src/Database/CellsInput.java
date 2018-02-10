@@ -1,7 +1,7 @@
+package Database;
 
 
-import Database.Read;
-import Database.Send;
+import Automata.Cells;
 
 public class CellsInput {
 	

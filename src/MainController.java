@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import Automata.Cells;
+import Database.CellsInput;
 import Database.Read;
 import Database.ReadCells;
 import Database.Send;
@@ -137,6 +139,9 @@ public class MainController {
 	
 	@FXML
 	Button viewcells;
+	
+	@FXML
+	Button mutate;
 	
 	@FXML
 	Button export;
@@ -457,6 +462,17 @@ public class MainController {
 			read.deleteBad();
 		}catch (Exception e) {
 			System.out.println("deleteBad() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void mutate() {
+		ReadCells read = new ReadCells();
+		try {
+			read.readBest();
+		}catch (Exception e) {
+			System.out.println("mutate() is broken");
 			e.printStackTrace();
 		}
 	}
