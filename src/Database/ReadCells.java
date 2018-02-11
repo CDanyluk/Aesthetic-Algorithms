@@ -131,7 +131,11 @@ public class ReadCells {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
-         String command = "SELECT Seeds FROM Cells WHERE MAX(Score);";
+         String command = "SELECT  C.Seeds, C.Score\r\n" + 
+         		"FROM  Cells C\r\n" + 
+         		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
+         		"               FROM  Cells C2)\r\n" + 
+         		"               = C.Score";
          Cells cells = new Cells(700, 700);
          ParseCells parse = new ParseCells();
          if (stat.execute(command)) {
