@@ -724,15 +724,15 @@ public class MainController {
 		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
 		angle.setText(randomAngle.toString());
 		
-		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 5);
+		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
 		recursions.setText(randomRecursions.toString());
 		
 		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
 		length.setText(randomLength.toString());
 		
 		
-		int randomStartX = ThreadLocalRandom.current().nextInt(200, 485);
-		int randomStartY = ThreadLocalRandom.current().nextInt(200, 485);
+		int randomStartX = ThreadLocalRandom.current().nextInt(300, 301);
+		int randomStartY = ThreadLocalRandom.current().nextInt(300, 301);
 		double[] randomStart = new double[2];
 		randomStart[0] = randomStartX;
 		randomStart[1] = randomStartY;
