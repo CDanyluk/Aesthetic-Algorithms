@@ -31,14 +31,13 @@ public class Send {
 	        con.close();
 	 }
 	 
-	 public String[] readCells(String s) throws ClassNotFoundException, SQLException, IOException {
+	 public String[] readCells() throws ClassNotFoundException, SQLException, IOException {
 		 Class.forName("org.sqlite.JDBC");
 	     String[] cells = new String[7];
 		 Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
 	     Statement stat = con.createStatement();
-	     String cmd = s;
+	     String cmd = "SELECT * FROM Cells;";
 	     int columns = 6;
-	     System.out.println(cmd);
 	     if (stat.execute(cmd)) {
 	        ResultSet results = stat.getResultSet();
 	        while (results.next()) {

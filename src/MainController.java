@@ -20,6 +20,11 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import Automata.Cells;
+import Database.CellsInput;
+import Database.Read;
+import Database.ReadCells;
+import Database.Send;
 import edu.hendrix.blob.Blob;
 import edu.hendrix.cluster.KMeansPlusPlus;
 import edu.hendrix.cluster.color.ColorCluster;
@@ -127,10 +132,16 @@ public class MainController {
 	Button fetch;
 	
 	@FXML
-	Button score;
+	Button deletebad;
 	
 	@FXML
-	Button delete;
+	Button deleteall;
+	
+	@FXML
+	Button viewcells;
+	
+	@FXML
+	Button mutate;
 	
 	@FXML
 	Button export;
@@ -330,60 +341,11 @@ public class MainController {
 		numOfShapes = blobShapes.getNumOfShapes();
 	}
 	
-	//THIS IS WHERE IT READS IN A FILE
-	@FXML
-	public void score() {
-		//read file in
-		//the global variable folder has the folder name that has been randomly generated.
-		
-		if (picNum >= 0) {
-			//Go through the images up to the number exported, picNum is stored as a global variable :(
-			for (int i = 0; i < picNum; i ++) {
-				File path = new File(folder + "/automata" + i + ".png");
-				//System.out.println("Path for reading : " + path);
-				try {
-					image = Optional.of(ImageIO.read(path));
-				} catch (IOException e) {
-					System.out.println("The program couldn't auto read a damn file, problem in score()");
-					e.printStackTrace();
-				}
-				kMeans(3);
-				findBlobs();
-				//the golden ratio ideal
-				Map<String, Integer> golden = new HashMap<String, Integer>();
-				golden.put("big", 2);
-				golden.put("medium", 4);
-				golden.put("small", 3);
-				
-				//System.out.println(blobSizes);
-				
-				//find the two scores
-				double colorscore = colorchi(colors);
-				double sizescore = sizechi(golden, blobSizes);
-				//combine the two scores and divide by two
-				double score = (colorscore + sizescore)/2;
-				if (colorscore == 0 || sizescore == 0) {
-					score = 0;
-				}
-				//print out the new, total score
-				if (score > 0.3) {
-					System.out.println("Path for reading : " + path);
-					System.out.println("Good score: " + score);
-				}else if (score < 0.03 && score != 0){
-					System.out.println("Path for reading : " + path);
-					System.out.println("Bad score: " + score);
-				}else {
-					System.out.println(".");
-				}
-			}
-			System.out.println("Finished scoring");
-		}
-		
-	}
 	
 	public double scoreThis(String imageName) {
 		double score = 0;
 		File path = new File(folder + "/" + imageName + ".png");
+		System.out.println("path : " + path);
 		//System.out.println("Path for reading : " + path);
 		try {
 			image = Optional.of(ImageIO.read(path));
@@ -470,6 +432,51 @@ public class MainController {
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
 	
+	
+	@FXML
+	public void viewCells() {
+		ReadCells read = new ReadCells();
+		try {
+			read.readRow();
+		}catch (Exception e) {
+			System.out.println("viewCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void deleteCells() {
+		ReadCells read = new ReadCells();
+		try {
+			read.deleteAll();
+		}catch (Exception e) {
+			System.out.println("deleteCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void deleteBad() {
+		ReadCells read = new ReadCells();
+		try {
+			read.deleteBad();
+		}catch (Exception e) {
+			System.out.println("deleteBad() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void mutate() {
+		ReadCells read = new ReadCells();
+		try {
+			read.readBest();
+		}catch (Exception e) {
+			System.out.println("mutate() is broken");
+			e.printStackTrace();
+		}
+	}
+	
 	//decides whether you should choose where to export,
 	//or whether it should auto-export
 	@FXML
@@ -525,7 +532,6 @@ public class MainController {
 	public void autoExport(String p) {
 		String path = p+randomnumber();
 		folder = path;
-		System.out.println(folder);
 		File directory = new File(path);
 		FileChooser saveLocation = new FileChooser();
 		directory.mkdirs();
@@ -579,20 +585,8 @@ public class MainController {
 		randomGrid();
 		//centerGrid();
 		//This dumb chunk is literally to record the seeds
-		String seed = "Seeds: " + cells.getSeed() + "\n";
 		fetchButton();
 		String name = "automata" + number;
-		System.out.println(name);
-		
-		//Write the text file
-		try {
-		    CellsInput input = new CellsInput();
-		    double score = scoreThis(name);
-		    input.toDatabase(name, seed, cells, score);
-		    
-		} catch (Exception e) {
-			System.out.println("Could not put cells in database");
-		}
 		
 		//Write the image file
 		File file = new File(directory, "automata" + number + ".png");
@@ -608,6 +602,17 @@ public class MainController {
 		        System.out.println("exportImage() fuuuuucked");
 		        }
 		    }
+		
+		//Write the database
+				try {
+				    CellsInput input = new CellsInput();
+				    double score = scoreThis(name);
+				    input.toDatabase(name, cells, score);
+				    
+				} catch (Exception e) {
+					System.out.println("Could not put cells in database");
+					e.printStackTrace();
+				}
 		return;
 	}
 	
