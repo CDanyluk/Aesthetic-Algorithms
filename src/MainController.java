@@ -471,6 +471,9 @@ public class MainController {
 		ReadCells read = new ReadCells();
 		try {
 			read.readBest();
+			read.readBestDead();
+			read.readBestAlive();
+			read.readBestColors();
 		}catch (Exception e) {
 			System.out.println("mutate() is broken");
 			e.printStackTrace();

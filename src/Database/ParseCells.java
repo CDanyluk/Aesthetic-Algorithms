@@ -1,5 +1,10 @@
 package Database;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javafx.scene.paint.Color;
+
 public class ParseCells {
 	
 	//Seeds will exist in a double[][] g graph
@@ -17,9 +22,65 @@ public class ParseCells {
 			String y = s.substring(3, 6);
 			int X = Integer.parseInt(x);
 			int Y = Integer.parseInt(y);
+			//This shouldn't equal 1 but the max color
+			//int max = pattern.getColorSize();
+			//graph[newx][newy] = max;
 			graph[X][Y] = 1;
 		}
-		printGraph(graph);
+	}
+	
+	public void parseDead(String deadData) {
+		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
+		char[] charList = deadData.toCharArray();
+		for (int i = 0; i < 9; i++) {
+			if (charList[i] == 'T') {
+				dead.put(i, true);
+			}else {
+			dead.put(i, false);
+			}
+		}
+		System.out.println("dead : " + dead);
+	}
+	
+	public void parseAlive(String aliveData) {
+		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
+		char[] charList = aliveData.toCharArray();
+		for (int i = 0; i < 9; i++) {
+			if (charList[i] == 'T') {
+				alive.put(i, true);
+			}else {
+			alive.put(i, false);
+			}
+		}
+		System.out.println("alive : " + alive);
+	}
+	
+	//might be waaaaay off
+	public void parseColor(String colorData) {
+		HashMap<Integer, Color> colors = new HashMap<Integer, Color>();
+		String[] colorList = colorData.split("#");
+		for (int i = 1; i < colorList.length; i++) {
+			System.out.println(" |" + colorList[i] + "| ");
+			Color color = hex2Rgb("#" + colorList[i]);
+			colors.put(i, color);
+		}
+		System.out.println(colors);
+	}
+	
+	public Color hex2Rgb(String colorStr) {
+		int red = Integer.valueOf( colorStr.substring( 1, 3 ), 16 );
+		int green = Integer.valueOf( colorStr.substring( 3, 5 ), 16 );
+		int blue = Integer.valueOf( colorStr.substring( 5, 7 ), 16 );
+		Color color = Color.rgb(red, green, blue);
+		return color;
+	}
+	
+	public Color randomColor() {
+		int red = (int)Math.floor( Math.random() * 255 );
+		int green = (int)Math.floor( Math.random() * 255 );
+		int blue = (int)Math.floor( Math.random() * 255 );
+		Color color = Color.rgb(red, green, blue);
+		return color;
 	}
 	
 	public void printGraph(double[][] graph) {

@@ -144,6 +144,61 @@ public class ReadCells {
 
          }
 	 }
+	
+	public void readBestDead() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT  C.Dead, C.Score\r\n" + 
+         		"FROM  Cells C\r\n" + 
+         		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
+         		"               FROM  Cells C2)\r\n" + 
+         		"               = C.Score";
+         Cells cells = new Cells(700, 700);
+         ParseCells parse = new ParseCells();
+         if (stat.execute(command)) {
+         		ResultSet results = stat.getResultSet();
+                parse.parseDead(results.getString("Dead"));
+
+         }
+	}
+	
+	public void readBestAlive() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT  C.Live, C.Score\r\n" + 
+         		"FROM  Cells C\r\n" + 
+         		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
+         		"               FROM  Cells C2)\r\n" + 
+         		"               = C.Score";
+         Cells cells = new Cells(700, 700);
+         ParseCells parse = new ParseCells();
+         if (stat.execute(command)) {
+         		ResultSet results = stat.getResultSet();
+                parse.parseAlive(results.getString("Live"));
+
+         }
+	}
+	
+	public void readBestColors() throws ClassNotFoundException, SQLException {
+		Class.forName("org.sqlite.JDBC");
+        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+        Statement stat = con.createStatement();
+        String command = "SELECT  C.Colors, C.Score\r\n" + 
+        		"FROM  Cells C\r\n" + 
+        		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
+        		"               FROM  Cells C2)\r\n" + 
+        		"               = C.Score";
+        Cells cells = new Cells(700, 700);
+        ParseCells parse = new ParseCells();
+        if (stat.execute(command)) {
+        		ResultSet results = stat.getResultSet();
+               parse.parseColor(results.getString("Colors"));
+
+        }
+	}
+	
 	 
 	 public void deleteAll() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");

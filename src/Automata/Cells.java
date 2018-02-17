@@ -11,6 +11,7 @@ public class Cells {
 	
 	//Since our grid is 610x460 and we have a pixels of 10x10
 	public double[][] graph;
+	public boolean[][] seedgraph;
 	private int w;
 	private int h;
 	private int iteration;
@@ -21,6 +22,7 @@ public class Cells {
 		this.h = (height/10)+1;
 		this.iteration = -1;
 		graph = new double[w][h];
+		seedgraph = new boolean[w][h];
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y ++) {
 				graph[x][y] = 0;
@@ -74,13 +76,13 @@ public class Cells {
 	}
 	
 	public String getSeedData() {
-		double[][] g = graph;
+		boolean[][] g = seedgraph;
 		String seeds = new String();
 		//go through x
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y ++) {
 				//if the value at that point is true
-				if (g[x][y] != 0) {
+				if (g[x][y] == true) {
 					//append them to a string
 					String num = new String();
 					//Add 0's to make them three digits long (009008)
@@ -289,6 +291,7 @@ public class Cells {
 		int newx = (int) x;
 		int newy = (int) y;
 		graph[newx][newy] = max;
+		seedgraph[newx][newy] = true;
 	}
 	
 
