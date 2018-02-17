@@ -10,12 +10,12 @@ public class ParseCells {
 	//Seeds will exist in a double[][] g graph
 	//Where for every x and y value stored
 	//g[x][y] will be 1
-	public void parseSeeds(String seedData) {
+	public boolean[][] parseSeeds(String seedData) {
 		int width = 700;
 		int height = 700;
 		int w = (width/10)+1;
 		int h = (height/10)+1;
-		double[][] graph = new double[w][h];
+		boolean[][] graph = new boolean[w][h];
 		String xy[] = seedData.split("%");
 		for (String s : xy) {
 			String x = s.substring(0,3);
@@ -25,11 +25,12 @@ public class ParseCells {
 			//This shouldn't equal 1 but the max color
 			//int max = pattern.getColorSize();
 			//graph[newx][newy] = max;
-			graph[X][Y] = 1;
+			graph[X][Y] = true;
 		}
+		return graph;
 	}
 	
-	public void parseDead(String deadData) {
+	public Map<Integer, Boolean> parseDead(String deadData) {
 		Map<Integer, Boolean> dead = new HashMap<Integer, Boolean>();
 		char[] charList = deadData.toCharArray();
 		for (int i = 0; i < 9; i++) {
@@ -39,10 +40,10 @@ public class ParseCells {
 			dead.put(i, false);
 			}
 		}
-		System.out.println("dead : " + dead);
+		return dead;
 	}
 	
-	public void parseAlive(String aliveData) {
+	public Map<Integer, Boolean> parseAlive(String aliveData) {
 		Map<Integer, Boolean> alive = new HashMap<Integer, Boolean>();
 		char[] charList = aliveData.toCharArray();
 		for (int i = 0; i < 9; i++) {
@@ -52,19 +53,18 @@ public class ParseCells {
 			alive.put(i, false);
 			}
 		}
-		System.out.println("alive : " + alive);
+		return alive;
 	}
 	
 	//might be waaaaay off
-	public void parseColor(String colorData) {
+	public HashMap<Integer, Color> parseColor(String colorData) {
 		HashMap<Integer, Color> colors = new HashMap<Integer, Color>();
 		String[] colorList = colorData.split("#");
 		for (int i = 1; i < colorList.length; i++) {
-			System.out.println(" |" + colorList[i] + "| ");
 			Color color = hex2Rgb("#" + colorList[i]);
-			colors.put(i, color);
+			colors.put(i-1, color);
 		}
-		System.out.println(colors);
+		return colors;
 	}
 	
 	public Color hex2Rgb(String colorStr) {

@@ -469,15 +469,25 @@ public class MainController {
 	@FXML
 	public void mutate() {
 		ReadCells read = new ReadCells();
+		initialize();
+		cells = new Cells(width, height);
 		try {
-			read.readBest();
-			read.readBestDead();
-			read.readBestAlive();
-			read.readBestColors();
+			cells.setSeeds(read.readBestSeeds());
+			System.out.println("seeds " + cells.getSeedData());
+			cells.setDead(read.readBestDead());
+			System.out.println("dead " + cells.getDead());
+			cells.setAlive(read.readBestAlive());
+			System.out.println("alive " + cells.getAlive());
+			System.out.println("colors read " + read.readBestColors());
+			cells.setColor(read.readBestColors());
+			System.out.println("colors " + cells.getColors());
+			int iter = read.readBestIter();
+			System.out.println("iter " + iter);
 		}catch (Exception e) {
 			System.out.println("mutate() is broken");
 			e.printStackTrace();
 		}
+		fetchButton();
 	}
 	
 	//decides whether you should choose where to export,
@@ -568,7 +578,7 @@ public class MainController {
 				ImageIO.write(renderedImage, "png", file);
 		    } catch (IOException ex) {
 		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
-		        System.out.println("exportImage() fuuuuucked");
+		        System.out.println("exportLSystem() fuuuuucked");
 		        }
 		    }
 	}
@@ -671,8 +681,12 @@ public class MainController {
 		
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
-		cells.iterate(iterateNum, alive, dead);
-		drawColorAutomata();
+		/*for (int i = 0; i < iterateNum; i++) {*/
+			cells.iterate(iterateNum, alive, dead);
+			drawColorAutomata();
+		//}
+		/*cells.iterate(iterateNum, alive, dead);
+		drawColorAutomata();*/
 	}
 	
 	public void drawColorAutomata() {

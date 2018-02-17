@@ -5,8 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import Automata.Cells;
+import javafx.scene.paint.Color;
 
 public class ReadCells {
 	
@@ -127,7 +130,7 @@ public class ReadCells {
          }
 	 }
 	 
-	public void readBest() throws ClassNotFoundException, SQLException {
+	public boolean[][] readBestSeeds() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
@@ -136,16 +139,14 @@ public class ReadCells {
          		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
          		"               FROM  Cells C2)\r\n" + 
          		"               = C.Score";
-         Cells cells = new Cells(700, 700);
          ParseCells parse = new ParseCells();
-         if (stat.execute(command)) {
-         		ResultSet results = stat.getResultSet();
-                parse.parseSeeds(results.getString("Seeds"));
+         stat.execute(command);
+         ResultSet results = stat.getResultSet();
+         return parse.parseSeeds(results.getString("Seeds"));
 
-         }
 	 }
 	
-	public void readBestDead() throws ClassNotFoundException, SQLException {
+	public Map<Integer, Boolean> readBestDead() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
@@ -154,16 +155,14 @@ public class ReadCells {
          		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
          		"               FROM  Cells C2)\r\n" + 
          		"               = C.Score";
-         Cells cells = new Cells(700, 700);
          ParseCells parse = new ParseCells();
-         if (stat.execute(command)) {
-         		ResultSet results = stat.getResultSet();
-                parse.parseDead(results.getString("Dead"));
+         stat.execute(command);
+         ResultSet results = stat.getResultSet();
+         return parse.parseDead(results.getString("Dead"));
 
-         }
 	}
 	
-	public void readBestAlive() throws ClassNotFoundException, SQLException {
+	public Map<Integer, Boolean> readBestAlive() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
@@ -172,16 +171,14 @@ public class ReadCells {
          		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
          		"               FROM  Cells C2)\r\n" + 
          		"               = C.Score";
-         Cells cells = new Cells(700, 700);
          ParseCells parse = new ParseCells();
-         if (stat.execute(command)) {
-         		ResultSet results = stat.getResultSet();
-                parse.parseAlive(results.getString("Live"));
+         stat.execute(command);
+         ResultSet results = stat.getResultSet();
+         return parse.parseAlive(results.getString("Live"));
 
-         }
 	}
 	
-	public void readBestColors() throws ClassNotFoundException, SQLException {
+	public HashMap<Integer, Color> readBestColors() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
         Statement stat = con.createStatement();
@@ -190,13 +187,26 @@ public class ReadCells {
         		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
         		"               FROM  Cells C2)\r\n" + 
         		"               = C.Score";
-        Cells cells = new Cells(700, 700);
         ParseCells parse = new ParseCells();
-        if (stat.execute(command)) {
-        		ResultSet results = stat.getResultSet();
-               parse.parseColor(results.getString("Colors"));
+        stat.execute(command);
+        ResultSet results = stat.getResultSet();
+        return parse.parseColor(results.getString("Colors"));
+        
+	}
+	
+	public int readBestIter() throws ClassNotFoundException, SQLException {
+		Class.forName("org.sqlite.JDBC");
+        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+        Statement stat = con.createStatement();
+        String command = "SELECT  C.Iterations, C.Score\r\n" + 
+        		"FROM  Cells C\r\n" + 
+        		"WHERE  (SELECT  MAX (C2.Score)\r\n" + 
+        		"               FROM  Cells C2)\r\n" + 
+        		"               = C.Score";
+        stat.execute(command);
+        ResultSet results = stat.getResultSet();
+        return results.getInt("Iterations");
 
-        }
 	}
 	
 	 

@@ -31,6 +31,23 @@ public class Cells {
 	pattern = new CellPattern(w,h);
 	}
 	
+	public void setDead(Map<Integer, Boolean> deadmap) { pattern.setDead(deadmap); }
+	
+	public void setAlive(Map<Integer, Boolean> alivemap) { pattern.setAlive(alivemap); }
+	
+	public void setColor(HashMap<Integer, Color> colors) { pattern.setColors(colors); }
+	
+	public void setSeeds(boolean[][] graph) {
+		for (int x = 0; x < graph.length; x++) {
+			for (int y = 0; y < graph.length; y ++) {
+				if (graph[x][y] == true) {
+					liveColor(x, y);
+					seedgraph[x][y] = true;
+				}
+			}
+		}
+	}
+	
 	public double[][] getGraph() {
 		return graph;
 	}
@@ -53,26 +70,6 @@ public class Cells {
 	
 	public void centerOf() {
 		liveColor(w/2, h/2);
-	}
-	
-	public HashMap<Integer, List<Integer>> getSeed() {
-		double[][] g = graph;
-		HashMap<Integer, List<Integer>> seeds = new HashMap<Integer, List<Integer>>();
-		//go through x
-		for (int x = 0; x < w; x++) {
-			//create a list for y values that are true at x
-			List<Integer> yvals = new ArrayList<Integer>();
-			for (int y = 0; y < h; y ++) {
-				//if the value at that point is true
-				if (g[x][y] != 0) {
-					//add the y value to the list
-					yvals.add(y);
-					//and put it in the map
-					seeds.put(x, yvals);
-				}
-			}
-		}
-		return seeds;
 	}
 	
 	public String getSeedData() {
@@ -132,10 +129,8 @@ public class Cells {
 		return rules;
 	}
 	
-	public String getDead() {
-		String rules = new String();
-		rules = rules + "Dead: " + pattern.getDead() + "\n";
-		return rules;
+	public Map<Integer, Boolean> getDead() {
+		return pattern.getDead();
 	}
 	
 	public String getDeadData() {
@@ -151,10 +146,8 @@ public class Cells {
 		return rules;
 	}
 	
-	public String getAlive() {
-		String rules = new String();
-		rules = rules + "Alive: " + pattern.getAlive() + "\n";
-		return rules;
+	public Map<Integer, Boolean> getAlive() {
+		return pattern.getAlive();
 	}
 	
 	public String getAliveData() {
@@ -184,6 +177,10 @@ public class Cells {
 		}
 		rules = rules + "Color: " + colors + "\n";
 		return rules;
+	}
+	
+	public HashMap<Integer, Color> getColorMap() {
+		return pattern.getColorMap();
 	}
 	
 	public String getColorsData() {
@@ -222,6 +219,8 @@ public class Cells {
 			}
 		}
 	}
+	
+	
 	
 	//chance is set by the user, and it will have 1/chance of coming alive
 	public void randomGraph(int chance) {

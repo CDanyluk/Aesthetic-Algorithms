@@ -29,6 +29,7 @@ public class CellPattern {
 	//All the getter and setter methods
 	public void setDead(Map<Integer, Boolean> dead) {this.deadMap = dead;}
 	public void setAlive(Map<Integer, Boolean> alive) {this.aliveMap = alive;}
+	public void setColors(HashMap<Integer, Color> colormap) { this.colorMap = colormap;}
 	public Map<Integer, Boolean> getDead() {return deadMap;}
 	public Map<Integer, Boolean> getAlive() {return aliveMap;}
 	public int getColorSize() {return colorMap.size()-1;}
