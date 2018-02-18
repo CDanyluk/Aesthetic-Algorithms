@@ -248,6 +248,30 @@ public class Cells {
 		}
 	}
 	
+	public void update(int num){
+		this.iteration = num;
+		System.out.println(pattern.getAlive());
+		System.out.println(pattern.getDead());
+		graph = pattern.multipleAutomata(num, graph);
+	}
+	
+	public void update2(int num) {
+		this.iteration = num;
+		for (int i = 0; i < num; i++) {
+			graph = pattern.colorAutomata(graph);
+		}
+	}
+	
+	
+	public Map<Integer, Boolean> randomRules() {
+		Map<Integer, Boolean> rules = new HashMap<Integer, Boolean>();
+		for (int i = 0; i < 9; i++) {
+			boolean on = (Math.random() < 0.5);
+			rules.put(i, on);
+		}
+		return rules;
+	}
+	
 	//Randomizes 3 values in dead and alive
 	//Randomizes 1 color each iteration
 	public void change(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
@@ -260,6 +284,7 @@ public class Cells {
 	public void predictable(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
 		graph = pattern.colorAutomata(graph);
 	}
+	
 	
 	//Plays by the rules set by the user
 	public void ruleset(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {

@@ -211,4 +211,23 @@ public class CellPattern {
 		return automata.auto(graph, deadMap, aliveMap, colorMap.size()-1);
 	}
 	
+	public double[][] multipleAutomata(int it, double[][] graph) {
+		double[][] newgraph = graph;
+		for (int i = 0; i < it; i++) {
+			newgraph = automata.auto(graph, deadMap, aliveMap, colorMap.size()-1);
+			graph = newgraph;
+		}
+		return graph;
+	}
+	
+	public void printGraph(double[][] graph) {
+		for (int x = 0; x < graph.length; x++) {
+			for (int y = 0; y < graph.length; y ++) {
+			
+				System.out.print(graph[x][y]+ " ");
+			}
+			System.out.print("\n");
+		}
+	}
+	
 }

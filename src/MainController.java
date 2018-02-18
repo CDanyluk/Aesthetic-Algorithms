@@ -470,24 +470,21 @@ public class MainController {
 	public void mutate() {
 		ReadCells read = new ReadCells();
 		initialize();
-		cells = new Cells(width, height);
+		int iter = 0;
 		try {
 			cells.setSeeds(read.readBestSeeds());
-			System.out.println("seeds " + cells.getSeedData());
 			cells.setDead(read.readBestDead());
-			System.out.println("dead " + cells.getDead());
 			cells.setAlive(read.readBestAlive());
-			System.out.println("alive " + cells.getAlive());
-			System.out.println("colors read " + read.readBestColors());
 			cells.setColor(read.readBestColors());
-			System.out.println("colors " + cells.getColors());
-			int iter = read.readBestIter();
+			iter = read.readBestIter();
 			System.out.println("iter " + iter);
+			//cells.update(iter, cells.getAlive(), cells.getDead());
 		}catch (Exception e) {
 			System.out.println("mutate() is broken");
 			e.printStackTrace();
 		}
-		fetchButton();
+		cells.update2(iter);
+		drawColorAutomata();
 	}
 	
 	//decides whether you should choose where to export,
@@ -598,7 +595,16 @@ public class MainController {
 		randomGrid();
 		//centerGrid();
 		//This dumb chunk is literally to record the seeds
-		fetchButton();
+		int iterateNum = 0;
+		try {
+			iterateNum = Integer.parseInt(iterations.getText());
+		}catch (Exception e) {
+			iterateNum = 1;
+		}
+		cells.setAlive(cells.randomRules());
+		cells.setDead(cells.randomRules());
+		cells.update(iterateNum);
+		drawColorAutomata();
 		String name = "automata" + number;
 		
 		//Write the image file
@@ -681,10 +687,11 @@ public class MainController {
 		
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
-		/*for (int i = 0; i < iterateNum; i++) {*/
-			cells.iterate(iterateNum, alive, dead);
+		cells.setAlive(cells.randomRules());
+		cells.setDead(cells.randomRules());
+		cells.update(iterateNum);
 			drawColorAutomata();
-		//}
+
 		/*cells.iterate(iterateNum, alive, dead);
 		drawColorAutomata();*/
 	}
