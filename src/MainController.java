@@ -473,10 +473,10 @@ public class MainController {
 		int iter = 0;
 		cells = new Cells(width, height);
 		try {
-			cells.setSeeds(read.readBestSeeds());
 			cells.setDead(read.readBestDead());
 			cells.setAlive(read.readBestAlive());
 			cells.setColor(read.readBestColors());
+			cells.setSeeds(read.readBestSeeds());
 			iter = read.readBestIter();
 			System.out.println("iter " + iter);
 			cells.update(iter);

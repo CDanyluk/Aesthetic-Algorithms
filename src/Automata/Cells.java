@@ -250,17 +250,9 @@ public class Cells {
 	
 	public void update(int num){
 		this.iteration = num;
-		System.out.println(pattern.getAlive());
-		System.out.println(pattern.getDead());
 		graph = pattern.multipleAutomata(num, graph);
 	}
 	
-	public void update2(int num) {
-		this.iteration = num;
-		for (int i = 0; i < num; i++) {
-			graph = pattern.colorAutomata(graph);
-		}
-	}
 	
 	
 	public Map<Integer, Boolean> randomRules() {
