@@ -29,7 +29,8 @@ public class ReadCells {
                 //System.out.print(results.getInt("Iterations") + ", ");
                 System.out.print(results.getDouble("Score") + "\n");
      		}
-     }
+		}
+		stat.close();
 	}
 	
 	public void readImageName() throws ClassNotFoundException, SQLException {
@@ -44,6 +45,7 @@ public class ReadCells {
         		   System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	public void readSeeds() throws ClassNotFoundException, SQLException {
@@ -58,6 +60,7 @@ public class ReadCells {
         			System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	public void readDead() throws ClassNotFoundException, SQLException {
@@ -72,6 +75,7 @@ public class ReadCells {
         			System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	public void readLive() throws ClassNotFoundException, SQLException {
@@ -86,6 +90,7 @@ public class ReadCells {
         			System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	public void readColors() throws ClassNotFoundException, SQLException {
@@ -100,6 +105,7 @@ public class ReadCells {
         			System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	public void readIterations() throws ClassNotFoundException, SQLException {
@@ -114,6 +120,7 @@ public class ReadCells {
         			System.out.println();
         		}
         }
+        stat.close();
 	}
 	
 	 public void readScore() throws ClassNotFoundException, SQLException {
@@ -128,6 +135,7 @@ public class ReadCells {
          			System.out.println();
          		}
          }
+         stat.close();
 	 }
 	 
 	public boolean[][] readBestSeeds() throws ClassNotFoundException, SQLException {
@@ -142,8 +150,9 @@ public class ReadCells {
          ParseCells parse = new ParseCells();
          stat.execute(command);
          ResultSet results = stat.getResultSet();
-         return parse.parseSeeds(results.getString("Seeds"));
-
+         String seed = results.getString("Seeds");
+         stat.close();
+         return parse.parseSeeds(seed);
 	 }
 	
 	public Map<Integer, Boolean> readBestDead() throws ClassNotFoundException, SQLException {
@@ -158,7 +167,9 @@ public class ReadCells {
          ParseCells parse = new ParseCells();
          stat.execute(command);
          ResultSet results = stat.getResultSet();
-         return parse.parseDead(results.getString("Dead"));
+         String dead = results.getString("Dead");
+         stat.close();
+         return parse.parseDead(dead);
 
 	}
 	
@@ -174,7 +185,9 @@ public class ReadCells {
          ParseCells parse = new ParseCells();
          stat.execute(command);
          ResultSet results = stat.getResultSet();
-         return parse.parseAlive(results.getString("Live"));
+         String live = results.getString("Live");
+         stat.close();
+         return parse.parseAlive(live);
 
 	}
 	
@@ -190,8 +203,9 @@ public class ReadCells {
         ParseCells parse = new ParseCells();
         stat.execute(command);
         ResultSet results = stat.getResultSet();
-        return parse.parseColor(results.getString("Colors"));
-        
+        String colors = results.getString("Colors");
+        stat.close();
+        return parse.parseColor(colors);
 	}
 	
 	public int readBestIter() throws ClassNotFoundException, SQLException {
@@ -205,8 +219,9 @@ public class ReadCells {
         		"               = C.Score";
         stat.execute(command);
         ResultSet results = stat.getResultSet();
-        return results.getInt("Iterations");
-
+        int iter = results.getInt("Iterations");
+        stat.close();
+        return iter;
 	}
 	
 	 
@@ -217,7 +232,7 @@ public class ReadCells {
 	     String command = "DELETE FROM Cells;";
 	     System.out.println("Cells has been cleared");
 	     stat.execute(command);
-	     con.close();
+	     stat.close();
 	 }
 	 
 	 public void deleteBad() throws ClassNotFoundException, SQLException {
@@ -227,7 +242,7 @@ public class ReadCells {
 	     String command = "DELETE FROM Cells WHERE Score = 0.0;";
 	     System.out.println("Cells with a bad score have been removed from database");
 	     stat.execute(command);
-	     con.close();
+	     stat.close();
 	 }
 
 }

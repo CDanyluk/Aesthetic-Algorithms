@@ -482,8 +482,8 @@ public class MainController {
 			cells.update(iter);
 			drawColorAutomata();
 		}catch (Exception e) {
-			System.out.println("mutate() is broken");
-			e.printStackTrace();
+			System.out.println("The database is empty.");
+			//e.printStackTrace();
 		}
 		drawColorAutomata();
 	}
