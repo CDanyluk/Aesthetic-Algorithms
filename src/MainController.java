@@ -471,6 +471,7 @@ public class MainController {
 		ReadCells read = new ReadCells();
 		initialize();
 		int iter = 0;
+		cells = new Cells(width, height);
 		try {
 			cells.setSeeds(read.readBestSeeds());
 			cells.setDead(read.readBestDead());
@@ -478,12 +479,12 @@ public class MainController {
 			cells.setColor(read.readBestColors());
 			iter = read.readBestIter();
 			System.out.println("iter " + iter);
-			//cells.update(iter, cells.getAlive(), cells.getDead());
+			cells.update(iter);
+			drawColorAutomata();
 		}catch (Exception e) {
 			System.out.println("mutate() is broken");
 			e.printStackTrace();
 		}
-		cells.update2(iter);
 		drawColorAutomata();
 	}
 	
