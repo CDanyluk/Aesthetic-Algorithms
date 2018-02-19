@@ -24,7 +24,7 @@
                   <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
                   <RadioButton fx:id="cellularAutomata" layoutX="10.0" layoutY="263.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
                   <Button fx:id="fetch" layoutX="110.0" layoutY="268.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
-                  <Button fx:id="deletebad" layoutX="92.0" layoutY="737.0" mnemonicParsing="false" onAction="#deleteBad" text="Delete Bad" />
+                  <Button fx:id="deletebad" layoutX="87.0" layoutY="683.0" mnemonicParsing="false" onAction="#deleteBad" prefHeight="25.0" prefWidth="75.0" text="Delete Bad" />
                   <Label layoutX="8.0" layoutY="45.0" text="Length:" />
                   <Label layoutX="8.0" layoutY="85.0" text="Recursions:" />
                   <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
@@ -91,13 +91,15 @@
                   <Separator layoutX="-1.0" layoutY="246.0" prefHeight="4.0" prefWidth="180.0" />
                   <Label layoutX="14.0" layoutY="170.0" text="Export Number:" />
                   <TextField fx:id="exportLSystem" layoutX="109.0" layoutY="166.0" prefHeight="25.0" prefWidth="45.0" promptText="10" />
-                  <Button fx:id="deleteall" layoutX="95.0" layoutY="770.0" mnemonicParsing="false" onAction="#deleteCells" text="Delete All" />
-                  <Button fx:id="viewcells" layoutX="12.0" layoutY="737.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
-                  <Button fx:id="mutate" layoutX="12.0" layoutY="770.0" mnemonicParsing="false" onAction="#mutate" prefHeight="25.0" prefWidth="69.0" text="Mutate" />
+                  <Button fx:id="deleteall" layoutX="88.0" layoutY="721.0" mnemonicParsing="false" onAction="#deleteCells" prefHeight="25.0" prefWidth="74.0" text="Delete All" />
+                  <Button fx:id="viewcells" layoutX="12.0" layoutY="683.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
+                  <Button fx:id="mutate" layoutX="12.0" layoutY="760.0" mnemonicParsing="false" onAction="#mutate" prefHeight="25.0" prefWidth="69.0" text="Mutate" />
                   <Separator layoutX="-1.0" layoutY="591.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Separator layoutX="2.0" layoutY="693.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Label layoutX="14.0" layoutY="710.0" text="Cells Database Controls" />
+                  <Separator layoutX="2.0" layoutY="642.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="13.0" layoutY="659.0" text="Cells Database Controls" />
                   <Label layoutX="12.0" layoutY="608.0" text="L-System Database Controls" />
+                  <Button fx:id="viewbest" layoutX="12.0" layoutY="721.0" mnemonicParsing="false" onAction="#viewBest" text="View Best" />
+                  <Button fx:id="mutatemult" layoutX="89.0" layoutY="760.0" mnemonicParsing="false" onAction="#mutateMult" prefHeight="25.0" prefWidth="74.0" text="Mutate++" />
                </children>
             </Pane>
          </children>

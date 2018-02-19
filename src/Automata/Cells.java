@@ -270,7 +270,8 @@ public class Cells {
 		pattern.randomValDead(3);
 		pattern.randomValAlive(3);
 		graph = pattern.colorAutomata(graph);
-		pattern.randomAColor(1);
+		int amount = (int) (0.3*pattern.getColorSize());
+		pattern.randomAColor(amount);
 	}
 	
 	public void predictable(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {

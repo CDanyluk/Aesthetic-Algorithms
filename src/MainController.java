@@ -141,7 +141,13 @@ public class MainController {
 	Button viewcells;
 	
 	@FXML
+	Button viewbest;
+	
+	@FXML
 	Button mutate;
+	
+	@FXML
+	Button mutatemult;
 	
 	@FXML
 	Button export;
@@ -467,6 +473,28 @@ public class MainController {
 	}
 	
 	@FXML
+	public void viewBest() {
+		ReadCells read = new ReadCells();
+		initialize();
+		int iter = 0;
+		cells = new Cells(width, height);
+		try {
+			cells.setDead(read.readBestDead());
+			cells.setAlive(read.readBestAlive());
+			cells.setColor(read.readBestColors());
+			cells.setSeeds(read.readBestSeeds());
+			iter = read.readBestIter();
+			cells.update(iter);
+			drawColorAutomata();
+		}catch (Exception e) {
+			System.out.println("The database is empty.");
+			//e.printStackTrace();
+		}
+		drawColorAutomata();
+	}
+	
+	
+	@FXML
 	public void mutate() {
 		ReadCells read = new ReadCells();
 		initialize();
@@ -478,7 +506,13 @@ public class MainController {
 			cells.setColor(read.readBestColors());
 			cells.setSeeds(read.readBestSeeds());
 			iter = read.readBestIter();
-			System.out.println("iter " + iter);
+			cells.change(cells.getAlive(), cells.getDead());
+			if (oneOrTwo() == 0) {
+				iter--;
+			}else {
+				iter++;
+			}
+			System.out.println("iter" + iter);
 			cells.update(iter);
 			drawColorAutomata();
 		}catch (Exception e) {
@@ -486,6 +520,12 @@ public class MainController {
 			//e.printStackTrace();
 		}
 		drawColorAutomata();
+		exportMutant();
+	}
+	
+	@FXML
+	public void mutateMult() {
+		
 	}
 	
 	//decides whether you should choose where to export,
@@ -589,6 +629,14 @@ public class MainController {
 		return one+two+three;
 	}
 	
+	public int oneOrTwo() {
+		if (Math.random() < 0.5) {
+		    return 0;
+		}else {
+			return 1;
+		}
+	}
+	
 	public void exportImage(int num, File directory) {
 		//String number = randomnumber();
 		String number = num + "";
@@ -610,6 +658,44 @@ public class MainController {
 		
 		//Write the image file
 		File file = new File(directory, "automata" + number + ".png");
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportImage() fuuuuucked");
+		        }
+		    }
+		
+		//Write the database
+				try {
+				    CellsInput input = new CellsInput();
+				    double score = scoreThis(name);
+				    input.toDatabase(name, cells, score);
+				    
+				} catch (Exception e) {
+					System.out.println("Could not put cells in database");
+					e.printStackTrace();
+				}
+		return;
+	}
+	
+	public void exportMutant() {
+		String p = "/AutomataImages/Mutant";
+		String path = p;
+		folder = path;
+		File directory = new File(path);
+		FileChooser saveLocation = new FileChooser();
+		directory.mkdirs();
+		String num = randomnumber();
+		String name = "automata" + num;
+		
+		//Write the image file
+		File file = new File(directory, "automata" + num + ".png");
 		if (file != null){
 			try {
 				WritableImage writableImage = new WritableImage(width, height);
