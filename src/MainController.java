@@ -525,7 +525,20 @@ public class MainController {
 	
 	@FXML
 	public void mutateMult() {
-		
+		ReadCells read = new ReadCells();
+		cells = new Cells(width, height);
+		try {
+			List<Cells> cellList = read.readTopTen();
+			System.out.println(cellList);
+			for (int i = 0; i < cellList.size(); i++) {
+				cells = cellList.get(i);
+				drawColorAutomata();
+				exportMutant();
+			}
+		} catch (Exception e) {
+			System.out.println("mutateMult is broken");
+			e.printStackTrace();
+		}
 	}
 	
 	//decides whether you should choose where to export,

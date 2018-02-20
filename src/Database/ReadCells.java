@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Automata.Cells;
@@ -121,6 +123,39 @@ public class ReadCells {
         		}
         }
         stat.close();
+	}
+	
+	public List<Cells> readTopTen()  throws ClassNotFoundException, SQLException {
+		 //Create a list of cells, we are gonna return this at the end
+		 List<Cells> cellList = new ArrayList<Cells>();
+		 //Normal database stuff
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT  C.Dead, C.Live, C.Colors, C.Seeds, C.Iterations, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
+         ParseCells parse = new ParseCells();
+         if (stat.execute(command)) {
+        	ResultSet results = stat.getResultSet();
+      		while (results.next()) {
+      	        //Create new cell
+      	        Cells cell = new Cells(700, 700);
+      			cell.setDead(parse.parseDead(results.getString("Dead")));
+    			cell.setAlive(parse.parseAlive(results.getString("Live")));
+    			cell.setColor(parse.parseColor(results.getString("Colors")));
+    			cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
+    			int iter = results.getInt("Iterations");
+    			cell.change(cell.getAlive(), cell.getDead());
+    			if (oneOrTwo() == 0) {
+    				iter--;
+    			}else {
+    				iter++;
+    			}
+    			cell.update(iter);
+    			cellList.add(cell);
+      		}
+         }
+         stat.close();
+         return cellList;
 	}
 	
 	 public void readScore() throws ClassNotFoundException, SQLException {
@@ -244,5 +279,13 @@ public class ReadCells {
 	     stat.execute(command);
 	     stat.close();
 	 }
+	 
+	 public int oneOrTwo() {
+			if (Math.random() < 0.5) {
+			    return 0;
+			}else {
+				return 1;
+			}
+		}
 
 }
