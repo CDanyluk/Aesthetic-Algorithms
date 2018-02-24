@@ -175,11 +175,12 @@ public class ReadCells {
      	        //Create new cell
      	        Cells cell = new Cells(700, 700);
      			cell.setDead(parse.parseDead(results.getString("Dead")));
-   			cell.setAlive(parse.parseAlive(results.getString("Live")));
-   			cell.setColor(parse.parseColor(results.getString("Colors")));
-   			cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
-   			int iter = results.getInt("Iterations");
-   			cellList.add(cell);
+     			cell.setAlive(parse.parseAlive(results.getString("Live")));
+     			cell.setColor(parse.parseColor(results.getString("Colors")));
+     			cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
+     			int iter = results.getInt("Iterations");
+     			cell.update(iter);
+     			cellList.add(cell);
      		}
         }
         stat.close();

@@ -502,8 +502,16 @@ public class MainController {
 		cells = new Cells(width, height);
 		try {
 			List<Cells> cellList = read.readTopTen();
-			System.out.println(cellList);
-			cross.cross(cellList.get(0), cellList.get(5));
+			for (int i = 0; i < cellList.size(); i++) {
+				if (i == 9) {
+					cells = cross.cross(cellList.get(i), cellList.get(0));
+				}else {
+					cells = cross.cross(cellList.get(i), cellList.get(i+1));
+				}
+				drawColorAutomata();
+				exportMutant("Crossover");
+			}
+			
 			
 		} catch (Exception e) {
 			System.out.println("crossovers is broken");
@@ -520,7 +528,7 @@ public class MainController {
 			for (int i = 0; i < cellList.size(); i++) {
 				cells = cellList.get(i);
 				drawColorAutomata();
-				exportMutant();
+				exportMutant("Mutant");
 			}
 		} catch (Exception e) {
 			System.out.println("mutateMult is broken");
@@ -684,8 +692,8 @@ public class MainController {
 		return;
 	}
 	
-	public void exportMutant() {
-		String p = "/AutomataImages/Mutant";
+	public void exportMutant(String fold) {
+		String p = "/AutomataImages/" + fold;
 		String path = p;
 		folder = path;
 		File directory = new File(path);

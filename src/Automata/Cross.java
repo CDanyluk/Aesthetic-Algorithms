@@ -10,14 +10,24 @@ import javafx.scene.paint.Color;
 
 public class Cross {
 
-	public void cross(Cells cell1, Cells cell2) {
-		Cells crossedCell = new Cells(700, 700);
-		//crossCell.setAlive()
+	public Cells cross(Cells cell1, Cells cell2) {
+		Cells crossedCell = cell1;
+		//Switch up all the values
 		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 4);
+		System.out.println("aliveMap : " + aliveMap);
 		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 4);
+		System.out.println("deadMap : " + deadMap);
 		boolean[][] newSeeds = mergeSeeds(cell1.getSeedData(), cell2.getSeedData());
+		System.out.println("newSeeds : " + newSeeds);
 		HashMap<Integer, Color> newColors = mergeColor(cell1.getColorMap(), cell2.getColorMap());
+		System.out.println("newColors : " + newColors);
+		//Put all the values in a new cell
+		crossedCell.setAlive(aliveMap);
+		crossedCell.setDead(deadMap);
+		crossedCell.setSeeds(newSeeds);
+		crossedCell.setColor(newColors);
 		//return crossedCell;
+		return crossedCell;
 	}
 	
 	public Map<Integer, Boolean> mergeAlive(Map<Integer, Boolean> alive1, Map<Integer, Boolean> alive2, int howmany) {
@@ -63,10 +73,10 @@ public class Cross {
 		double max = 0;
 		if (xy1.length < xy2.length) {
 			double length = xy1.length;
-			max = (0.25) * length;
+			max = (0.35) * length;
 		}else {
 			double length = xy2.length;
-			max = (0.25) * length;
+			max = (0.35) * length;
 		}
 		//Swap up to that percent randomly
 		List<Integer> list = new ArrayList<Integer>();
@@ -75,10 +85,10 @@ public class Cross {
 			if (!list.contains(rand)) {
 				list.add(rand);
 				String temp = xy1[rand];
-				System.out.println("temp " + temp);
-				System.out.println("new val at " + rand + " is " + xy2[rand]);
-				xy1[rand] = xy2[rand];
-				xy2[rand] = temp;
+				if (xy2[rand] != null) {
+					xy1[rand] = xy2[rand];
+				}
+				//xy2[rand] = temp;
 			}else {
 				i--;
 			}
@@ -95,30 +105,28 @@ public class Cross {
 	
 	public HashMap<Integer, Color> mergeColor(HashMap<Integer, Color> colors1, HashMap<Integer, Color> colors2) {
 		//Get the percentage to swap of the colors
-		
-		System.out.println("colors1 before " + colors1);
 		double max = 0;
 		if (colors1.size() < colors2.size()) {
 			double length = colors1.size();
-			max = (0.25) * length;
+			max = (0.5) * length;
 		}else {
 			double length = colors2.size();
-			max = (0.25) * length;
+			max = (0.5) * length;
 		}
 		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < max; i++) {
 			int rand = randomIndex();
 			if (!list.contains(rand)) {
-				System.out.println("rand " + rand);
 				list.add(rand);
 				Color temp = colors1.get(rand);
-				colors1.put(rand, colors2.get(rand));
-				colors2.put(rand,  temp);
+				if (colors2.get(rand) != null) {
+					colors1.put(rand, colors2.get(rand));
+				}
+				//colors2.put(rand,  temp);
 			}else {
 				i--;
 			}
 		}
-		System.out.println("colors1 after " + colors1);
 		return colors1;
 	}
 	
