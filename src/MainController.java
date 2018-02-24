@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import Automata.Cells;
+import Automata.Cross;
 import Database.CellsInput;
 import Database.Read;
 import Database.ReadCells;
@@ -144,7 +145,7 @@ public class MainController {
 	Button viewbest;
 	
 	@FXML
-	Button mutate;
+	Button crossover;
 	
 	@FXML
 	Button mutatemult;
@@ -495,32 +496,19 @@ public class MainController {
 	
 	
 	@FXML
-	public void mutate() {
+	public void crossovers() {
 		ReadCells read = new ReadCells();
-		initialize();
-		int iter = 0;
+		Cross cross = new Cross();
 		cells = new Cells(width, height);
 		try {
-			cells.setDead(read.readBestDead());
-			cells.setAlive(read.readBestAlive());
-			cells.setColor(read.readBestColors());
-			cells.setSeeds(read.readBestSeeds());
-			iter = read.readBestIter();
-			cells.change(cells.getAlive(), cells.getDead());
-			if (oneOrTwo() == 0) {
-				iter--;
-			}else {
-				iter++;
-			}
-			System.out.println("iter" + iter);
-			cells.update(iter);
-			drawColorAutomata();
-		}catch (Exception e) {
-			System.out.println("The database is empty.");
-			//e.printStackTrace();
+			List<Cells> cellList = read.readTopTen();
+			System.out.println(cellList);
+			cross.cross(cellList.get(0), cellList.get(5));
+			
+		} catch (Exception e) {
+			System.out.println("crossovers is broken");
+			e.printStackTrace();
 		}
-		drawColorAutomata();
-		exportMutant();
 	}
 	
 	@FXML
@@ -529,7 +517,6 @@ public class MainController {
 		cells = new Cells(width, height);
 		try {
 			List<Cells> cellList = read.readTopTen();
-			System.out.println(cellList);
 			for (int i = 0; i < cellList.size(); i++) {
 				cells = cellList.get(i);
 				drawColorAutomata();

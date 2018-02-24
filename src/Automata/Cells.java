@@ -48,17 +48,13 @@ public class Cells {
 		}
 	}
 	
-	public double[][] getGraph() {
-		return graph;
-	}
+	public double[][] getGraph() { return graph; }
 	
-	public int getWidth() {
-		return w;
-	}
+	public int getWidth() { return w; }
 	
-	public int getHeight() {
-		return h;
-	}
+	public int getHeight() { return h; }
+	
+	public boolean[][] getSeeds() { return seedgraph; }
 	
 	public void clear() {
 		for (int x = 0; x < w; x++) {
