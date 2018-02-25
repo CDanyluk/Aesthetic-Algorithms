@@ -732,7 +732,7 @@ public class MainController {
 	
 	@FXML
 	public void randomGrid() {
-		cells.randomGraph(100);
+		cells.randomGraph(88);
 		drawColorAutomata();
 	}
 	

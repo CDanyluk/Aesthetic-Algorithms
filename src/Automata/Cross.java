@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 public class Cross {
 
 	public Cells cross(Cells cell1, Cells cell2) {
-		Cells crossedCell = cell1;
+		Cells crossedCell = new Cells(700, 700);
 		//Switch up all the values
 		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 4);
 		System.out.println("aliveMap : " + aliveMap);
@@ -24,8 +24,9 @@ public class Cross {
 		//Put all the values in a new cell
 		crossedCell.setAlive(aliveMap);
 		crossedCell.setDead(deadMap);
-		crossedCell.setSeeds(newSeeds);
 		crossedCell.setColor(newColors);
+		crossedCell.setSeeds(newSeeds);
+		crossedCell.update(cell1.getIter());
 		//return crossedCell;
 		return crossedCell;
 	}
@@ -69,26 +70,20 @@ public class Cross {
 		int h = (height/10)+1;
 		String xy1[] = seedData1.split("%");
 		String xy2[] = seedData2.split("%");
-		//Take percent length of smallest xy
-		double max = 0;
+		//Only swap up based on smallest graph
+		int max = 0;
 		if (xy1.length < xy2.length) {
-			double length = xy1.length;
-			max = (0.35) * length;
+			max = xy1.length;
 		}else {
-			double length = xy2.length;
-			max = (0.35) * length;
+			max = xy2.length;
 		}
-		//Swap up to that percent randomly
+		//Swap up to that number randomly
 		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < max; i++) {
-			int rand = randomIndex(0, (int) max);
+			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);
-				String temp = xy1[rand];
-				if (xy2[rand] != null) {
-					xy1[rand] = xy2[rand];
-				}
-				//xy2[rand] = temp;
+				xy1[rand] = xy2[rand];
 			}else {
 				i--;
 			}
@@ -105,24 +100,20 @@ public class Cross {
 	
 	public HashMap<Integer, Color> mergeColor(HashMap<Integer, Color> colors1, HashMap<Integer, Color> colors2) {
 		//Get the percentage to swap of the colors
-		double max = 0;
+		int max = 0;
 		if (colors1.size() < colors2.size()) {
-			double length = colors1.size();
-			max = (0.5) * length;
+			max = colors1.size();
 		}else {
-			double length = colors2.size();
-			max = (0.5) * length;
+			max = colors2.size();
 		}
+		System.out.println("colors1 " + colors1);
+		System.out.println("colors2 " + colors1);
 		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < max; i++) {
-			int rand = randomIndex();
+			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);
-				Color temp = colors1.get(rand);
-				if (colors2.get(rand) != null) {
-					colors1.put(rand, colors2.get(rand));
-				}
-				//colors2.put(rand,  temp);
+				colors1.put(rand, colors2.get(rand));
 			}else {
 				i--;
 			}
@@ -151,5 +142,14 @@ public class Cross {
 			}
 			System.out.print("\n");
 		}
+	}
+	
+	public void printGraph(String[] graph) {
+		System.out.print("[ ");
+		for (int i = 0; i < graph.length; i++) {
+			System.out.print(graph[i] + ", ");
+		}
+		System.out.print("] ");
+		System.out.println("");
 	}
 }

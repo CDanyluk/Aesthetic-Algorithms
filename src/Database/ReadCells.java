@@ -179,7 +179,7 @@ public class ReadCells {
      			cell.setColor(parse.parseColor(results.getString("Colors")));
      			cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
      			int iter = results.getInt("Iterations");
-     			cell.update(iter);
+     			cell.setIterations(iter);
      			cellList.add(cell);
      		}
         }

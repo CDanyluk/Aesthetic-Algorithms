@@ -37,6 +37,8 @@ public class Cells {
 	
 	public void setColor(HashMap<Integer, Color> colors) { pattern.setColors(colors); }
 	
+	public void setIterations(int iter) { this.iteration = iter; }
+	
 	public void setSeeds(boolean[][] graph) {
 		for (int x = 0; x < graph.length; x++) {
 			for (int y = 0; y < graph.length; y ++) {
@@ -182,8 +184,11 @@ public class Cells {
 	public String getColorsData() {
 		String rules = new String();
 		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
+		System.out.println("colorsRaw = " + colorsRaw);
 		for (int i = 0; i < colorsRaw.size(); i++) {
 			Color c = colorsRaw.get(i);
+			System.out.println("Colors c = " + c);
+			System.out.println("int i = " + i);
 			int r = (int)Math.round(255 * c.getRed());
 			int g = (int)Math.round(255 * c.getGreen());
 			int b = (int)Math.round(255 * c.getBlue());
@@ -197,6 +202,10 @@ public class Cells {
 		String rules = new String();
 		rules = rules + "Iterations: " + iteration + "\n";
 		return rules;
+	}
+	
+	public int getIter() {
+		return iteration;
 	}
 	
 	public String getIterData() {
@@ -301,8 +310,8 @@ public class Cells {
 	
 	public void liveColor(int x, int y) {
 		int max = pattern.getColorSize();
-		int newx = (int) x;
-		int newy = (int) y;
+		int newx = x;
+		int newy = y;
 		graph[newx][newy] = max;
 		seedgraph[newx][newy] = true;
 	}
