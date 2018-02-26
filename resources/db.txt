@@ -1,2 +1,2 @@
 CREATE TABLE Cells(ImageName TEXT, Seeds TEXT, Dead TEXT, Live TEXT, Colors TEXT, Iterations INTEGER, Score REAL)
-CREATE TABLE LSystems(ImageName TEXT, Rule TEXT, Score REAL)
+CREATE TABLE LSystems(ImageName TEXT, StartPoints TEXT, StartString TEXT, Rules TEXT, Recursions INTEGER, Length Integer, Angle INTEGER, Score REAL)

@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
 
 import Automata.Cells;
 import Automata.Cross;
-import Database.CellsInput;
+import Database.DatabaseInput;
 import Database.Read;
 import Database.ReadCells;
 import Database.Send;
@@ -265,7 +265,11 @@ public class MainController {
 		//A tree will be drawn from that seed
 		GraphicsContext gc = picture.getGraphicsContext2D();
 		gc.clearRect(0, 0, width, height);
-		drawLSystem();
+		if(Integer.parseInt(exportLSystem.getText()) != 1){
+			drawMultipleLSystems();
+		}else {
+			drawLSystem();
+		}
 	}
 	
 	//Ferrer Code mixed in --------------------------------------------------------------------------------------
@@ -605,29 +609,6 @@ public class MainController {
 		
 	}
 	
-	public void exportLSystem(File directory) {
-		String number = randomnumber();
-		initialize();
-		//here is where you put functions to randomize your L system
-		drawLSystem();
-		goButton();
-		//Write the text file
-		
-		//Write the image file
-		File file = new File(directory, "lsystem" + number + ".png");
-		if (file != null){
-			try {
-				WritableImage writableImage = new WritableImage(width, height);
-				picture.snapshot(null, writableImage);
-				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
-				//Write the snapshot to the chosen file
-				ImageIO.write(renderedImage, "png", file);
-		    } catch (IOException ex) {
-		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
-		        System.out.println("exportLSystem() fuuuuucked");
-		        }
-		    }
-	}
 	
 	//ideally we would save by the date not a random number but oh well
 	public String randomnumber () {
@@ -681,9 +662,9 @@ public class MainController {
 		
 		//Write the database
 				try {
-				    CellsInput input = new CellsInput();
+				    DatabaseInput input = new DatabaseInput();
 				    double score = scoreThis(name);
-				    input.toDatabase(name, cells, score);
+				    input.cellsToDatabase(name, cells, score);
 				    
 				} catch (Exception e) {
 					System.out.println("Could not put cells in database");
@@ -719,9 +700,9 @@ public class MainController {
 		
 		//Write the database
 				try {
-				    CellsInput input = new CellsInput();
+				    DatabaseInput input = new DatabaseInput();
 				    double score = scoreThis(name);
-				    input.toDatabase(name, cells, score);
+				    input.cellsToDatabase(name, cells, score);
 				    
 				} catch (Exception e) {
 					System.out.println("Could not put cells in database");
@@ -814,121 +795,6 @@ public class MainController {
 			}
 			System.out.print("\n");
 		}
-	}
-	
-
-	public void drawLSystem() {
-		HashMap<String, String> rules = new HashMap<String, String>();
-		
-		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
-		//System.out.println(numRules);
-		for(int i = 0; i < numRules; i++){
-			int numChars = ThreadLocalRandom.current().nextInt(1, 50);
-			//System.out.println(numChars);
-			String toUse = "";
-			for(int j = 0; j < numChars; j++){
-				String alphabet = "01-+";
-				int k = alphabet.length();
-				Random r = new Random();
-				toUse += alphabet.charAt(r.nextInt(k));
-			}
-			//System.out.println(toUse);
-			rules.put(i + "",toUse );
-		}
-		
-		int startStringLength = ThreadLocalRandom.current().nextInt(1, 4);
-		String startingString = "";
-		for(int m = 0; m < startStringLength; m++){
-			String alphabet = "01";
-			int k = alphabet.length();
-			Random r = new Random();
-			startingString += alphabet.charAt(r.nextInt(k));
-		}
-		
-		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
-		angle.setText(randomAngle.toString());
-		
-		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
-		recursions.setText(randomRecursions.toString());
-		
-		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
-		length.setText(randomLength.toString());
-		
-		
-		int randomStartX = ThreadLocalRandom.current().nextInt(300, 301);
-		int randomStartY = ThreadLocalRandom.current().nextInt(300, 301);
-		double[] randomStart = new double[2];
-		randomStart[0] = randomStartX;
-		randomStart[1] = randomStartY;
-		
-		
-		int randomMakeRandom = ThreadLocalRandom.current().nextInt(3, 697);
-		boolean makeRandom = false;
-		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
-		
-		
-		lway = new LSystems(randomStart, 
-							startingString, 
-							rules, 
-							makeRandom,
-							randomRecursions,
-							randomLength, 
-							randomAngle);
-		
-		ArrayList<Line> tree = lway.getDrawing();
-		drawLSystemLines(tree);
-		
-		System.out.println("\n\n\nStart: " + randomStart[0] + "," + randomStart[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
-				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
-		
-	}
-	
-	private void drawLSystemLines(ArrayList
-			<Line> tree){
-		double red = ThreadLocalRandom.current().nextInt(0, 255);
-		double green = ThreadLocalRandom.current().nextInt(0, 255);
-		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
-		
-		int randomWidth = ThreadLocalRandom.current().nextInt(2, 10);
-		double colorChange = ThreadLocalRandom.current().nextInt(1, 60);
-		int randomColor = ThreadLocalRandom.current().nextInt(1, 3);
-		
-		GraphicsContext gc = picture.getGraphicsContext2D();
-		int canvasRed = ThreadLocalRandom.current().nextInt(0, 255);
-		int canvasGreen = ThreadLocalRandom.current().nextInt(0, 255);
-		int canvasBlue =  ThreadLocalRandom.current().nextInt(0, 255);
-		gc.setFill(Color.rgb(canvasRed, canvasGreen, canvasBlue));
-		gc.fillRect(0,0,width,height);
-		
-		
-		//for every line in that tree, draw it
-		for (Line currentBranch: tree) {
-			double[] first = currentBranch.getFirst();
-			double[] last = currentBranch.getLast();
-			if(randomColor == 1){
-				if(red + colorChange > 255){
-					red = colorChange;
-				}else{
-					red += colorChange;
-				}
-			}if(randomColor == 2){
-				if(green + colorChange > 255){
-					green = colorChange;
-				} else {
-					green += colorChange;
-				}
-			}if(randomColor == 3){
-				if(blue + colorChange > 255){
-					blue = colorChange;
-				} else {
-					blue += colorChange;
-				}
-			}
-			//System.out.println(red);
-			
-			drawLineSpecificColor(first, last, randomWidth, red, green, blue );
-		}
-		
 	}
 		
 	
@@ -1025,6 +891,172 @@ public class MainController {
 		double[] end = line.getLast();
 		drawLine(start, end, linewidth);
 		
+	}
+	
+//	LSystems Code -----------------------------------------------------------------------------
+	
+	@FXML
+	public void mutateLSystem() {}
+	
+	@FXML
+	public void viewBestLSystem() {}
+	
+	private void drawLSystemLines(ArrayList
+			<Line> tree){
+		double red = ThreadLocalRandom.current().nextInt(0, 255);
+		double green = ThreadLocalRandom.current().nextInt(0, 255);
+		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		
+		int randomWidth = ThreadLocalRandom.current().nextInt(2, 10);
+		double colorChange = ThreadLocalRandom.current().nextInt(1, 60);
+		int randomColor = ThreadLocalRandom.current().nextInt(1, 3);
+		
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		int canvasRed = ThreadLocalRandom.current().nextInt(0, 255);
+		int canvasGreen = ThreadLocalRandom.current().nextInt(0, 255);
+		int canvasBlue =  ThreadLocalRandom.current().nextInt(0, 255);
+		gc.setFill(Color.rgb(canvasRed, canvasGreen, canvasBlue));
+		gc.fillRect(0,0,width,height);
+		
+		
+		//for every line in that tree, draw it
+		for (Line currentBranch: tree) {
+			double[] first = currentBranch.getFirst();
+			double[] last = currentBranch.getLast();
+			if(randomColor == 1){
+				if(red + colorChange > 255){
+					red = colorChange;
+				}else{
+					red += colorChange;
+				}
+			}if(randomColor == 2){
+				if(green + colorChange > 255){
+					green = colorChange;
+				} else {
+					green += colorChange;
+				}
+			}if(randomColor == 3){
+				if(blue + colorChange > 255){
+					blue = colorChange;
+				} else {
+					blue += colorChange;
+				}
+			}
+			//System.out.println(red);
+			
+			drawLineSpecificColor(first, last, randomWidth, red, green, blue );
+		}
+		
+	}
+	
+	public void drawLSystem() {
+		HashMap<String, String> rules = new HashMap<String, String>();
+		
+		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
+		//System.out.println(numRules);
+		for(int i = 0; i < numRules; i++){
+			int numChars = ThreadLocalRandom.current().nextInt(1, 50);
+			//System.out.println(numChars);
+			String toUse = "";
+			for(int j = 0; j < numChars; j++){
+				String alphabet = "01-+";
+				int k = alphabet.length();
+				Random r = new Random();
+				toUse += alphabet.charAt(r.nextInt(k));
+			}
+			//System.out.println(toUse);
+			rules.put(i + "",toUse );
+		}
+		
+		int startStringLength = ThreadLocalRandom.current().nextInt(1, 4);
+		String startingString = "";
+		for(int m = 0; m < startStringLength; m++){
+			String alphabet = "01";
+			int k = alphabet.length();
+			Random r = new Random();
+			startingString += alphabet.charAt(r.nextInt(k));
+		}
+		
+		Integer randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
+		angle.setText(randomAngle.toString());
+		
+		Integer randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
+		recursions.setText(randomRecursions.toString());
+		
+		Integer randomLength = ThreadLocalRandom.current().nextInt(1, 15);
+		length.setText(randomLength.toString());
+		
+		
+		int randomStartX = ThreadLocalRandom.current().nextInt(300, 301);
+		int randomStartY = ThreadLocalRandom.current().nextInt(300, 301);
+		double[] randomStart = new double[2];
+		randomStart[0] = randomStartX;
+		randomStart[1] = randomStartY;
+		
+		
+		int randomMakeRandom = ThreadLocalRandom.current().nextInt(1, 2);
+		boolean makeRandom = false;
+		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
+		
+		
+		lway = new LSystems(randomStart, 
+							startingString, 
+							rules, 
+							makeRandom,
+							randomRecursions,
+							randomLength, 
+							randomAngle);
+		
+		ArrayList<Line> tree = lway.getDrawing();
+		drawLSystemLines(tree);
+		String stringRules = "";
+		for(int x = 0; x < rules.size(); x++){
+			stringRules += rules.get(x);
+		}
+		
+		DatabaseInput input = new DatabaseInput();
+		int num = ThreadLocalRandom.current().nextInt(1, 500);
+		try {
+			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, stringRules, randomLength, randomRecursions, randomAngle, num);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("\n\n\nStart: " + randomStart[0] + "," + randomStart[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
+				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
+		
+	}
+	
+	
+	public void drawMultipleLSystems(){
+		for(int i = 0; i < Integer.parseInt(exportLSystem.getText()); i++){
+			drawLSystem();
+		}
+	}
+	
+	public void exportLSystem(File directory) {
+		String number = randomnumber();
+		initialize();
+		//here is where you put functions to randomize your L system
+		drawLSystem();
+		goButton();
+		//Write the text file
+		
+		//Write the image file
+		File file = new File(directory, "lsystem" + number + ".png");
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportLSystem() fuuuuucked");
+		        }
+		    }
 	}
 
 }

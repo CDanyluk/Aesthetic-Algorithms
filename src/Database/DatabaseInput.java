@@ -3,12 +3,12 @@ package Database;
 
 import Automata.Cells;
 
-public class CellsInput {
+public class DatabaseInput {
 	
 	Send send = new Send();
 	Read read = new Read();
 	
-	public CellsInput() {}
+	public DatabaseInput() {}
 	//Goadrich likes a string of 8 (9??) characters, TFTTFTFF for the dead and alive to repesent the cells
 	//Since we KNOW there will always be 8 (9??) rules
 	
@@ -23,9 +23,16 @@ public class CellsInput {
 	//Write a thing to retrieve them from the database
 	//Goal is to delete
 	
-	public void toDatabase(String name, Cells cells, double score) throws Exception{
+	public void cellsToDatabase(String name, Cells cells, double score) throws Exception{
 		String insert = "INSERT INTO Cells VALUES (\'" + name + "\', \'"+ cells.getSeedData() + "\', \'" + cells.getDeadData() + "\', \'" + cells.getAliveData() 
 				+ "\', \'" + cells.getColorsData() + "\', \'" + cells.getIterData() + "\', \'" + score + "\')";
+		send.send(insert);
+	}
+	
+	public void lsystemsToDatabase(String name, String startPoints, String startString, String rules, int recursions, int length, int angle, int score) throws Exception{
+		String insert = "INSERT INTO LSystems VALUES (\'" + name + "\', \'"+ startPoints + "\', \'" + startString + "\', \'" + rules + "\', \'" + recursions + 
+				"\', \'"+ length + "\', \'" + angle 
+				+ "\', \'" + score + "\')";
 		send.send(insert);
 	}
 	
