@@ -365,7 +365,7 @@ public class MainController {
 		//the golden ratio ideal
 		Map<String, Integer> golden = new HashMap<String, Integer>();
 		golden.put("big", 2);
-		golden.put("medium", 4);
+		golden.put("medium", 7);
 		golden.put("small", 3);
 		
 		//find the two scores
@@ -376,6 +376,12 @@ public class MainController {
 		if (colorscore == 0 || sizescore == 0) {
 			score = 0;
 		}
+		if (score != 0.0 || colorscore > 0.3) {
+			System.out.println("Name : " + imageName + " = " + score);
+			System.out.println("    colorscore : " + colorscore);
+			System.out.println("    sizescore : " + sizescore);
+		}
+
 		return score;
 		
 	}
@@ -383,7 +389,7 @@ public class MainController {
 	//These chi things can probably be put outside of the actual controller
 	private double colorchi(ArrayList<Color> colorList) {
 		double scoretotal = 0;
-		double expected = 120;
+		double expected = 30;
 		for (int i = 0; i < colorList.size(); i++) {
 			double dif = 0;
 			if (i != colorList.size()-1) {
@@ -395,7 +401,10 @@ public class MainController {
 				double color2 = colorList.get(0).getHue();
 				dif = Math.abs(color1 - color2);
 			}
-			scoretotal += 1/((Math.abs(expected - dif))+1);
+			//if the difference is less than 30 do not add it
+			if (dif > 30) {
+				scoretotal += 1/((Math.abs(expected - dif))+1);
+			}
 		}
 		//scoretotal = scoretotal/colorList.size();
 		return scoretotal;

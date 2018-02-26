@@ -70,6 +70,8 @@ public class Cross {
 		int h = (height/10)+1;
 		String xy1[] = seedData1.split("%");
 		String xy2[] = seedData2.split("%");
+		//Shuffle this array around so that they are not sorted!!!!!
+		
 		//Only swap up based on smallest graph
 		int max = 0;
 		if (xy1.length < xy2.length) {
@@ -79,6 +81,7 @@ public class Cross {
 		}
 		//Swap up to that number randomly
 		List<Integer> list = new ArrayList<Integer>();
+		//It should NOT be max!!! Literally swapping half of the entire list!!!!
 		for (int i = 0; i < max; i++) {
 			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
