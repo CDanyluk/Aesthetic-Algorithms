@@ -50,46 +50,47 @@ public class ReadLSystems {
         stat.close();
 	}
 	
-	public List<Cells> readTopTen()  throws ClassNotFoundException, SQLException {
-		 //Create a list of cells, we are gonna return this at the end
-		 List<Cells> cellList = new ArrayList<Cells>();
-		 //Normal database stuff
-		 Class.forName("org.sqlite.JDBC");
-        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
-        Statement stat = con.createStatement();
-        String command = "SELECT  C.Dead, C.Live, C.Colors, C.Seeds, C.Iterations, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
-        ParseCells parse = new ParseCells();
-        if (stat.execute(command)) {
-       	ResultSet results = stat.getResultSet();
-     		while (results.next()) {
-     	        //Create new cell
-     	        Cells cell = new Cells(700, 700);
-     	        cell.clear();
-     			cell.setDead(parse.parseDead(results.getString("Dead")));
-   			cell.setAlive(parse.parseAlive(results.getString("Live")));
-   			cell.setColor(parse.parseColor(results.getString("Colors")));
-   			//cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
-   			cell.randomGraph();
-   			int iter = results.getInt("Iterations");
-   			cell.change(cell.getAlive(), cell.getDead());
-   			if (oneOrTwo() == 0) {
-   				iter--;
-   			}else {
-   				iter++;
-   			}
-   			cell.update(iter);
-   			cellList.add(cell);
-     		}
-        }
-        stat.close();
-        return cellList;
-	}
+// 	Going to have to do something similar to this -- this is what Chantal had in hers
+//	public List<Cells> readTopTen()  throws ClassNotFoundException, SQLException {
+//		 //Create a list of cells, we are gonna return this at the end
+//		 List<Cells> cellList = new ArrayList<Cells>();
+//		 //Normal database stuff
+//		 Class.forName("org.sqlite.JDBC");
+//        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+//        Statement stat = con.createStatement();
+//        String command = "SELECT  C.Dead, C.Live, C.Colors, C.Seeds, C.Iterations, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
+//        ParseCells parse = new ParseCells();
+//        if (stat.execute(command)) {
+//       	ResultSet results = stat.getResultSet();
+//     		while (results.next()) {
+//     	        //Create new cell
+//     	        Cells cell = new Cells(700, 700);
+//     	        cell.clear();
+//     			cell.setDead(parse.parseDead(results.getString("Dead")));
+//   			cell.setAlive(parse.parseAlive(results.getString("Live")));
+//   			cell.setColor(parse.parseColor(results.getString("Colors")));
+//   			//cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
+//   			cell.randomGraph();
+//   			int iter = results.getInt("Iterations");
+//   			cell.change(cell.getAlive(), cell.getDead());
+//   			if (oneOrTwo() == 0) {
+//   				iter--;
+//   			}else {
+//   				iter++;
+//   			}
+//   			cell.update(iter);
+//   			cellList.add(cell);
+//     		}
+//        }
+//        stat.close();
+//        return cellList;
+//	}
 	
 	 public void readScore() throws ClassNotFoundException, SQLException {
    	  	 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
-         String command = "SELECT Score FROM Cells;";
+         String command = "SELECT Score FROM LSystems;";
          if (stat.execute(command)) {
          		ResultSet results = stat.getResultSet();
          		while (results.next()) {
@@ -104,8 +105,8 @@ public class ReadLSystems {
 		 Class.forName("org.sqlite.JDBC");
 	     Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
 	     Statement stat = con.createStatement();
-	     String command = "DELETE FROM Cells;";
-	     System.out.println("Cells has been cleared");
+	     String command = "DELETE FROM LSystems;";
+	     System.out.println("LSystems has been cleared");
 	     stat.execute(command);
 	     stat.close();
 	 }
@@ -114,8 +115,8 @@ public class ReadLSystems {
 		 Class.forName("org.sqlite.JDBC");
 	     Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
 	     Statement stat = con.createStatement();
-	     String command = "DELETE FROM Cells WHERE Score = 0.0;";
-	     System.out.println("Cells with a bad score have been removed from database");
+	     String command = "DELETE FROM LSystems WHERE Score = 0.0;";
+	     System.out.println("LSystems with a bad score have been removed from database");
 	     stat.execute(command);
 	     stat.close();
 	 }
