@@ -25,6 +25,7 @@ import Automata.Cross;
 import Database.DatabaseInput;
 import Database.Read;
 import Database.ReadCells;
+import Database.ReadLSystems;
 import Database.Send;
 import edu.hendrix.blob.Blob;
 import edu.hendrix.cluster.KMeansPlusPlus;
@@ -898,9 +899,6 @@ public class MainController {
 	@FXML
 	public void mutateLSystem() {}
 	
-	@FXML
-	public void viewBestLSystem() {}
-	
 	private void drawLSystemLines(ArrayList
 			<Line> tree){
 		double red = ThreadLocalRandom.current().nextInt(0, 255);
@@ -1057,6 +1055,32 @@ public class MainController {
 		        System.out.println("exportLSystem() fuuuuucked");
 		        }
 		    }
+	}
+	
+	@FXML
+	public void viewLSystem() {
+		ReadLSystems read = new ReadLSystems();
+		try {
+			read.readRow();
+		}catch (Exception e) {
+			System.out.println("Cannot view LSystems (sad day...)");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void viewBestLSystem() {
+// Come back to this please!
+//		ReadLSystems read = new ReadLSystems();
+//		GraphicsContext gc = picture.getGraphicsContext2D();
+//		gc.clearRect(0, 0, width, height);
+//		try {
+//			
+//		}catch (Exception e) {
+//			System.out.println("The database is empty.");
+//			//e.printStackTrace();
+//		}
+//		drawColorAutomata();
 	}
 
 }
