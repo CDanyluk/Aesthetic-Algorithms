@@ -174,6 +174,7 @@ public class ReadCells {
      		while (results.next()) {
      	        //Create new cell
      	        Cells cell = new Cells(700, 700);
+     	        cell.clear();
      			cell.setDead(parse.parseDead(results.getString("Dead")));
      			cell.setAlive(parse.parseAlive(results.getString("Live")));
      			cell.setColor(parse.parseColor(results.getString("Colors")));

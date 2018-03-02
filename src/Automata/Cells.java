@@ -272,11 +272,10 @@ public class Cells {
 	//Randomizes 3 values in dead and alive
 	//Randomizes 1 color each iteration
 	public void change(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
-		pattern.randomValDead(3);
-		pattern.randomValAlive(3);
+		pattern.randomValDead(2);
+		pattern.randomValAlive(2);
 		graph = pattern.colorAutomata(graph);
-		int amount = (int) (0.3*pattern.getColorSize());
-		pattern.randomAColor(amount);
+		pattern.randomAColor(2);
 	}
 	
 	public void predictable(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {

@@ -13,9 +13,9 @@ public class Cross {
 	public Cells cross(Cells cell1, Cells cell2) {
 		Cells crossedCell = new Cells(700, 700);
 		//Switch up all the values
-		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 4);
+		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 2);
 		System.out.println("aliveMap : " + aliveMap);
-		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 4);
+		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 2);
 		System.out.println("deadMap : " + deadMap);
 		boolean[][] newSeeds = mergeSeeds(cell1.getSeedData(), cell2.getSeedData());
 		System.out.println("newSeeds : " + newSeeds);
@@ -80,9 +80,10 @@ public class Cross {
 			max = xy2.length;
 		}
 		//Swap up to that number randomly
+		int num = 4;
 		List<Integer> list = new ArrayList<Integer>();
-		//It should NOT be max!!! Literally swapping half of the entire list!!!!
-		for (int i = 0; i < max; i++) {
+		//Swap num seeds randomly
+		for (int i = 0; i < 4; i++) {
 			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);
@@ -112,7 +113,9 @@ public class Cross {
 		System.out.println("colors1 " + colors1);
 		System.out.println("colors2 " + colors1);
 		List<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < max; i++) {
+		//Swap num colors randomly
+		int num = 2;
+		for (int i = 0; i < num; i++) {
 			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);
