@@ -52,6 +52,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -150,6 +151,12 @@ public class MainController {
 	
 	@FXML
 	Button mutatemult;
+	
+	@FXML
+	Button crossmutate;
+	
+	@FXML
+	CheckBox go;
 	
 	@FXML
 	Button export;
@@ -547,6 +554,14 @@ public class MainController {
 		} catch (Exception e) {
 			System.out.println("mutateMult is broken");
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void CrossMutate() {
+		while (go.isSelected()) {
+			mutateMult();
+			crossovers();
 		}
 	}
 	
