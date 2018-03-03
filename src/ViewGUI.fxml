@@ -9,18 +9,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="806.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="859.0" prefWidth="973.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="801.0" prefWidth="973.0">
          <children>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="807.0" prefWidth="868.0">
                <children>
@@ -31,7 +27,7 @@
                               <RadioButton fx:id="lSystem" layoutX="6.0" layoutY="14.0" mnemonicParsing="false" text="L-System" />
                               <RadioButton fx:id="cellularAutomata" layoutX="10.0" layoutY="263.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" text="Cellular Automata" wrapText="true" />
                               <Button fx:id="fetch" layoutX="110.0" layoutY="268.0" mnemonicParsing="false" onAction="#fetchButton" text="Fetch" />
-                              <Button fx:id="deletebad" layoutX="94.0" layoutY="717.0" mnemonicParsing="false" onAction="#deleteBad" prefHeight="25.0" prefWidth="75.0" text="Delete Bad" />
+                              <Button fx:id="deletebad" layoutX="91.0" layoutY="589.0" mnemonicParsing="false" onAction="#deleteBad" prefHeight="25.0" prefWidth="75.0" text="Delete Bad" />
                               <Label layoutX="8.0" layoutY="45.0" text="Length:" />
                               <Label layoutX="8.0" layoutY="85.0" text="Recursions:" />
                               <Label layoutX="9.0" layoutY="124.0" text="Angle:" />
@@ -42,74 +38,26 @@
                               <Button fx:id="lsystemgo" layoutX="117.0" layoutY="208.0" mnemonicParsing="false" onAction="#goButton" text="Go" />
                               <Label layoutX="11.0" layoutY="339.0" text="Iterations:" />
                               <TextField fx:id="iterations" layoutX="106.0" layoutY="334.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
-                              <Label layoutX="13.0" layoutY="399.0" text="Alive:" />
-                              <Label layoutX="12.0" layoutY="501.0" text="Dead:" />
-                              <GridPane layoutX="23.0" layoutY="501.0" prefHeight="90.0" prefWidth="116.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <ToggleButton fx:id="dead0" mnemonicParsing="false" text="0" GridPane.columnIndex="3" />
-                                    <ToggleButton fx:id="dead1" mnemonicParsing="false" text="1" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="dead2" mnemonicParsing="false" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="dead3" mnemonicParsing="false" text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="dead4" mnemonicParsing="false" text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="dead5" mnemonicParsing="false" text="5" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="dead6" mnemonicParsing="false" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="dead7" mnemonicParsing="false" text="7" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="dead8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                 </children>
-                              </GridPane>
-                              <GridPane layoutX="26.0" layoutY="400.0" prefHeight="90.0" prefWidth="116.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <ToggleButton fx:id="alive0" mnemonicParsing="false" text="0" GridPane.columnIndex="3" />
-                                    <ToggleButton fx:id="alive1" mnemonicParsing="false" text="1" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="alive2" mnemonicParsing="false" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="alive3" mnemonicParsing="false" text="3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="alive4" mnemonicParsing="false" text="4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <ToggleButton fx:id="alive5" mnemonicParsing="false" text="5" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="alive6" mnemonicParsing="false" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="alive7" mnemonicParsing="false" text="7" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <ToggleButton fx:id="alive8" mnemonicParsing="false" text="8" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                 </children>
-                              </GridPane>
                               <Button fx:id="randomizegrid" layoutX="12.0" layoutY="304.0" mnemonicParsing="false" onAction="#randomGrid" text="Randomize Grid Values" />
                               <Label layoutX="11.0" layoutY="368.0" text="Export Number:" />
                               <TextField fx:id="exporthowmany" layoutX="106.0" layoutY="363.0" prefHeight="27.0" prefWidth="45.0" promptText="10" />
                               <Separator layoutX="-1.0" layoutY="246.0" prefHeight="4.0" prefWidth="180.0" />
                               <Label layoutX="14.0" layoutY="170.0" text="Export Number:" />
                               <TextField fx:id="exportLSystem" layoutX="109.0" layoutY="166.0" prefHeight="25.0" prefWidth="45.0" promptText="10" text="1" />
-                              <Button fx:id="deleteall" layoutX="94.0" layoutY="753.0" mnemonicParsing="false" onAction="#deleteCells" prefHeight="25.0" prefWidth="74.0" text="Delete All" />
-                              <Button fx:id="viewcells" layoutX="12.0" layoutY="717.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
-                              <Button fx:id="crossover" layoutX="9.0" layoutY="791.0" mnemonicParsing="false" onAction="#crossovers" prefHeight="27.0" prefWidth="77.0" text="Crossover" />
-                              <Separator layoutX="-1.0" layoutY="591.0" prefHeight="25.0" prefWidth="180.0" />
-                              <Separator layoutX="2.0" layoutY="683.0" prefHeight="25.0" prefWidth="180.0" />
-                              <Label layoutX="12.0" layoutY="700.0" text="Cells Database Controls" />
-                              <Label layoutY="608.0" text="L-System Database Controls" />
-                              <Button fx:id="viewbest" layoutX="14.0" layoutY="753.0" mnemonicParsing="false" onAction="#viewBest" text="View Best" />
-                              <Button fx:id="mutatemult" layoutX="92.0" layoutY="792.0" mnemonicParsing="false" onAction="#mutateMult" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
-                              <Button layoutX="2.0" layoutY="632.0" mnemonicParsing="false" onAction="#viewBestLSystem" text="View Best" />
-                              <Button fx:id="mutatemult1" layoutX="92.0" layoutY="631.0" mnemonicParsing="false" onAction="#mutateLSystem" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
-                              <Button layoutY="664.0" mnemonicParsing="false" onAction="#viewLSystem" text="View" />
+                              <Button fx:id="deleteall" layoutX="92.0" layoutY="626.0" mnemonicParsing="false" onAction="#deleteCells" prefHeight="25.0" prefWidth="74.0" text="Delete All" />
+                              <Button fx:id="viewcells" layoutX="7.0" layoutY="589.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
+                              <Button fx:id="crossover" layoutX="7.0" layoutY="661.0" mnemonicParsing="false" onAction="#crossovers" prefHeight="27.0" prefWidth="71.0" text="Crossover" />
+                              <Separator layoutX="-1.0" layoutY="397.0" prefHeight="25.0" prefWidth="180.0" />
+                              <Separator layoutX="-1.0" layoutY="548.0" prefHeight="25.0" prefWidth="180.0" />
+                              <Label layoutX="5.0" layoutY="565.0" text="Cells Database Controls" />
+                              <Label layoutX="6.0" layoutY="414.0" text="L-System Database Controls" />
+                              <Button fx:id="viewbest" layoutX="7.0" layoutY="626.0" mnemonicParsing="false" onAction="#viewBest" text="View Best" />
+                              <Button fx:id="mutatemult" layoutX="92.0" layoutY="662.0" mnemonicParsing="false" onAction="#mutateMult" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
+                              <Button layoutX="8.0" layoutY="440.0" mnemonicParsing="false" onAction="#viewBestLSystem" text="View Best" />
+                              <Button fx:id="mutatemult1" layoutX="92.0" layoutY="440.0" mnemonicParsing="false" onAction="#mutateLSystem" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
+                              <Button layoutX="16.0" layoutY="475.0" mnemonicParsing="false" onAction="#viewLSystem" text="View" />
+                              <Button fx:id="crossmutate" layoutX="14.0" layoutY="703.0" mnemonicParsing="false" onAction="#CrossMutate" text="Cross + Mut" />
+                              <CheckBox fx:id="go" layoutX="124.0" layoutY="709.0" mnemonicParsing="false" text="Go" />
                            </children>
                         </Pane>
                      </children>
@@ -136,8 +84,6 @@
                   <Separator layoutX="172.0" layoutY="691.0" orientation="VERTICAL" prefHeight="107.0" prefWidth="16.0" />
                </children>
             </Pane>
-            <CheckBox fx:id="go" layoutX="108.0" layoutY="828.0" mnemonicParsing="false" text="Go" />
-            <Button fx:id="crossmutate" layoutX="14.0" layoutY="824.0" mnemonicParsing="false" onAction="#CrossMutate" text="Cross + Mut" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

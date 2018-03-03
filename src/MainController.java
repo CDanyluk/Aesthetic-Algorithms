@@ -81,26 +81,6 @@ public class MainController {
 	
 	@FXML
 	RadioButton cellularAutomata;
-	@FXML ToggleButton alive0;
-	@FXML ToggleButton alive1;
-	@FXML ToggleButton alive2;
-	@FXML ToggleButton alive3;
-	@FXML ToggleButton alive4;
-	@FXML ToggleButton alive5;
-	@FXML ToggleButton alive6;
-	@FXML ToggleButton alive7;
-	@FXML ToggleButton alive8;
-	
-	@FXML ToggleButton dead0;
-	@FXML ToggleButton dead1;
-	@FXML ToggleButton dead2;
-	@FXML ToggleButton dead3;
-	@FXML ToggleButton dead4;
-	@FXML ToggleButton dead5;
-	@FXML ToggleButton dead6;
-	@FXML ToggleButton dead7;
-	@FXML ToggleButton dead8;
-
 	
 	final ToggleGroup algorithm = new ToggleGroup();
 	
@@ -765,26 +745,6 @@ public class MainController {
 			alive.put(i, false);
 			dead.put(i, false);
 		}
-		//This is a chunk checking alive's buttons toggle and putting them in the hashmap
-		if (alive0.isSelected()) { alive.put(0, true);}
-		if (alive1.isSelected()) { alive.put(1, true);}
-		if (alive2.isSelected()) { alive.put(2, true);}
-		if (alive3.isSelected()) { alive.put(3, true);}
-		if (alive4.isSelected()) { alive.put(4, true);}
-		if (alive5.isSelected()) { alive.put(5, true);}
-		if (alive6.isSelected()) { alive.put(6, true);}
-		if (alive7.isSelected()) { alive.put(7, true);}
-		if (alive8.isSelected()) { alive.put(8, true);}
-		//This is a chunk checking deads button toggles
-		if (dead0.isSelected()) { dead.put(0, true);}
-		if (dead1.isSelected()) { dead.put(1, true);}
-		if (dead2.isSelected()) { dead.put(2, true);}
-		if (dead3.isSelected()) { dead.put(3, true);}
-		if (dead4.isSelected()) { dead.put(4, true);}
-		if (dead5.isSelected()) { dead.put(5, true);}
-		if (dead6.isSelected()) { dead.put(6, true);}
-		if (dead7.isSelected()) { dead.put(7, true);}
-		if (dead8.isSelected()) { dead.put(8, true);}
 		
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
