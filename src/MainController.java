@@ -399,7 +399,30 @@ public class MainController {
 			}
 		}
 		//scoretotal = scoretotal/colorList.size();
-		return scoretotal;
+		double brightscore = brightnesschi(colorList);
+		return (scoretotal + brightscore)/2;
+	}
+	
+	//chi values for brightness
+	private double brightnesschi(ArrayList<Color> colorList) {
+		double scoretotal = 0;
+		for (int i = 0; i < colorList.size(); i++) {
+			double dif = 0;
+			//The greater the difference the greater the number
+			if (i != colorList.size()-1) {
+				double color1 = colorList.get(i).getBrightness();
+				double color2 = colorList.get(i+1).getBrightness();
+				dif = Math.abs(color1 - color2);
+			}else {
+				double color1 = colorList.get(i).getBrightness();
+				double color2 = colorList.get(0).getBrightness();
+				dif = Math.abs(color1 - color2);
+			}
+			//if the difference is less than 30 do not add it
+			scoretotal += dif;
+		}
+		//because of the nature of getBrightness this value should never exceed 1
+		return scoretotal/3;
 	}
 	
 	private double sizechi(Map<String, Integer> expected, Map<String, Integer> given) {
@@ -428,13 +451,13 @@ public class MainController {
 		medscore = 1/(Math.abs(expMed - givMed)+1);
 
 		//chisquare the small score
-		/*double expSmall = expected.get("small");
+		double expSmall = expected.get("small");
 		double givSmall = given.get("small");
-		smallscore = 1/(Math.abs(expSmall - givSmall)+1);*/
+		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
 		
 		//add al the scores, divide by three, and return the value
-		total = bigscore + medscore;
-		total = total/2;
+		total = bigscore + medscore + smallscore;
+		total = total/3;
 		return total;
 	}
 	
@@ -488,6 +511,7 @@ public class MainController {
 			iter = read.readBestIter();
 			cells.update(iter);
 			drawColorAutomata();
+			read.readBest();
 		}catch (Exception e) {
 			System.out.println("The database is empty.");
 			//e.printStackTrace();

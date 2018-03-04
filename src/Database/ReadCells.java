@@ -160,6 +160,39 @@ public class ReadCells {
          return cellList;
 	}
 	
+	public void readBest()  throws ClassNotFoundException, SQLException {
+		Class.forName("org.sqlite.JDBC");
+        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+        Statement stat = con.createStatement();
+        String command = "SELECT  C.ImageName, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
+        ParseCells parse = new ParseCells();
+        if (stat.execute(command)) {
+       	ResultSet results = stat.getResultSet();
+     		while (results.next()) {
+     	        //read the name + score
+     			System.out.println(results.getString("ImageName") + " : " + results.getDouble("Score"));
+     			}
+        }
+        stat.close();
+	}
+	
+	public void killWorst() throws ClassNotFoundException, SQLException {
+		//Find the worst automata, lowest 10 by score
+		Class.forName("org.sqlite.JDBC");
+	    Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+	    Statement stat = con.createStatement();
+	    String command = "SELECT  C.ImageName, C.Score FROM  Cells C ORDER BY Score ASC LIMIT 10";
+	    ParseCells parse = new ParseCells();
+	    if (stat.execute(command)) {
+	    	ResultSet results = stat.getResultSet();
+	     	while (results.next()) {
+	     		//read the name + score to check
+	     		System.out.println(results.getString("ImageName") + " : " + results.getDouble("Score"));
+	     	}
+	    }
+	    stat.close();
+	}
+	
 	public List<Cells> readCrosses() throws ClassNotFoundException, SQLException {
 		//Create a list of cells, we are gonna return this at the end
 		List<Cells> cellList = new ArrayList<Cells>();
