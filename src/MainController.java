@@ -497,6 +497,16 @@ public class MainController {
 		}
 	}
 	
+	public void killCells() {
+		ReadCells read = new ReadCells();
+		try {
+			read.killWorst();
+		}catch (Exception e) {
+			System.out.println("killCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	public void viewBest() {
 		ReadCells read = new ReadCells();
@@ -566,6 +576,7 @@ public class MainController {
 		while (go.isSelected()) {
 			mutateMult();
 			crossovers();
+			killCells();
 		}
 	}
 	

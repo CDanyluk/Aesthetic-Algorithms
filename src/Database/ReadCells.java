@@ -181,15 +181,8 @@ public class ReadCells {
 		Class.forName("org.sqlite.JDBC");
 	    Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
 	    Statement stat = con.createStatement();
-	    String command = "SELECT  C.ImageName, C.Score FROM  Cells C ORDER BY Score ASC LIMIT 10";
-	    ParseCells parse = new ParseCells();
-	    if (stat.execute(command)) {
-	    	ResultSet results = stat.getResultSet();
-	     	while (results.next()) {
-	     		//read the name + score to check
-	     		System.out.println(results.getString("ImageName") + " : " + results.getDouble("Score"));
-	     	}
-	    }
+	    String command = "DELETE FROM Cells WHERE Score NOT IN (SELECT Score FROM Cells ORDER BY Score DESC LIMIT 50);";
+	    stat.execute(command);
 	    stat.close();
 	}
 	
