@@ -1104,7 +1104,8 @@ public class MainController {
 	
 	public void drawMultipleLSystems(){
 		for(int i = 0; i < Integer.parseInt(exportLSystem.getText()); i++){
-			drawLSystem();
+			//drawLSystem();
+			exportLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
 		}
 	}
 	
@@ -1113,7 +1114,6 @@ public class MainController {
 		initialize();
 		//here is where you put functions to randomize your L system
 		drawLSystem();
-		goButton();
 		//Write the text file
 		
 		//Write the image file
