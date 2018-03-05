@@ -65,15 +65,16 @@ public class ReadLSystems {
          stat.close();
 	 }
 	 
-	 public String readBest() throws ClassNotFoundException, SQLException {
+	 public void readBest() throws ClassNotFoundException, SQLException {
 		 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
          Statement stat = con.createStatement();
          String command = "SELECT * FROM LSystems L WHERE (SELECT MAX(Score) FROM LSystems);";
          stat.execute(command);
          ResultSet results = stat.getResultSet();
+         System.out.print(results.getString("ImageName"));
          stat.close();
-         return results.toString();
+         //return results.getString("ImageName");
 	 }
 	 
 	 public void deleteAll() throws ClassNotFoundException, SQLException {
