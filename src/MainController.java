@@ -130,7 +130,7 @@ public class MainController {
 	Button crossmutate;
 	
 	@FXML
-	CheckBox go;
+	TextField generation;
 	
 	@FXML
 	Button export;
@@ -357,7 +357,7 @@ public class MainController {
 		//find the two scores
 		double colorscore = colorchi(colors);
 		double sizescore = sizechi(golden, blobSizes);
-		double shapescore = shapechi();
+		double shapescore = shapechi(numOfShapes);
 		//combine the two scores and divide by two
 		score = (colorscore + sizescore + shapescore)/3;
 		if (colorscore == 0 || sizescore == 0) {
@@ -457,8 +457,12 @@ public class MainController {
 		return total;
 	}
 	
-	private double shapechi() {
-		return 0.0;
+	private double shapechi(HashMap<String, Integer> numOfShapes) {
+		if (numOfShapes.get("square") > 400) {
+			return 0.0;
+		}else {
+			return 1.0;
+		}
 	}
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
@@ -572,7 +576,8 @@ public class MainController {
 	public void CrossMutate() {
 		int gen = 1;
 		folder = folder + "/Gen" + gen + "/";
-		while (go.isSelected()) {
+		int genNum = Integer.parseInt(generation.getText());
+		for (int i = 0; i < genNum; i++) {
 			mutateMult(gen);
 			crossovers(gen);
 			killCells();
