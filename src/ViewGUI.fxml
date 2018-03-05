@@ -46,18 +46,16 @@
                               <TextField fx:id="exportLSystem" layoutX="109.0" layoutY="166.0" prefHeight="25.0" prefWidth="45.0" promptText="10" text="1" />
                               <Button fx:id="deleteall" layoutX="92.0" layoutY="626.0" mnemonicParsing="false" onAction="#deleteCells" prefHeight="25.0" prefWidth="74.0" text="Delete All" />
                               <Button fx:id="viewcells" layoutX="7.0" layoutY="589.0" mnemonicParsing="false" onAction="#viewCells" text="View Cells" />
-                              <Button fx:id="crossover" layoutX="7.0" layoutY="661.0" mnemonicParsing="false" onAction="#crossovers" prefHeight="27.0" prefWidth="71.0" text="Crossover" />
                               <Separator layoutX="-1.0" layoutY="397.0" prefHeight="25.0" prefWidth="180.0" />
                               <Separator layoutX="-1.0" layoutY="548.0" prefHeight="25.0" prefWidth="180.0" />
                               <Label layoutX="5.0" layoutY="565.0" text="Cells Database Controls" />
                               <Label layoutX="6.0" layoutY="414.0" text="L-System Database Controls" />
                               <Button fx:id="viewbest" layoutX="7.0" layoutY="626.0" mnemonicParsing="false" onAction="#viewBest" text="View Best" />
-                              <Button fx:id="mutatemult" layoutX="92.0" layoutY="662.0" mnemonicParsing="false" onAction="#mutateMult" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
                               <Button layoutX="8.0" layoutY="440.0" mnemonicParsing="false" onAction="#viewBestLSystem" text="View Best" />
                               <Button fx:id="mutatemult1" layoutX="92.0" layoutY="440.0" mnemonicParsing="false" onAction="#mutateLSystem" prefHeight="25.0" prefWidth="74.0" text="Mutate" />
                               <Button layoutX="16.0" layoutY="475.0" mnemonicParsing="false" onAction="#viewLSystem" text="View" />
-                              <Button fx:id="crossmutate" layoutX="14.0" layoutY="703.0" mnemonicParsing="false" onAction="#CrossMutate" text="Cross + Mut" />
-                              <CheckBox fx:id="go" layoutX="124.0" layoutY="709.0" mnemonicParsing="false" text="Go" />
+                              <Button fx:id="crossmutate" layoutX="6.0" layoutY="661.0" mnemonicParsing="false" onAction="#CrossMutate" text="Cross + Mut" />
+                              <CheckBox fx:id="go" layoutX="111.0" layoutY="665.0" mnemonicParsing="false" text="Go" />
                            </children>
                         </Pane>
                      </children>

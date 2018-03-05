@@ -111,9 +111,7 @@ public class Cells {
 		rules = rules + "Dead: " + pattern.getDead() + "\n";
 		rules = rules + "Alive: " + pattern.getAlive() + "\n";
 		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
-		//System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colorsRaw);
 		HashMap<Integer, String> colors = new HashMap<Integer, String>();
-		//System.out.println("MainController/Cells/getRuleset()/colorsRaw: " + colors);
 		for (int i = 0; i < colorsRaw.size(); i++) {
 			Color c = colorsRaw.get(i);
 			int red = (int)c.getRed();
@@ -184,11 +182,8 @@ public class Cells {
 	public String getColorsData() {
 		String rules = new String();
 		HashMap<Integer, Color> colorsRaw = pattern.getColorMap();
-		//System.out.println("colorsRaw = " + colorsRaw);
 		for (int i = 0; i < colorsRaw.size(); i++) {
 			Color c = colorsRaw.get(i);
-			//System.out.println("Colors c = " + c);
-			//System.out.println("int i = " + i);
 			int r = (int)Math.round(255 * c.getRed());
 			int g = (int)Math.round(255 * c.getGreen());
 			int b = (int)Math.round(255 * c.getBlue());

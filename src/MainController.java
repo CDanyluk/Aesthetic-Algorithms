@@ -127,12 +127,6 @@ public class MainController {
 	Button viewbest;
 	
 	@FXML
-	Button crossover;
-	
-	@FXML
-	Button mutatemult;
-	
-	@FXML
 	Button crossmutate;
 	
 	@FXML
@@ -363,15 +357,17 @@ public class MainController {
 		//find the two scores
 		double colorscore = colorchi(colors);
 		double sizescore = sizechi(golden, blobSizes);
+		double shapescore = shapechi();
 		//combine the two scores and divide by two
-		score = (colorscore + sizescore)/2;
+		score = (colorscore + sizescore + shapescore)/3;
 		if (colorscore == 0 || sizescore == 0) {
 			score = 0;
 		}
-		if (score != 0.0 || colorscore > 0.3) {
+		if (score != 0.0) {
 			System.out.println("Name : " + imageName + " = " + score);
 			System.out.println("    colorscore : " + colorscore);
 			System.out.println("    sizescore : " + sizescore);
+			System.out.println("    numOfShapes : " + numOfShapes);
 		}
 
 		return score;
@@ -461,6 +457,10 @@ public class MainController {
 		return total;
 	}
 	
+	private double shapechi() {
+		return 0.0;
+	}
+	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
 	
 	
@@ -529,9 +529,7 @@ public class MainController {
 		drawColorAutomata();
 	}
 	
-	
-	@FXML
-	public void crossovers() {
+	public void crossovers(int gen) {
 		ReadCells read = new ReadCells();
 		Cross cross = new Cross();
 		cells = new Cells(width, height);
@@ -544,7 +542,7 @@ public class MainController {
 					cells = cross.cross(cellList.get(i), cellList.get(i+1));
 				}
 				drawColorAutomata();
-				exportMutant("Crossover");
+				exportMutant("crossover", gen);
 			}
 			
 			
@@ -554,8 +552,7 @@ public class MainController {
 		}
 	}
 	
-	@FXML
-	public void mutateMult() {
+	public void mutateMult(int gen) {
 		ReadCells read = new ReadCells();
 		cells = new Cells(width, height);
 		try {
@@ -563,7 +560,7 @@ public class MainController {
 			for (int i = 0; i < cellList.size(); i++) {
 				cells = cellList.get(i);
 				drawColorAutomata();
-				exportMutant("Mutant");
+				exportMutant("mutant", gen);
 			}
 		} catch (Exception e) {
 			System.out.println("mutateMult is broken");
@@ -573,10 +570,14 @@ public class MainController {
 	
 	@FXML
 	public void CrossMutate() {
+		int gen = 1;
+		folder = folder + "/Gen" + gen + "/";
 		while (go.isSelected()) {
-			mutateMult();
-			crossovers();
+			mutateMult(gen);
+			crossovers(gen);
 			killCells();
+			gen++;
+			folder = folder + "/Gen" + gen + "/";
 		}
 	}
 	
@@ -651,7 +652,7 @@ public class MainController {
 	
 	
 	//ideally we would save by the date not a random number but oh well
-	public String randomnumber () {
+	public String randomnumber() {
 		String one = (int)Math.floor( Math.random() * 1000 ) + "";
 		String two = (int)Math.floor( Math.random() * 1000 ) + "";
 		String three = (int)Math.floor( Math.random() * 1000 ) + "";
@@ -668,7 +669,7 @@ public class MainController {
 	
 	public void exportImage(int num, File directory) {
 		//String number = randomnumber();
-		String number = num + "";
+		String number = "0" + randomnumber();
 		initialize();
 		randomGrid();
 		//centerGrid();
@@ -713,18 +714,18 @@ public class MainController {
 		return;
 	}
 	
-	public void exportMutant(String fold) {
-		String p = "/AutomataImages/" + fold;
-		String path = p;
-		folder = path;
-		File directory = new File(path);
+	public void exportMutant(String fold, int gen) {
+		//String p = "/AutomataImages/" + fold;
+		//String path = p;
+		//folder = path;
+		File directory = new File(folder);
 		FileChooser saveLocation = new FileChooser();
 		directory.mkdirs();
 		String num = randomnumber();
-		String name = "automata" + num;
+		String name = fold + gen + num;
 		
 		//Write the image file
-		File file = new File(directory, "automata" + num + ".png");
+		File file = new File(directory, name + ".png");
 		if (file != null){
 			try {
 				WritableImage writableImage = new WritableImage(width, height);
@@ -734,7 +735,7 @@ public class MainController {
 				ImageIO.write(renderedImage, "png", file);
 		    } catch (IOException ex) {
 		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
-		        System.out.println("exportImage() fuuuuucked");
+		        System.out.println("exportMutant() fuuuuucked");
 		        }
 		    }
 		

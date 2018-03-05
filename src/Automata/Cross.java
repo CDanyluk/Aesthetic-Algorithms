@@ -14,13 +14,9 @@ public class Cross {
 		Cells crossedCell = new Cells(700, 700);
 		//Switch up all the values
 		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 2);
-		System.out.println("aliveMap : " + aliveMap);
 		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 2);
-		System.out.println("deadMap : " + deadMap);
 		boolean[][] newSeeds = mergeSeeds(cell1.getSeedData(), cell2.getSeedData());
-		System.out.println("newSeeds : " + newSeeds);
 		HashMap<Integer, Color> newColors = mergeColor(cell1.getColorMap(), cell2.getColorMap());
-		System.out.println("newColors : " + newColors);
 		//Put all the values in a new cell
 		crossedCell.setAlive(aliveMap);
 		crossedCell.setDead(deadMap);
@@ -110,8 +106,6 @@ public class Cross {
 		}else {
 			max = colors2.size();
 		}
-		System.out.println("colors1 " + colors1);
-		System.out.println("colors2 " + colors1);
 		List<Integer> list = new ArrayList<Integer>();
 		//Swap num colors randomly
 		int num = 2;
