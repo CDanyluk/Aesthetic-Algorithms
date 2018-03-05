@@ -72,7 +72,15 @@ public class ReadLSystems {
          String command = "SELECT * FROM LSystems L WHERE (SELECT MAX(Score) FROM LSystems);";
          stat.execute(command);
          ResultSet results = stat.getResultSet();
-         System.out.print(results.getString("ImageName"));
+         System.out.print(results.getString("ImageName") + "\n" +
+        		 		results.getString("StartPoints") + "\n" +
+        		 		results.getString("StartString") + "\n" +
+        		 		results.getString("Rules") + "\n" +
+        		 		results.getInt("Recursions") + "\n" +
+        		 		results.getInt("Length") + "\n" +
+        		 		results.getInt("Angle") + "\n" +
+        		 		results.getDouble("Score") + "\n\n\n" 
+        		 );
          stat.close();
          //return results.getString("ImageName");
 	 }

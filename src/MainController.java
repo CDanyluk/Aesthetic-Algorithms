@@ -1024,15 +1024,11 @@ public class MainController {
 		
 		ArrayList<Line> tree = lway.getDrawing();
 		drawLSystemLines(tree);
-		String stringRules = "";
-		for(int x = 0; x < rules.size(); x++){
-			stringRules += rules.get(x);
-		}
 		
 		DatabaseInput input = new DatabaseInput();
 		int num = ThreadLocalRandom.current().nextInt(1, 500);
 		try {
-			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, stringRules, randomLength, randomRecursions, randomAngle, num);
+			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, rules.toString(), randomLength, randomRecursions, randomAngle, num);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1099,6 +1095,7 @@ public class MainController {
 //			e.printStackTrace();
 //		}
 //		
+		System.out.println("++ " + rules.toString() + "\n");
 		System.out.println("\n\n\nStart: " + start[0] + "," + start[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
 				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
 		
