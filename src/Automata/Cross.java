@@ -13,14 +13,10 @@ public class Cross {
 	public Cells cross(Cells cell1, Cells cell2) {
 		Cells crossedCell = new Cells(700, 700);
 		//Switch up all the values
-		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 4);
-		System.out.println("aliveMap : " + aliveMap);
-		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 4);
-		System.out.println("deadMap : " + deadMap);
+		Map<Integer, Boolean> aliveMap = mergeAlive(cell1.getAlive(), cell2.getAlive(), 2);
+		Map<Integer, Boolean> deadMap = mergeAlive(cell1.getDead(), cell2.getDead(), 2);
 		boolean[][] newSeeds = mergeSeeds(cell1.getSeedData(), cell2.getSeedData());
-		System.out.println("newSeeds : " + newSeeds);
 		HashMap<Integer, Color> newColors = mergeColor(cell1.getColorMap(), cell2.getColorMap());
-		System.out.println("newColors : " + newColors);
 		//Put all the values in a new cell
 		crossedCell.setAlive(aliveMap);
 		crossedCell.setDead(deadMap);
@@ -70,6 +66,8 @@ public class Cross {
 		int h = (height/10)+1;
 		String xy1[] = seedData1.split("%");
 		String xy2[] = seedData2.split("%");
+		//Shuffle this array around so that they are not sorted!!!!!
+		
 		//Only swap up based on smallest graph
 		int max = 0;
 		if (xy1.length < xy2.length) {
@@ -78,8 +76,10 @@ public class Cross {
 			max = xy2.length;
 		}
 		//Swap up to that number randomly
+		int num = 4;
 		List<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < max; i++) {
+		//Swap num seeds randomly
+		for (int i = 0; i < 4; i++) {
 			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);
@@ -106,10 +106,10 @@ public class Cross {
 		}else {
 			max = colors2.size();
 		}
-		System.out.println("colors1 " + colors1);
-		System.out.println("colors2 " + colors1);
 		List<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < max; i++) {
+		//Swap num colors randomly
+		int num = 2;
+		for (int i = 0; i < num; i++) {
 			int rand = randomIndex(0, max-1);
 			if (!list.contains(rand)) {
 				list.add(rand);

@@ -52,6 +52,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -80,26 +81,6 @@ public class MainController {
 	
 	@FXML
 	RadioButton cellularAutomata;
-	@FXML ToggleButton alive0;
-	@FXML ToggleButton alive1;
-	@FXML ToggleButton alive2;
-	@FXML ToggleButton alive3;
-	@FXML ToggleButton alive4;
-	@FXML ToggleButton alive5;
-	@FXML ToggleButton alive6;
-	@FXML ToggleButton alive7;
-	@FXML ToggleButton alive8;
-	
-	@FXML ToggleButton dead0;
-	@FXML ToggleButton dead1;
-	@FXML ToggleButton dead2;
-	@FXML ToggleButton dead3;
-	@FXML ToggleButton dead4;
-	@FXML ToggleButton dead5;
-	@FXML ToggleButton dead6;
-	@FXML ToggleButton dead7;
-	@FXML ToggleButton dead8;
-
 	
 	final ToggleGroup algorithm = new ToggleGroup();
 	
@@ -146,10 +127,10 @@ public class MainController {
 	Button viewbest;
 	
 	@FXML
-	Button crossover;
+	Button crossmutate;
 	
 	@FXML
-	Button mutatemult;
+	CheckBox go;
 	
 	@FXML
 	Button export;
@@ -370,17 +351,25 @@ public class MainController {
 		//the golden ratio ideal
 		Map<String, Integer> golden = new HashMap<String, Integer>();
 		golden.put("big", 2);
-		golden.put("medium", 4);
+		golden.put("medium", 7);
 		golden.put("small", 3);
 		
 		//find the two scores
 		double colorscore = colorchi(colors);
 		double sizescore = sizechi(golden, blobSizes);
+		double shapescore = shapechi();
 		//combine the two scores and divide by two
-		score = (colorscore + sizescore)/2;
+		score = (colorscore + sizescore + shapescore)/3;
 		if (colorscore == 0 || sizescore == 0) {
 			score = 0;
 		}
+		if (score != 0.0) {
+			System.out.println("Name : " + imageName + " = " + score);
+			System.out.println("    colorscore : " + colorscore);
+			System.out.println("    sizescore : " + sizescore);
+			System.out.println("    numOfShapes : " + numOfShapes);
+		}
+
 		return score;
 		
 	}
@@ -388,7 +377,7 @@ public class MainController {
 	//These chi things can probably be put outside of the actual controller
 	private double colorchi(ArrayList<Color> colorList) {
 		double scoretotal = 0;
-		double expected = 120;
+		double expected = 30;
 		for (int i = 0; i < colorList.size(); i++) {
 			double dif = 0;
 			if (i != colorList.size()-1) {
@@ -400,10 +389,36 @@ public class MainController {
 				double color2 = colorList.get(0).getHue();
 				dif = Math.abs(color1 - color2);
 			}
-			scoretotal += 1/((Math.abs(expected - dif))+1);
+			//if the difference is less than 30 do not add it
+			if (dif > 30) {
+				scoretotal += 1/((Math.abs(expected - dif))+1);
+			}
 		}
 		//scoretotal = scoretotal/colorList.size();
-		return scoretotal;
+		double brightscore = brightnesschi(colorList);
+		return (scoretotal + brightscore)/2;
+	}
+	
+	//chi values for brightness
+	private double brightnesschi(ArrayList<Color> colorList) {
+		double scoretotal = 0;
+		for (int i = 0; i < colorList.size(); i++) {
+			double dif = 0;
+			//The greater the difference the greater the number
+			if (i != colorList.size()-1) {
+				double color1 = colorList.get(i).getBrightness();
+				double color2 = colorList.get(i+1).getBrightness();
+				dif = Math.abs(color1 - color2);
+			}else {
+				double color1 = colorList.get(i).getBrightness();
+				double color2 = colorList.get(0).getBrightness();
+				dif = Math.abs(color1 - color2);
+			}
+			//if the difference is less than 30 do not add it
+			scoretotal += dif;
+		}
+		//because of the nature of getBrightness this value should never exceed 1
+		return scoretotal/3;
 	}
 	
 	private double sizechi(Map<String, Integer> expected, Map<String, Integer> given) {
@@ -432,14 +447,18 @@ public class MainController {
 		medscore = 1/(Math.abs(expMed - givMed)+1);
 
 		//chisquare the small score
-		/*double expSmall = expected.get("small");
+		double expSmall = expected.get("small");
 		double givSmall = given.get("small");
-		smallscore = 1/(Math.abs(expSmall - givSmall)+1);*/
+		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
 		
 		//add al the scores, divide by three, and return the value
-		total = bigscore + medscore;
-		total = total/2;
+		total = bigscore + medscore + smallscore;
+		total = total/3;
 		return total;
+	}
+	
+	private double shapechi() {
+		return 0.0;
 	}
 	
 	//END Ferrers code combine ------------------------------------------------------------------------------------------------------------------------
@@ -478,6 +497,16 @@ public class MainController {
 		}
 	}
 	
+	public void killCells() {
+		ReadCells read = new ReadCells();
+		try {
+			read.killWorst();
+		}catch (Exception e) {
+			System.out.println("killCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	public void viewBest() {
 		ReadCells read = new ReadCells();
@@ -492,6 +521,7 @@ public class MainController {
 			iter = read.readBestIter();
 			cells.update(iter);
 			drawColorAutomata();
+			read.readBest();
 		}catch (Exception e) {
 			System.out.println("The database is empty.");
 			//e.printStackTrace();
@@ -499,9 +529,7 @@ public class MainController {
 		drawColorAutomata();
 	}
 	
-	
-	@FXML
-	public void crossovers() {
+	public void crossovers(int gen) {
 		ReadCells read = new ReadCells();
 		Cross cross = new Cross();
 		cells = new Cells(width, height);
@@ -514,7 +542,7 @@ public class MainController {
 					cells = cross.cross(cellList.get(i), cellList.get(i+1));
 				}
 				drawColorAutomata();
-				exportMutant("Crossover");
+				exportMutant("crossover", gen);
 			}
 			
 			
@@ -524,8 +552,7 @@ public class MainController {
 		}
 	}
 	
-	@FXML
-	public void mutateMult() {
+	public void mutateMult(int gen) {
 		ReadCells read = new ReadCells();
 		cells = new Cells(width, height);
 		try {
@@ -533,11 +560,24 @@ public class MainController {
 			for (int i = 0; i < cellList.size(); i++) {
 				cells = cellList.get(i);
 				drawColorAutomata();
-				exportMutant("Mutant");
+				exportMutant("mutant", gen);
 			}
 		} catch (Exception e) {
 			System.out.println("mutateMult is broken");
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void CrossMutate() {
+		int gen = 1;
+		folder = folder + "/Gen" + gen + "/";
+		while (go.isSelected()) {
+			mutateMult(gen);
+			crossovers(gen);
+			killCells();
+			gen++;
+			folder = folder + "/Gen" + gen + "/";
 		}
 	}
 	
@@ -612,7 +652,7 @@ public class MainController {
 	
 	
 	//ideally we would save by the date not a random number but oh well
-	public String randomnumber () {
+	public String randomnumber() {
 		String one = (int)Math.floor( Math.random() * 1000 ) + "";
 		String two = (int)Math.floor( Math.random() * 1000 ) + "";
 		String three = (int)Math.floor( Math.random() * 1000 ) + "";
@@ -629,7 +669,7 @@ public class MainController {
 	
 	public void exportImage(int num, File directory) {
 		//String number = randomnumber();
-		String number = num + "";
+		String number = "0" + randomnumber();
 		initialize();
 		randomGrid();
 		//centerGrid();
@@ -674,18 +714,18 @@ public class MainController {
 		return;
 	}
 	
-	public void exportMutant(String fold) {
-		String p = "/AutomataImages/" + fold;
-		String path = p;
-		folder = path;
-		File directory = new File(path);
+	public void exportMutant(String fold, int gen) {
+		//String p = "/AutomataImages/" + fold;
+		//String path = p;
+		//folder = path;
+		File directory = new File(folder);
 		FileChooser saveLocation = new FileChooser();
 		directory.mkdirs();
 		String num = randomnumber();
-		String name = "automata" + num;
+		String name = fold + gen + num;
 		
 		//Write the image file
-		File file = new File(directory, "automata" + num + ".png");
+		File file = new File(directory, name + ".png");
 		if (file != null){
 			try {
 				WritableImage writableImage = new WritableImage(width, height);
@@ -695,7 +735,7 @@ public class MainController {
 				ImageIO.write(renderedImage, "png", file);
 		    } catch (IOException ex) {
 		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
-		        System.out.println("exportImage() fuuuuucked");
+		        System.out.println("exportMutant() fuuuuucked");
 		        }
 		    }
 		
@@ -741,26 +781,6 @@ public class MainController {
 			alive.put(i, false);
 			dead.put(i, false);
 		}
-		//This is a chunk checking alive's buttons toggle and putting them in the hashmap
-		if (alive0.isSelected()) { alive.put(0, true);}
-		if (alive1.isSelected()) { alive.put(1, true);}
-		if (alive2.isSelected()) { alive.put(2, true);}
-		if (alive3.isSelected()) { alive.put(3, true);}
-		if (alive4.isSelected()) { alive.put(4, true);}
-		if (alive5.isSelected()) { alive.put(5, true);}
-		if (alive6.isSelected()) { alive.put(6, true);}
-		if (alive7.isSelected()) { alive.put(7, true);}
-		if (alive8.isSelected()) { alive.put(8, true);}
-		//This is a chunk checking deads button toggles
-		if (dead0.isSelected()) { dead.put(0, true);}
-		if (dead1.isSelected()) { dead.put(1, true);}
-		if (dead2.isSelected()) { dead.put(2, true);}
-		if (dead3.isSelected()) { dead.put(3, true);}
-		if (dead4.isSelected()) { dead.put(4, true);}
-		if (dead5.isSelected()) { dead.put(5, true);}
-		if (dead6.isSelected()) { dead.put(6, true);}
-		if (dead7.isSelected()) { dead.put(7, true);}
-		if (dead8.isSelected()) { dead.put(8, true);}
 		
 		//FOR colored cellular automata
 		//cells.colorAutomata(alive, dead, rainbow.size()-1);
