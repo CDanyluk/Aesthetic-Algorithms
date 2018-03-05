@@ -50,42 +50,6 @@ public class ReadLSystems {
         stat.close();
 	}
 	
-// 	Going to have to do something similar to this -- this is what Chantal had in hers
-//	public List<Cells> readTopTen()  throws ClassNotFoundException, SQLException {
-//		 //Create a list of cells, we are gonna return this at the end
-//		 List<Cells> cellList = new ArrayList<Cells>();
-//		 //Normal database stuff
-//		 Class.forName("org.sqlite.JDBC");
-//        Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
-//        Statement stat = con.createStatement();
-//        String command = "SELECT  C.Dead, C.Live, C.Colors, C.Seeds, C.Iterations, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
-//        ParseCells parse = new ParseCells();
-//        if (stat.execute(command)) {
-//       	ResultSet results = stat.getResultSet();
-//     		while (results.next()) {
-//     	        //Create new cell
-//     	        Cells cell = new Cells(700, 700);
-//     	        cell.clear();
-//     			cell.setDead(parse.parseDead(results.getString("Dead")));
-//   			cell.setAlive(parse.parseAlive(results.getString("Live")));
-//   			cell.setColor(parse.parseColor(results.getString("Colors")));
-//   			//cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
-//   			cell.randomGraph();
-//   			int iter = results.getInt("Iterations");
-//   			cell.change(cell.getAlive(), cell.getDead());
-//   			if (oneOrTwo() == 0) {
-//   				iter--;
-//   			}else {
-//   				iter++;
-//   			}
-//   			cell.update(iter);
-//   			cellList.add(cell);
-//     		}
-//        }
-//        stat.close();
-//        return cellList;
-//	}
-	
 	 public void readScore() throws ClassNotFoundException, SQLException {
    	  	 Class.forName("org.sqlite.JDBC");
          Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
@@ -99,6 +63,17 @@ public class ReadLSystems {
          		}
          }
          stat.close();
+	 }
+	 
+	 public String readBest() throws ClassNotFoundException, SQLException {
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT * FROM LSystems L WHERE (SELECT MAX(Score) FROM LSystems);";
+         stat.execute(command);
+         ResultSet results = stat.getResultSet();
+         stat.close();
+         return results.toString();
 	 }
 	 
 	 public void deleteAll() throws ClassNotFoundException, SQLException {
