@@ -921,9 +921,6 @@ public class MainController {
 	
 //	LSystems Code -----------------------------------------------------------------------------
 	
-	@FXML
-	public void mutateLSystem() {}
-	
 	private void drawLSystemLines(ArrayList
 			<Line> tree){
 		double red = ThreadLocalRandom.current().nextInt(0, 255);
@@ -1032,21 +1029,79 @@ public class MainController {
 		
 		ArrayList<Line> tree = lway.getDrawing();
 		drawLSystemLines(tree);
-		String stringRules = "";
-		for(int x = 0; x < rules.size(); x++){
-			stringRules += rules.get(x);
-		}
 		
 		DatabaseInput input = new DatabaseInput();
 		int num = ThreadLocalRandom.current().nextInt(1, 500);
 		try {
-			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, stringRules, randomLength, randomRecursions, randomAngle, num);
+			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, rules.toString(), randomLength, randomRecursions, randomAngle, num);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		System.out.println("\n\n\nStart: " + randomStart[0] + "," + randomStart[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
+				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
+		
+	}
+	
+	public void drawLSystemSpecific(double [] start, String startingString, Boolean makeRandom, Integer randomRecursions, Integer randomLength, Integer randomAngle ) {
+		int whichMutate = ThreadLocalRandom.current().nextInt(1, 5);
+		if(whichMutate == 1){
+			int startStringLength = ThreadLocalRandom.current().nextInt(1, 50);
+			startingString = "";
+			for(int m = 0; m < startStringLength; m++){
+				String alphabet = "01";
+				int k = alphabet.length();
+				Random r = new Random();
+				startingString += alphabet.charAt(r.nextInt(k));
+			}
+		}if(whichMutate == 2){
+			randomAngle = ThreadLocalRandom.current().nextInt(1, 360);
+			angle.setText(randomAngle.toString());
+		} if(whichMutate == 3){
+			randomRecursions = ThreadLocalRandom.current().nextInt(1, 4);
+			recursions.setText(randomRecursions.toString());
+		} if(whichMutate == 4){
+			randomLength = ThreadLocalRandom.current().nextInt(1, 15);
+			length.setText(randomLength.toString());
+		}
+		
+		System.out.println(whichMutate);
+		
+//		int randomMakeRandom = ThreadLocalRandom.current().nextInt(1, 2);
+//		boolean makeRandom = false;
+//		
+//		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
+//		
+		HashMap<String, String> rules = new HashMap<String, String>();
+		rules.put("0", "1++--+1+---00+100+-0++1-01+-0010+001+--10");
+		rules.put("1", "1+111+--10-+0101+001++0-++0-+10110--0-1011+1");
+		lway = new LSystems(start, 
+							startingString, 
+							rules, 
+							makeRandom,
+							randomRecursions,
+							randomLength, 
+							randomAngle);
+		
+		ArrayList<Line> tree = lway.getDrawing();
+		drawLSystemLines(tree);
+		String stringRules = "";
+//		for(int x = 0; x < rules.size(); x++){
+//			stringRules += rules.get(x);
+//		}
+		
+//		DatabaseInput input = new DatabaseInput();
+//		int num = ThreadLocalRandom.current().nextInt(1, 500);
+//		try {
+//			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, stringRules, randomLength, randomRecursions, randomAngle, num);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+		System.out.println("++ " + rules.toString() + "\n");
+		System.out.println("\n\n\nStart: " + start[0] + "," + start[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
 				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
 		
 	}
@@ -1096,16 +1151,26 @@ public class MainController {
 	@FXML
 	public void viewBestLSystem() {
 // Come back to this please!
-//		ReadLSystems read = new ReadLSystems();
-//		GraphicsContext gc = picture.getGraphicsContext2D();
-//		gc.clearRect(0, 0, width, height);
-//		try {
-//			
-//		}catch (Exception e) {
-//			System.out.println("The database is empty.");
-//			//e.printStackTrace();
-//		}
-//		drawColorAutomata();
+		ReadLSystems read = new ReadLSystems();
+		GraphicsContext gc = picture.getGraphicsContext2D();
+		gc.clearRect(0, 0, width, height);
+		try {
+			read.readBest();
+			
+		}catch (Exception e) {
+			System.out.println("The database is empty.\n" + e);
+			//e.printStackTrace();
+		}
+		drawColorAutomata();
 	}
+	
+	@FXML
+	public void mutateLSystem() {
+		double[] start = new double[2];
+		start[0] = 300;
+		start[1] = 300;
+		drawLSystemSpecific(start, "1", true, 1, 13, 128);
+	}
+	
 
 }

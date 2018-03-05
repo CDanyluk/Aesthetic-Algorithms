@@ -30,6 +30,7 @@ public class DatabaseInput {
 	}
 	
 	public void lsystemsToDatabase(String name, String startPoints, String startString, String rules, int recursions, int length, int angle, int score) throws Exception{
+		System.out.println(rules + "XXXX");
 		String insert = "INSERT INTO LSystems VALUES (\'" + name + "\', \'"+ startPoints + "\', \'" + startString + "\', \'" + rules + "\', \'" + recursions + 
 				"\', \'"+ length + "\', \'" + angle 
 				+ "\', \'" + score + "\')";
