@@ -346,7 +346,7 @@ public class MainController {
 			System.out.println("The program couldn't auto read a damn file, problem in scoreThis()");
 			e.printStackTrace();
 		}
-		kMeans(3);
+		kMeans(4);
 		findBlobs();
 		//the golden ratio ideal
 		Map<String, Integer> golden = new HashMap<String, Integer>();
