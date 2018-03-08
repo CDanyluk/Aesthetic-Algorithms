@@ -335,7 +335,8 @@ public class MainController {
 	}
 	
 	
-	public double scoreThis(String imageName) {
+	public double[] scoreThis(String imageName) {
+		double[] scoreContainer = new double[3];
 		double score = 0;
 		File path = new File(folder + "/" + imageName + ".png");
 		System.out.println("path : " + path);
@@ -357,20 +358,13 @@ public class MainController {
 		//find the two scores
 		double colorscore = colorchi(colors);
 		double sizescore = sizechi(golden, blobSizes);
-		double shapescore = shapechi(numOfShapes);
 		//combine the two scores and divide by two
-		score = (colorscore + sizescore + shapescore)/3;
-		if (colorscore == 0 || sizescore == 0) {
-			score = 0;
-		}
-		if (score != 0.0) {
-			System.out.println("Name : " + imageName + " = " + score);
-			System.out.println("    colorscore : " + colorscore);
-			System.out.println("    sizescore : " + sizescore);
-			System.out.println("    numOfShapes : " + numOfShapes);
-		}
-
-		return score;
+		score = (colorscore + sizescore)/2;
+		scoreContainer[0] = colorscore;
+		scoreContainer[1] = sizescore;
+		scoreContainer[2] = score;
+		
+		return scoreContainer;
 		
 	}
 	
@@ -454,7 +448,8 @@ public class MainController {
 		//add al the scores, divide by three, and return the value
 		total = bigscore + medscore + smallscore;
 		total = total/3;
-		return total;
+		double shapescore = shapechi(numOfShapes);
+		return (total + shapescore)/2;
 	}
 	
 	private double shapechi(HashMap<String, Integer> numOfShapes) {
@@ -709,7 +704,7 @@ public class MainController {
 		//Write the database
 				try {
 				    DatabaseInput input = new DatabaseInput();
-				    double score = scoreThis(name);
+				    double[] score = scoreThis(name);
 				    input.cellsToDatabase(name, cells, score);
 				    
 				} catch (Exception e) {
@@ -747,7 +742,7 @@ public class MainController {
 		//Write the database
 				try {
 				    DatabaseInput input = new DatabaseInput();
-				    double score = scoreThis(name);
+				    double score[] = scoreThis(name);
 				    input.cellsToDatabase(name, cells, score);
 				    
 				} catch (Exception e) {

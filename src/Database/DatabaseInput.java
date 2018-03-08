@@ -23,9 +23,9 @@ public class DatabaseInput {
 	//Write a thing to retrieve them from the database
 	//Goal is to delete
 	
-	public void cellsToDatabase(String name, Cells cells, double score) throws Exception{
+	public void cellsToDatabase(String name, Cells cells, double[] score) throws Exception{
 		String insert = "INSERT INTO Cells VALUES (\'" + name + "\', \'"+ cells.getSeedData() + "\', \'" + cells.getDeadData() + "\', \'" + cells.getAliveData() 
-				+ "\', \'" + cells.getColorsData() + "\', \'" + cells.getIterData() + "\', \'" + score + "\')";
+				+ "\', \'" + cells.getColorsData() + "\', \'" + cells.getIterData() + "\', \'" + score[0] + "\', \'" + score[1] + "\', \'" + score[2] + "\')";
 		send.send(insert);
 	}
 	
