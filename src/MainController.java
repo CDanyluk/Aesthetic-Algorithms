@@ -968,17 +968,30 @@ public class MainController {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		
 		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
+		int numBrackets = ThreadLocalRandom.current().nextInt(1, 20);
+		int numUsed = 0;
+		boolean used = false;
 		//System.out.println(numRules);
 		for(int i = 0; i < numRules; i++){
 			int numChars = ThreadLocalRandom.current().nextInt(1, 50);
-			//System.out.println(numChars);
+			//System.out.println(numChars);\
 			String toUse = "";
 			for(int j = 0; j < numChars; j++){
-				String alphabet = "01-+";
+				String alphabet = "01-+[";
 				int k = alphabet.length();
 				Random r = new Random();
 				toUse += alphabet.charAt(r.nextInt(k));
 			}
+			
+			for(int m = 0; m <= numBrackets; m++){
+				int len = toUse.length();
+				int firstUse = toUse.indexOf("[");
+				int locationAdd = ThreadLocalRandom.current().nextInt(firstUse, toUse.length());
+				String first = toUse.substring(0, locationAdd);
+				String last = toUse.substring(locationAdd, len);
+				toUse = first + "]" + last;
+			}
+			
 			//System.out.println(toUse);
 			rules.put(i + "",toUse );
 		}
