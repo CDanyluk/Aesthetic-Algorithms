@@ -351,7 +351,7 @@ public class MainController {
 		findBlobs();
 		//the golden ratio ideal
 		Map<String, Integer> golden = new HashMap<String, Integer>();
-		golden.put("big", 2);
+		golden.put("big", 7);
 		golden.put("medium", 7);
 		golden.put("small", 3);
 		
@@ -422,15 +422,21 @@ public class MainController {
 		double total = 0;
 		//Compare big blobs
 		//if big blobs are between 2 - 5 give it a perfect score
-		if (given.get("big") >= 2 && given.get("big") <= 5) {
+/*		if (given.get("big") >= 7 && given.get("big") <= 7) {
 			bigscore = 1;
 		//otherwise chisquare it
-		}else if (given.get("big") > 5) {
-			bigscore = 1/(Math.abs(given.get("big") - 5)+1);
+		}else if (given.get("big") > 7) {
+			bigscore = 1/(Math.abs(given.get("big") - 7)+1);
 		//if it is less than 2 it is just bad
 		}else if (given.get("big") < 2) {
 			bigscore = 0;
-		}
+		}*/
+		
+		//chisquare the big score
+		double expBig = expected.get("big");
+		double givBig = given.get("big");
+		medscore = 1/(Math.abs(expBig - givBig)+1);
+		
 		if (given.get("huge") > 0) {
 			return 0;
 		}
@@ -444,6 +450,9 @@ public class MainController {
 		double expSmall = expected.get("small");
 		double givSmall = given.get("small");
 		smallscore = 1/(Math.abs(expSmall - givSmall)+1);
+		if (givSmall >= 400) {
+			smallscore = 0;
+		}
 		
 		//add al the scores, divide by three, and return the value
 		total = bigscore + medscore + smallscore;
@@ -558,6 +567,7 @@ public class MainController {
 			List<Cells> cellList = read.readTopTen();
 			for (int i = 0; i < cellList.size(); i++) {
 				cells = cellList.get(i);
+				cells.update(cells.getIter());
 				drawColorAutomata();
 				exportMutant("mutant", gen);
 			}

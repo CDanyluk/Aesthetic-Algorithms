@@ -95,7 +95,9 @@ public class Cross {
 		}
 		//Call parseSeeds on it and return the graph
 		ParseCells parse = new ParseCells();
-		return parse.parseSeeds(xyData);
+		//return parse.parseSeeds(xyData);
+		//test to see if static goes away when not merged
+		return parse.parseSeeds(seedData1);
 	}
 	
 	public HashMap<Integer, Color> mergeColor(HashMap<Integer, Color> colors1, HashMap<Integer, Color> colors2) {
