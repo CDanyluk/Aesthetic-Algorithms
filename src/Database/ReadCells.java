@@ -164,13 +164,14 @@ public class ReadCells {
 		Class.forName("org.sqlite.JDBC");
         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
         Statement stat = con.createStatement();
-        String command = "SELECT  C.ImageName, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
+        String command = "SELECT  C.ImageName, C.ColorChi, C.SizeChi, C.Score FROM  Cells C ORDER BY Score DESC LIMIT 10";
         ParseCells parse = new ParseCells();
         if (stat.execute(command)) {
        	ResultSet results = stat.getResultSet();
      		while (results.next()) {
      	        //read the name + score
-     			System.out.println(results.getString("ImageName") + " : " + results.getDouble("Score"));
+     			System.out.println(results.getString("ImageName") + " : "+ results.getDouble("Score"));
+     			System.out.println("       	Colorscore: " + results.getDouble("ColorChi") + " | Sizescore: " + results.getDouble("SizeChi"));
      			}
         }
         stat.close();

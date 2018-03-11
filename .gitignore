@@ -1,4 +1,10 @@
 /MainController.class
 /bin/
 Results.db
+<<<<<<< HEAD
+Results.db
+=======
+*.png
+*.db
+>>>>>>> 44961e1a90226d46a014119290b82dfa6d0bf382
 Results.db

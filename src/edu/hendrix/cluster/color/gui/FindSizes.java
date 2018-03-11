@@ -43,9 +43,9 @@ public class FindSizes {
 			int howBig = blob.getSize();
 			if (howBig > 235000) {
 				huge++;
-			}else if (howBig < 235000 && howBig >= 25000) {
+			}else if (howBig < 235000 && howBig >= 50000) {
 				big++;
-			}else if (howBig < 25000 && howBig >= 1000) {
+			}else if (howBig < 50000 && howBig >= 120000) {
 				medium++;
 			}else if (howBig < 1000 && howBig > 100) {
 				small++;
