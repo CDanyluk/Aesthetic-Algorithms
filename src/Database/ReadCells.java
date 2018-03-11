@@ -147,12 +147,12 @@ public class ReadCells {
     			cell.randomGraph();
     			int iter = results.getInt("Iterations");
     			cell.change(cell.getAlive(), cell.getDead());
-    			if (oneOrTwo() == 0) {
+    			/*if (oneOrTwo() == 0) {
     				iter--;
     			}else {
     				iter++;
-    			}
-    			cell.update(iter);
+    			}*/
+    			cell.setIterations(iter);
     			cellList.add(cell);
       		}
          }
