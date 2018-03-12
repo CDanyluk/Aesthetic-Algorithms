@@ -269,7 +269,6 @@ public class Cells {
 	public void change(Map<Integer, Boolean> alive, Map<Integer, Boolean> dead) {
 		pattern.randomValDead(2);
 		pattern.randomValAlive(2);
-		graph = pattern.colorAutomata(graph);
 		pattern.randomAColor(2);
 	}
 	
