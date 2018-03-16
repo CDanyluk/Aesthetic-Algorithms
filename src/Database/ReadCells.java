@@ -143,15 +143,14 @@ public class ReadCells {
       			cell.setDead(parse.parseDead(results.getString("Dead")));
     			cell.setAlive(parse.parseAlive(results.getString("Live")));
     			cell.setColor(parse.parseColor(results.getString("Colors")));
-    			//cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
-    			cell.randomGraph();
+    			cell.setSeeds(parse.parseSeeds(results.getString("Seeds")));
     			int iter = results.getInt("Iterations");
     			cell.change(cell.getAlive(), cell.getDead());
-    			/*if (oneOrTwo() == 0) {
+    			if (oneOrTwo() == 0) {
     				iter--;
     			}else {
     				iter++;
-    			}*/
+    			}
     			cell.setIterations(iter);
     			cellList.add(cell);
       		}

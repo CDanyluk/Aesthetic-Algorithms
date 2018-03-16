@@ -8,4 +8,8 @@ Results.db
 *.db
 >>>>>>> 44961e1a90226d46a014119290b82dfa6d0bf382
 Results.db
+<<<<<<< HEAD
 Results.db
+=======
+*.db
+>>>>>>> 835b9ed033da96693d2b21668b0335de5d087ead
