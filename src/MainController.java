@@ -978,31 +978,50 @@ public class MainController {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		
 		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
-		int numBrackets = ThreadLocalRandom.current().nextInt(1, 20);
-		int numUsed = 0;
-		boolean used = false;
 		//System.out.println(numRules);
 		for(int i = 0; i < numRules; i++){
+			int numUsed = 0;
 			int numChars = ThreadLocalRandom.current().nextInt(1, 50);
-			//System.out.println(numChars);\
 			String toUse = "";
 			for(int j = 0; j < numChars; j++){
 				String alphabet = "01-+[";
 				int k = alphabet.length();
 				Random r = new Random();
-				toUse += alphabet.charAt(r.nextInt(k));
+				char charAdd =  alphabet.charAt(r.nextInt(k));
+				toUse += charAdd;
+				if(charAdd == '[' ){
+					numUsed += 1;
+				}
 			}
 			
-			for(int m = 0; m <= numBrackets; m++){
+			int next = -1;
+			for(int m = 1; m < numUsed; m++){
 				int len = toUse.length();
-				int firstUse = toUse.indexOf("[");
-				int locationAdd = ThreadLocalRandom.current().nextInt(firstUse, toUse.length());
+				next = toUse.indexOf("[",next+1);
+				int locationAdd = toUse.length();
+				if(next+1 != toUse.length()){
+					locationAdd = ThreadLocalRandom.current().nextInt(next + 1, toUse.length());
+				}
 				String first = toUse.substring(0, locationAdd);
 				String last = toUse.substring(locationAdd, len);
 				toUse = first + "]" + last;
+				System.out.println(toUse);
 			}
 			
-			//System.out.println(toUse);
+			int n = 0;
+			for(int x=0; x<toUse.length(); x++){
+				if(toUse.substring(x, x+1).equals("]")){
+					n += 1;
+				}
+			}
+			
+			if(n != numUsed){
+				for(int p = 0; p < (numUsed - n); p++){
+					toUse += "]";
+				}
+			}
+			
+			System.out.println(toUse);
 			rules.put(i + "",toUse );
 		}
 		
@@ -1057,12 +1076,12 @@ public class MainController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n\n\nStart: " + randomStart[0] + "," + randomStart[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
-				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
+		System.out.println("\n\n\n\nRules: " + rules.toString());
+		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
 		
 	}
 	
-	public void drawLSystemSpecific(double [] start, String startingString, Boolean makeRandom, Integer randomRecursions, Integer randomLength, Integer randomAngle ) {
+	public void drawLSystemSpecific(double [] start, String startingString, Boolean makeRandom, Integer randomRecursions, Integer randomLength, Integer randomAngle, HashMap<String, String> rules ) {
 		int whichMutate = ThreadLocalRandom.current().nextInt(1, 5);
 		if(whichMutate == 1){
 			int startStringLength = ThreadLocalRandom.current().nextInt(1, 50);
@@ -1082,6 +1101,22 @@ public class MainController {
 		} if(whichMutate == 4){
 			randomLength = ThreadLocalRandom.current().nextInt(1, 15);
 			length.setText(randomLength.toString());
+		} if(whichMutate == 5){
+			int randomRule = ThreadLocalRandom.current().nextInt(1, rules.size()) - 1;
+			String mutateRule = rules.get(randomRule);
+			for(int k = 0; k < mutateRule.length();k++){
+				if(mutateRule.substring(k, k+1).equals("0")){
+					mutateRule = mutateRule.substring(0, k - 1) + "1" + mutateRule.substring(k+1);
+				} else if(mutateRule.substring(k, k+1).equals("1")){
+					mutateRule = mutateRule.substring(0, k - 1) + "0" + mutateRule.substring(k+1);
+				} else if(mutateRule.substring(k, k+1).equals("-")){
+					mutateRule = mutateRule.substring(0, k - 1) + "+" + mutateRule.substring(k+1);
+				} else if(mutateRule.substring(k, k+1).equals("+")){
+					mutateRule = mutateRule.substring(0, k - 1) + "-" + mutateRule.substring(k+1);
+				} 
+			}
+			
+			rules.put(randomRule + "", mutateRule);
 		}
 		
 		System.out.println(whichMutate);
@@ -1090,10 +1125,7 @@ public class MainController {
 //		boolean makeRandom = false;
 //		
 //		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
-//		
-		HashMap<String, String> rules = new HashMap<String, String>();
-		rules.put("0", "1++--+1+---00+100+-0++1-01+-0010+001+--10");
-		rules.put("1", "1+111+--10-+0101+001++0-++0-+10110--0-1011+1");
+		
 		lway = new LSystems(start, 
 							startingString, 
 							rules, 
@@ -1130,6 +1162,23 @@ public class MainController {
 			//drawLSystem();
 			exportLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
 		}
+	}
+	
+	public void exportSingleLSystem(File directory) {
+		String number = randomnumber();
+		File file = new File(directory, "lsystem" + number + ".png");
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportLSystem() fuuuuucked");
+		        }
+		    }
 	}
 	
 	public void exportLSystem(File directory) {
@@ -1187,7 +1236,10 @@ public class MainController {
 		double[] start = new double[2];
 		start[0] = 300;
 		start[1] = 300;
-		drawLSystemSpecific(start, "1", true, 1, 13, 128);
+		HashMap<String, String> rules = new HashMap<String,String>();
+		rules.put("0", "0+1++00+0-110[+0++---[][-11-1]++0+][[-]+1[]]+1-[]");
+		rules.put("1", "++1--0+0+1[++[-1[1]0-1]+010]++-0[]00[10+11-+-]");
+		drawLSystemSpecific(start, "0", true, 2, 11, 350, rules);
 	}
 	
 
