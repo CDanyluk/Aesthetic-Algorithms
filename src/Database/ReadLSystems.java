@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Automata.Cells;
@@ -112,5 +113,51 @@ public class ReadLSystems {
 				return 1;
 			}
 		}
+	 
+	 
+	 public List<Cells> readTopTen()  throws ClassNotFoundException, SQLException {
+		 //Create a list of cells, we are gonna return this at the end
+		 List<Cells> cellList = new ArrayList<Cells>();
+		 //Normal database stuff
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT  * FROM  LSystems ORDER BY Score DESC LIMIT 10";
+         ParseCells parse = new ParseCells();
+         if (stat.execute(command)) {
+        	ResultSet results = stat.getResultSet();
+      		while (results.next()) {
+      	        System.out.println(results.getString("ImageName") + " " + results.getString("Score"));
+      		}
+         }
+         stat.close();
+         return cellList;
+	}
+	 
+	 public  List<HashMap<String, String>> getTopTen()  throws ClassNotFoundException, SQLException {
+		 //Create a list of cells, we are gonna return this at the end
+		 List<HashMap<String, String>> info = new ArrayList<HashMap<String, String>>();
+		 //Normal database stuff
+		 Class.forName("org.sqlite.JDBC");
+         Connection con = DriverManager.getConnection("jdbc:sqlite:Results.db");
+         Statement stat = con.createStatement();
+         String command = "SELECT  * FROM  LSystems ORDER BY Score DESC LIMIT 10";
+         if (stat.execute(command)) {
+        	ResultSet results = stat.getResultSet();
+        	while(results.next()){
+        		HashMap<String, String> info2 = new HashMap<String, String>();
+        		info2.put("Rules", results.getString("Rules"));
+        		info2.put("StartString", results.getString("StartString"));
+        		info2.put("Recursions", results.getString("Recursions"));
+        		info2.put("Length", results.getString("Length"));
+        		info2.put("Angle", results.getString("Angle"));
+        		info.add(info2);
+        	}
+         }
+         stat.close();
+         return info;
+	}
+	 
+	 
 	
 }

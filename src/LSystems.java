@@ -30,6 +30,7 @@ public class LSystems {
 		this.length = length;
 		this.angle = angle;
 		this.randomize = randomize;
+		this.axiom = axiom;
 		draw(new Turtle(startPoint[0], startPoint[1], angle), recurse(axiom, recursions, rules), randomize);
 
 	}
@@ -40,6 +41,7 @@ public class LSystems {
 	}
 	
 	private String recurse(String product, int recursions, HashMap<String, String> rules ){
+		System.out.println("recursion: " + recursions);
 		if(recursions == 0){
 			return product;
 		} else{

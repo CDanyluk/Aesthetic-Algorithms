@@ -7,6 +7,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,6 +28,7 @@ import javax.imageio.ImageIO;
 import Automata.Cells;
 import Automata.Cross;
 import Database.DatabaseInput;
+import Database.ParseCells;
 import Database.Read;
 import Database.ReadCells;
 import Database.ReadLSystems;
@@ -368,6 +374,40 @@ public class MainController {
 		
 	}
 	
+	
+	public double[] scoreThisL(String imageName) {
+		double[] scoreContainer = new double[3];
+		double score = 0;
+		File path = new File(folder + "/" + imageName + ".png");
+		System.out.println("path : " + path);
+		//System.out.println("Path for reading : " + path);
+		try {
+			image = Optional.of(ImageIO.read(path));
+		} catch (IOException e) {
+			System.out.println("The program couldn't auto read a damn file, problem in scoreThis()");
+			e.printStackTrace();
+		}
+		kMeans(4);
+		findBlobs();
+		//the golden ratio ideal
+		Map<String, Integer> golden = new HashMap<String, Integer>();
+		golden.put("huge", 1);
+		golden.put("big", 2);
+		golden.put("medium", 2);
+		golden.put("small", 50);
+		
+		//find the two scores
+		double sizescore = sizechiL(golden, blobSizes);
+		//combine the two scores and divide by two
+		score = sizescore;
+		scoreContainer[0] = 1;
+		scoreContainer[1] = sizescore;
+		scoreContainer[2] = score;
+		
+		return scoreContainer;
+		
+	}
+	
 	//These chi things can probably be put outside of the actual controller
 	private double colorchi(ArrayList<Color> colorList) {
 		double scoretotal = 0;
@@ -420,6 +460,11 @@ public class MainController {
 		double medscore = 0;
 		double smallscore = 0;
 		double total = 0;
+		
+		for(String key : given.keySet()){
+			System.out.println(key + " " + given.get(key));
+		}
+		
 		//Compare big blobs
 		//if big blobs are between 2 - 5 give it a perfect score
 /*		if (given.get("big") >= 7 && given.get("big") <= 7) {
@@ -461,6 +506,47 @@ public class MainController {
 		return (total + shapescore)/2;
 	}
 	
+	private double sizechiL(Map<String, Integer> expected, Map<String, Integer> given) {
+		
+		double hugescore = 0;
+		double bigscore = 0;
+		double medscore = 0;
+		double smallscore = 0;
+		double total = 0;
+		
+		for(String key : given.keySet()){
+			System.out.println(key + " " + given.get(key));
+		}
+		
+		//chisquare the big score
+		double expBig = expected.get("big");
+		double givBig = given.get("big");
+		bigscore = (Math.pow((givBig - expBig), 2) / expBig);
+	
+		double expHuge = expected.get("huge");
+		double givHuge = given.get("huge");
+		hugescore = (Math.pow((givHuge - expHuge), 2) / expHuge);
+		
+		//chisquare the medium score
+		double expMed = expected.get("medium");
+		double givMed = given.get("medium");
+		medscore = (Math.pow((givMed - expMed), 2) / expMed);
+
+		//chisquare the small score
+		double expSmall = expected.get("small");
+		double givSmall = given.get("small");
+		smallscore = (Math.pow((givSmall - expSmall), 2) / expSmall);
+		if (givSmall >= 400) {
+			smallscore = 0;
+		}
+		
+		//add al the scores, divide by three, and return the value
+		total = hugescore + bigscore + medscore + smallscore;
+		total = 1/ (total + 1);
+		double shapescore = shapechi(numOfShapes);
+		return (total + shapescore)/2;
+	}
+	
 	private double shapechi(HashMap<String, Integer> numOfShapes) {
 		if (numOfShapes.get("square") > 400) {
 			return 0.0;
@@ -486,6 +572,17 @@ public class MainController {
 	@FXML
 	public void deleteCells() {
 		ReadCells read = new ReadCells();
+		try {
+			read.deleteAll();
+		}catch (Exception e) {
+			System.out.println("deleteCells() is broken");
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void deleteLs() {
+		ReadLSystems read = new ReadLSystems();
 		try {
 			read.deleteAll();
 		}catch (Exception e) {
@@ -534,7 +631,6 @@ public class MainController {
 			System.out.println("The database is empty.");
 			//e.printStackTrace();
 		}
-		drawColorAutomata();
 	}
 	
 	public void crossovers(int gen) {
@@ -930,7 +1026,7 @@ public class MainController {
 			<Line> tree){
 		double red = ThreadLocalRandom.current().nextInt(0, 255);
 		double green = ThreadLocalRandom.current().nextInt(0, 255);
-		double blue =  ThreadLocalRandom.current().nextInt(0, 255);
+		double blue = ThreadLocalRandom.current().nextInt(0, 255);
 		
 		int randomWidth = ThreadLocalRandom.current().nextInt(2, 10);
 		double colorChange = ThreadLocalRandom.current().nextInt(1, 60);
@@ -977,7 +1073,7 @@ public class MainController {
 	public void drawLSystem() {
 		HashMap<String, String> rules = new HashMap<String, String>();
 		
-		int numRules = ThreadLocalRandom.current().nextInt(1, 3);
+		int numRules = 2;
 		//System.out.println(numRules);
 		for(int i = 0; i < numRules; i++){
 			int numUsed = 0;
@@ -1005,7 +1101,6 @@ public class MainController {
 				String first = toUse.substring(0, locationAdd);
 				String last = toUse.substring(locationAdd, len);
 				toUse = first + "]" + last;
-				System.out.println(toUse);
 			}
 			
 			int n = 0;
@@ -1069,20 +1164,23 @@ public class MainController {
 		
 		DatabaseInput input = new DatabaseInput();
 		int num = ThreadLocalRandom.current().nextInt(1, 500);
+		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"), num);
+		double[] score = scoreThisL("lsystem" + num);
+		System.out.println("\n\n\n\nScore: " + score[2]);
 		try {
-			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, rules.toString(), randomLength, randomRecursions, randomAngle, num);
+			input.lsystemsToDatabase("lsystem" + num, randomStartX + "." + randomStartY, startingString, rules.toString(), randomRecursions, randomLength, randomAngle, score[2]);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		System.out.println("\n\n\n\nRules: " + rules.toString());
-		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
+		
 		
 	}
 	
-	public void drawLSystemSpecific(double [] start, String startingString, Boolean makeRandom, Integer randomRecursions, Integer randomLength, Integer randomAngle, HashMap<String, String> rules ) {
-		int whichMutate = ThreadLocalRandom.current().nextInt(1, 5);
+	public void drawLSystemSpecific(double [] start, String startingString, Boolean makeRandom, HashMap<String, String> rules, Integer randomRecursions, Integer randomLength, Integer randomAngle) {
+		System.out.println("in drawing!");
+		int whichMutate =  ThreadLocalRandom.current().nextInt(1, 5);
 		if(whichMutate == 1){
 			int startStringLength = ThreadLocalRandom.current().nextInt(1, 50);
 			startingString = "";
@@ -1125,7 +1223,6 @@ public class MainController {
 //		boolean makeRandom = false;
 //		
 //		if(randomMakeRandom == 1){makeRandom = true;}else{makeRandom = false;}
-		
 		lway = new LSystems(start, 
 							startingString, 
 							rules, 
@@ -1133,40 +1230,72 @@ public class MainController {
 							randomRecursions,
 							randomLength, 
 							randomAngle);
-		
+		System.out.println("made lsys");
 		ArrayList<Line> tree = lway.getDrawing();
+		System.out.println("about to draw");
 		drawLSystemLines(tree);
+		System.out.println("drawn");
 		String stringRules = "";
-//		for(int x = 0; x < rules.size(); x++){
-//			stringRules += rules.get(x);
-//		}
-		
-//		DatabaseInput input = new DatabaseInput();
-//		int num = ThreadLocalRandom.current().nextInt(1, 500);
-//		try {
-//			input.lsystemsToDatabase("lsystems" + num, randomStartX + "." + randomStartY, startingString, stringRules, randomLength, randomRecursions, randomAngle, num);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		System.out.println("++ " + rules.toString() + "\n");
+		DatabaseInput input = new DatabaseInput();
+		int num = ThreadLocalRandom.current().nextInt(1, 3000);
+		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"), num);
+		double[] score = scoreThisL("lsystem" + num);
+		System.out.println("\n\n\n\nScore: " + score[2]);
+		try {
+			input.lsystemsToDatabase("lsystem" + num, start.toString(), startingString, rules.toString(), randomRecursions, randomLength, randomAngle, score[2]);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		System.out.println("\n\n\nStart: " + start[0] + "," + start[1] + "\nStart String: " + startingString.toString() + "\nRules: " + rules.toString()
 				+ "\nMake random: " + makeRandom + "\nRecursions: " + randomRecursions + "\nLength: " + randomLength + "\nAngle: " + randomAngle);
-		
+		//mutateMultipleLSystems();
 	}
 	
 	
 	public void drawMultipleLSystems(){
+		for(int i = 0; i < Integer.parseInt(exportLSystem.getText()); i++){
+			
+			folder = "/Users/taylorbaer/Desktop/LSystems";
+			drawLSystem();
+			//exportLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
+		}
+	}
+	
+	public void mutateMultipleLSystems(){
 		for(int i = 0; i < Integer.parseInt(exportLSystem.getText()); i++){
 			//drawLSystem();
 			exportLSystem( new File("/Users/taylorbaer/Desktop/LSystems"));
 		}
 	}
 	
-	public void exportSingleLSystem(File directory) {
+	public void exportMutants(File directory) {
 		String number = randomnumber();
+		initialize();
+		//here is where you put functions to randomize your L system
+		drawLSystem();
+		//Write the text file
+		
+		//Write the image file
 		File file = new File(directory, "lsystem" + number + ".png");
+		if (file != null){
+			try {
+				WritableImage writableImage = new WritableImage(width, height);
+				picture.snapshot(null, writableImage);
+				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+				//Write the snapshot to the chosen file
+				ImageIO.write(renderedImage, "png", file);
+		    } catch (IOException ex) {
+		    	//Logger.getLogger(JavaFX_DrawOnCanvas.class.getName()).log(Level.SEVERE, null, ex);
+		        System.out.println("exportLSystem() fuuuuucked");
+		        }
+		    }
+	}
+	
+	public void exportSingleLSystem(File directory, int num) {
+		String number = randomnumber();
+		File file = new File(directory, "lsystem" + num + ".png");
 		if (file != null){
 			try {
 				WritableImage writableImage = new WritableImage(width, height);
@@ -1185,7 +1314,7 @@ public class MainController {
 		String number = randomnumber();
 		initialize();
 		//here is where you put functions to randomize your L system
-		drawLSystem();
+		mutateLSystem();
 		//Write the text file
 		
 		//Write the image file
@@ -1233,14 +1362,49 @@ public class MainController {
 	
 	@FXML
 	public void mutateLSystem() {
-		double[] start = new double[2];
-		start[0] = 300;
-		start[1] = 300;
-		HashMap<String, String> rules = new HashMap<String,String>();
-		rules.put("0", "0+1++00+0-110[+0++---[][-11-1]++0+][[-]+1[]]+1-[]");
-		rules.put("1", "++1--0+0+1[++[-1[1]0-1]+010]++-0[]00[10+11-+-]");
-		drawLSystemSpecific(start, "0", true, 2, 11, 350, rules);
+		System.out.println("calling mutate");
+		realMutateLSystem();
+//		double[] start = new double[2];
+//		start[0] = 300;
+//		start[1] = 300;
+//		HashMap<String, String> rules = new HashMap<String,String>();
+//		rules.put("0", "001[11++000[+---+[[+]]]00]+[]");
+//		rules.put("1", "0+0-[+[-+[00-0+]10]]-+[1][]");
+//		drawLSystemSpecific(start, "100", true, rules, 2, 13, 47);
 	}
 	
+	public void realMutateLSystem() {
+		ReadLSystems read = new ReadLSystems();
+		System.out.println("in function");
+		try {
+			 List<HashMap<String, String>> results = read.getTopTen();
+			 for(HashMap<String, String> r : results){
+				 System.out.println("in for");
+				 System.out.println(r);
+				double[] start = new double[2];
+				start[0] = 300;
+				start[1] = 300;
+				HashMap<String, String> rules = new HashMap<String,String>();
+				String completeRules = r.get("Rules");
+				System.out.println(completeRules);
+				String split1 = completeRules.substring(0,completeRules.indexOf(","));
+				String split2 = completeRules.substring(completeRules.indexOf(",") + 1);
+				System.out.println(split1.substring(completeRules.indexOf("=") + 1));
+				System.out.println(split2.substring(completeRules.indexOf("=") + 1, split2.length() - 1));
+				System.out.println(r.get("StartString"));
+				rules.put("0",split1.substring(completeRules.indexOf("=") + 1));
+				rules.put("1", split2.substring(completeRules.indexOf("=") + 1, split2.length() - 1));
+				drawLSystemSpecific(start, r.get("StartString"), false, rules, Integer.parseInt(r.get("Recursions")), Integer.parseInt(r.get("Length")), Integer.parseInt(r.get("Angle")));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

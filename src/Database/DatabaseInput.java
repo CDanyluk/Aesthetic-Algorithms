@@ -29,10 +29,11 @@ public class DatabaseInput {
 		send.send(insert);
 	}
 	
-	public void lsystemsToDatabase(String name, String startPoints, String startString, String rules, int recursions, int length, int angle, int score) throws Exception{
+	public void lsystemsToDatabase(String name, String startPoints, String startString, String rules, int recursions, int length, int angle, double score) throws Exception{
 		String insert = "INSERT INTO LSystems VALUES (\'" + name + "\', \'"+ startPoints + "\', \'" + startString + "\', \'" + rules + "\', \'" + recursions + 
 				"\', \'"+ length + "\', \'" + angle 
 				+ "\', \'" + score + "\', \'" + "COLORS GO HERE" + "\')";
+		
 		
 		send.send(insert);
 	}
