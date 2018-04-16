@@ -480,7 +480,7 @@ public class MainController {
 		//chisquare the big score
 		double expBig = expected.get("big");
 		double givBig = given.get("big");
-		medscore = 1/(Math.abs(expBig - givBig)+1);
+		bigscore = 1/(Math.abs(expBig - givBig)+1);
 		
 		if (given.get("huge") > 0) {
 			return 0;

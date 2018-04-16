@@ -12,4 +12,8 @@ Results.db
 Results.db
 =======
 *.db
+<<<<<<< HEAD
+*.db
+=======
 >>>>>>> 835b9ed033da96693d2b21668b0335de5d087ead
+>>>>>>> 68a0124afce6771488647f96af7ef143e4ff07a1

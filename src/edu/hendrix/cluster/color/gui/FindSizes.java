@@ -45,7 +45,7 @@ public class FindSizes {
 				huge++;
 			}else if (howBig < 235000 && howBig >= 50000) {
 				big++;
-			}else if (howBig < 50000 && howBig >= 120000) {
+			}else if (howBig < 50000 && howBig >= 1000) {
 				medium++;
 			}else if (howBig < 1000 && howBig > 100) {
 				small++;
