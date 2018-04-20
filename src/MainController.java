@@ -1164,7 +1164,7 @@ public class MainController {
 		
 		DatabaseInput input = new DatabaseInput();
 		int num = ThreadLocalRandom.current().nextInt(1, 500);
-		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"), num);
+		exportSingleLSystem( new File("/Desktop/LSystems"), num);
 		double[] score = scoreThisL("lsystem" + num);
 		System.out.println("\n\n\n\nScore: " + score[2]);
 		try {
@@ -1238,7 +1238,7 @@ public class MainController {
 		String stringRules = "";
 		DatabaseInput input = new DatabaseInput();
 		int num = ThreadLocalRandom.current().nextInt(1, 3000);
-		exportSingleLSystem( new File("/Users/taylorbaer/Desktop/LSystems"), num);
+		exportSingleLSystem( new File("/Desktop/LSystems"), num);
 		double[] score = scoreThisL("lsystem" + num);
 		System.out.println("\n\n\n\nScore: " + score[2]);
 		try {
