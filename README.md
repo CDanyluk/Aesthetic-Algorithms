@@ -67,4 +67,5 @@ to be custom to their needs.
 ## Authors
 
 This program was developed by Taylor Baer and Chantal Danyluk, with Taylor Baer handling L-system
-controls, and Chantal Danyluk developing cellular automata features. 
+controls, and Chantal Danyluk developing cellular automata features. Much thanks to professor Gabe Ferrer 
+for image analysis code.
